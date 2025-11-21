@@ -1,0 +1,18 @@
+---
+version: "1"
+type: "etl"
+
+component:
+  name: ai-native-data-engineering-process
+  owner: zurg
+  description: Repo for defining AI-Native Data Engineering Process
+  personalDataHandling: none
+  soxScope: False
+  paymentProcessing: False
+  outOfHoursSupportRequired: False
+  awsProjectTag: meta-search-dp
+  serviceClass: economy-class # leave this as economy-class
+  securityChecklistID: 4b5f83a4-2a39-4864-b40f-eaa28afde2ac
+  supportOverride:
+    slackChannel: "#tmp-meta-search-dp"
+    slackAlertsChannel: "#tmp-meta-search-dp"

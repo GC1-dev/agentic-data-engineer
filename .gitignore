@@ -9,7 +9,7 @@ scratch
 auto_generated
 
 # MCP Server - local
-.mcp.json
+# .mcp.json
 ########################################
 # Spark/Databricks
 spark-warehouse/
@@ -283,7 +283,7 @@ __marimo__/
 # AI - Claude
 
 # Claude temporary and cache files
-.claude/
+# .claude/
 .claude-cache/
 .claude-temp/
 .claude-history/
@@ -309,5 +309,3 @@ cursor-diff-*.patch
 *.cursor-temp.*
 *.cursor-backup.*
 ########################################
-
-.databricks

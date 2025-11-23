@@ -152,6 +152,36 @@ ruff src/ tests/
 mypy src/
 ```
 
+### MCP Server Setup (Claude Code Integration)
+
+This repository includes a Model Context Protocol (MCP) server via the `databricks-utils` submodule for integration with Claude Code. The main project now includes MCP dependencies for enhanced AI integration capabilities.
+
+**Setup:**
+
+```bash
+# Install main project dependencies (includes mcp and pydantic)
+make setup
+
+# Install MCP dependencies for databricks-utils submodule
+make setup-mcp
+
+# Or manually:
+poetry install --no-root
+poetry -C databricks-utils install --with mcp
+```
+
+**Configuration:**
+
+The MCP server is configured in `.mcp.json`. Ensure the following environment variables are set:
+
+```bash
+export DATABRICKS_HOST="https://your-workspace.cloud.databricks.com"
+export DATABRICKS_TOKEN="your-personal-access-token"
+export DATABRICKS_WAREHOUSE_ID="your-warehouse-id"
+```
+
+Once configured, Claude Code will have access to Unity Catalog operations and SQL query execution capabilities through the MCP server.
+
 ## License
 
 MIT License - see LICENSE file for details.

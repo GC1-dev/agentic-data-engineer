@@ -13,16 +13,6 @@ auto_generated
 
 ########################################
 
-# Ignore submodules
-
-# spark-session-utils
-# databricks-shared-utils
-# databricks-uc-utils
-# data-observability-utils
-# data-quality-utils
-
-# data-project-templates/blue-data-nova-cookiecutter
-
 ########################################
 # Spark/Databricks
 spark-warehouse/
@@ -297,6 +287,7 @@ __marimo__/
 
 # Claude temporary and cache files
 # .claude/
+.claude/settings.local.json
 .claude-cache/
 .claude-temp/
 .claude-history/

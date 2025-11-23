@@ -3,9 +3,9 @@ version: "1"
 type: "etl"
 
 component:
-  name: ai-native-data-engineering-process
+  name: agentic-data-engineer
   owner: zurg
-  description: AI-Native Data Engineering Process
+  description: Agentic Data Engineering
   personalDataHandling: none
   soxScope: False
   paymentProcessing: False

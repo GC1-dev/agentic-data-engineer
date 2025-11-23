@@ -287,6 +287,7 @@ __marimo__/
 
 # Claude temporary and cache files
 # .claude/
+.claude/settings.local.json
 .claude-cache/
 .claude-temp/
 .claude-history/

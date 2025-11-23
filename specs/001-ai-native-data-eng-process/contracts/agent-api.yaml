@@ -1,0 +1,357 @@
+openapi: 3.0.3
+info:
+  title: AI Agent API
+  description: Standardized interface for AI agents in the Databricks data engineering process
+  version: 1.0.0
+  contact:
+    name: Data Platform Team
+
+servers:
+  - url: http://localhost:8000
+    description: Local development
+  - url: https://agents.company.com
+    description: Production agent service
+
+paths:
+  /agents/{agent_id}/invoke:
+    post:
+      summary: Invoke an AI agent
+      description: Execute an AI agent with provided inputs
+      operationId: invokeAgent
+      tags:
+        - Agent Execution
+      parameters:
+        - name: agent_id
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [coding, testing, profiling, quality, optimization]
+          description: Type of agent to invoke
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentInvocationRequest'
+            examples:
+              codingAgent:
+                $ref: '#/components/examples/CodingAgentRequest'
+              testingAgent:
+                $ref: '#/components/examples/TestingAgentRequest'
+      responses:
+        '200':
+          description: Agent execution successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentInvocationResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Agent execution failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /agents/{agent_id}/validate:
+    post:
+      summary: Validate agent output
+      description: Validate generated code or configuration
+      operationId: validateAgentOutput
+      tags:
+        - Validation
+      parameters:
+        - name: agent_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidationRequest'
+      responses:
+        '200':
+          description: Validation complete
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+
+  /agents:
+    get:
+      summary: List available agents
+      description: Get list of all available AI agents
+      operationId: listAgents
+      tags:
+        - Agent Discovery
+      responses:
+        '200':
+          description: List of agents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AgentMetadata'
+
+components:
+  schemas:
+    AgentInvocationRequest:
+      type: object
+      required:
+        - inputs
+      properties:
+        inputs:
+          type: object
+          description: Agent-specific inputs
+          additionalProperties: true
+        context:
+          type: object
+          description: Additional context for agent
+          properties:
+            project_name:
+              type: string
+            environment:
+              type: string
+              enum: [local, lab, dev, prod]
+            user_id:
+              type: string
+        options:
+          type: object
+          description: Execution options
+          properties:
+            temperature:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+              default: 0.2
+            max_tokens:
+              type: integer
+              minimum: 100
+              maximum: 8000
+              default: 4000
+            timeout_seconds:
+              type: integer
+              default: 300
+            retry_attempts:
+              type: integer
+              minimum: 1
+              maximum: 5
+              default: 3
+
+    AgentInvocationResponse:
+      type: object
+      required:
+        - execution_id
+        - status
+        - outputs
+      properties:
+        execution_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [success, partial_success, failed]
+        outputs:
+          type: object
+          description: Agent-generated outputs
+          properties:
+            code:
+              type: string
+              description: Generated code (for coding agents)
+            tests:
+              type: array
+              items:
+                type: string
+              description: Generated test cases (for testing agents)
+            profile:
+              type: object
+              description: Data profile (for profiling agents)
+            recommendations:
+              type: array
+              items:
+                type: string
+              description: Quality recommendations (for quality agents)
+        metadata:
+          type: object
+          properties:
+            duration_ms:
+              type: integer
+            tokens_used:
+              type: integer
+            model_version:
+              type: string
+            validation_passed:
+              type: boolean
+        warnings:
+          type: array
+          items:
+            type: string
+          description: Non-fatal warnings
+        errors:
+          type: array
+          items:
+            type: string
+          description: Error messages if status is failed
+
+    ValidationRequest:
+      type: object
+      required:
+        - content
+        - validation_type
+      properties:
+        content:
+          type: string
+          description: Content to validate
+        validation_type:
+          type: string
+          enum: [syntax, style, security, performance, schema]
+        rules:
+          type: array
+          items:
+            type: string
+          description: Specific rules to check
+
+    ValidationResponse:
+      type: object
+      required:
+        - is_valid
+        - checks
+      properties:
+        is_valid:
+          type: boolean
+        checks:
+          type: array
+          items:
+            type: object
+            properties:
+              check_name:
+                type: string
+              passed:
+                type: boolean
+              message:
+                type: string
+              severity:
+                type: string
+                enum: [error, warning, info]
+        score:
+          type: number
+          minimum: 0.0
+          maximum: 100.0
+          description: Overall quality score
+
+    AgentMetadata:
+      type: object
+      required:
+        - agent_id
+        - name
+        - agent_type
+        - version
+      properties:
+        agent_id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        agent_type:
+          type: string
+          enum: [coding, testing, profiling, quality, optimization]
+        version:
+          type: string
+        inputs_schema:
+          type: object
+          description: JSON Schema for agent inputs
+        outputs_schema:
+          type: object
+          description: JSON Schema for agent outputs
+        supported_layers:
+          type: array
+          items:
+            type: string
+            enum: [bronze, silver, gold]
+        examples:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              inputs:
+                type: object
+              expected_output_type:
+                type: string
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+        trace_id:
+          type: string
+
+  examples:
+    CodingAgentRequest:
+      summary: Bronze layer coding agent
+      value:
+        inputs:
+          layer: bronze
+          source_path: "s3://raw-data/customers/*.json"
+          target_table: "dev_analytics.customer_360_bronze.raw_customers"
+          description: "Ingest customer data from JSON files with schema validation"
+          schema_hint:
+            - "customer_id: long"
+            - "name: string"
+            - "email: string"
+            - "created_at: timestamp"
+        context:
+          project_name: "customer-360-pipeline"
+          environment: "dev"
+        options:
+          temperature: 0.2
+          max_tokens: 3000
+
+    TestingAgentRequest:
+      summary: Test generation agent
+      value:
+        inputs:
+          target_file: "src/transformations/silver/clean_customers.py"
+          function_name: "clean_customers"
+          test_scenarios:
+            - "null value handling"
+            - "email format validation"
+            - "duplicate removal"
+        context:
+          project_name: "customer-360-pipeline"
+        options:
+          temperature: 0.3
+          max_tokens: 2000
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+security:
+  - ApiKeyAuth: []
+  - BearerAuth: []

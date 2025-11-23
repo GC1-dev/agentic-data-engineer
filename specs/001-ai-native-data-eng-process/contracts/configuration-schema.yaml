@@ -1,0 +1,399 @@
+$schema: http://json-schema.org/draft-07/schema#
+$id: https://company.com/schemas/databricks-pipeline-config/v1
+title: Databricks Pipeline Configuration Schema
+description: JSON Schema for validating pipeline project configurations
+version: 1.0.0
+
+definitions:
+  # Spark Configuration
+  SparkConfig:
+    type: object
+    required:
+      - app_name
+    properties:
+      app_name:
+        type: string
+        description: Application name for Spark session
+        pattern: "^[a-z0-9-]+$"
+        minLength: 1
+        maxLength: 100
+      master:
+        type: string
+        description: Spark master URL (only for local environment)
+        pattern: "^(local\\[\\*?\\d*\\]|spark://.+|yarn|mesos://.+)$"
+        examples:
+          - "local[*]"
+          - "local[4]"
+      config:
+        type: object
+        description: Spark configuration parameters
+        additionalProperties:
+          type: string
+        examples:
+          - spark.sql.shuffle.partitions: "200"
+            spark.sql.adaptive.enabled: "true"
+            spark.databricks.delta.optimizeWrite.enabled: "true"
+
+  # Unity Catalog Configuration
+  CatalogConfig:
+    type: object
+    required:
+      - name
+      - schema_prefix
+    properties:
+      name:
+        type: string
+        description: Unity Catalog name
+        pattern: "^[a-z][a-z0-9_]*$"
+        examples:
+          - "dev_analytics"
+          - "prod_analytics"
+      schema_prefix:
+        type: string
+        description: Prefix for schema names (layer suffix added automatically)
+        pattern: "^[a-z][a-z0-9_]*$"
+        examples:
+          - "customer_360"
+          - "sales_pipeline"
+
+  # Observability Configuration
+  ObservabilityConfig:
+    type: object
+    required:
+      - api_key_secret
+    properties:
+      api_key_secret:
+        type: string
+        description: Databricks secret path for Monte Carlo API key
+        pattern: "^[a-zA-Z0-9_/-]+$"
+        examples:
+          - "monte-carlo/api-key"
+          - "observability/mc-token"
+      api_endpoint:
+        type: string
+        format: uri
+        default: "https://getmontecarlo.com/api/v1"
+        description: Monte Carlo API endpoint
+      enabled:
+        type: boolean
+        default: true
+        description: Enable/disable Monte Carlo integration
+
+  # Environment Configuration
+  EnvironmentConfig:
+    type: object
+    required:
+      - environment_type
+      - spark
+      - catalog
+    properties:
+      environment_type:
+        type: string
+        enum: ["local", "lab", "dev", "prod"]
+        description: Environment type
+      spark:
+        $ref: "#/definitions/SparkConfig"
+      catalog:
+        $ref: "#/definitions/CatalogConfig"
+      observability:
+        $ref: "#/definitions/ObservabilityConfig"
+      workspace_host:
+        type: string
+        format: uri
+        description: Databricks workspace URL (required for non-local environments)
+        pattern: "^https://.*\\.cloud\\.databricks\\.com$"
+        examples:
+          - "https://dev.cloud.databricks.com"
+          - "https://prod.cloud.databricks.com"
+      cluster_id:
+        type: string
+        description: Optional cluster ID for job execution
+        pattern: "^[0-9]+-[0-9]+-[a-z0-9]+$"
+        examples:
+          - "1234-567890-abc123"
+
+  # Shared Utility Dependency
+  SharedUtilityDependency:
+    type: object
+    required:
+      - name
+      - version
+    properties:
+      name:
+        type: string
+        description: Utility library name
+        pattern: "^databricks-[a-z-]+$"
+        examples:
+          - "databricks-utils"
+          - "databricks-quality-tools"
+      version:
+        type: string
+        description: Version specification (semver or range)
+        pattern: "^(\\d+\\.\\d+\\.\\d+|>=?\\d+\\.\\d+\\.\\d+,?.*|~=\\d+\\.\\d+\\.\\d+)$"
+        examples:
+          - "1.2.3"
+          - ">=1.0.0,<2.0.0"
+          - "~=1.2.0"
+      source:
+        type: string
+        enum: ["pypi", "git"]
+        default: "pypi"
+        description: Package source
+      git_url:
+        type: string
+        format: uri
+        description: Git repository URL (required if source is git)
+      git_ref:
+        type: string
+        description: Git ref (branch, tag, commit) (required if source is git)
+        examples:
+          - "main"
+          - "v1.2.3"
+          - "abc123def"
+
+  # Dependency Configuration
+  DependencyConfig:
+    type: object
+    required:
+      - shared_utilities
+    properties:
+      python_version:
+        type: string
+        pattern: "^\\d+\\.\\d+$"
+        default: "3.10"
+        description: Python version requirement
+        examples:
+          - "3.10"
+          - "3.11"
+      shared_utilities:
+        type: array
+        description: Shared utility dependencies
+        minItems: 0
+        items:
+          $ref: "#/definitions/SharedUtilityDependency"
+      external_packages:
+        type: array
+        description: Additional PyPI packages
+        items:
+          type: string
+          pattern: "^[a-zA-Z0-9_-]+(>=|<=|==|~=|!=)?[0-9\\.]*.*$"
+        examples:
+          - ["pandas>=2.0.0", "pyarrow>=10.0.0", "requests~=2.31.0"]
+
+  # Project Metadata
+  ProjectMetadata:
+    type: object
+    properties:
+      created_at:
+        type: string
+        format: date-time
+      last_modified_at:
+        type: string
+        format: date-time
+      git_repository:
+        type: string
+        format: uri
+      git_branch:
+        type: string
+        default: "main"
+      contributors:
+        type: array
+        items:
+          type: string
+        description: Team members who contributed
+      tags:
+        type: array
+        items:
+          type: string
+          pattern: "^[a-z0-9-]+$"
+        description: Project tags for categorization
+        examples:
+          - ["customer-data", "analytics", "medallion"]
+      documentation_url:
+        type: string
+        format: uri
+      runbook_url:
+        type: string
+        format: uri
+
+# Root Schema
+type: object
+required:
+  - name
+  - version
+  - description
+  - owner_team
+  - environments
+  - dependencies
+properties:
+  name:
+    type: string
+    description: Project name (must be unique)
+    pattern: "^[a-z0-9-]+$"
+    minLength: 3
+    maxLength: 50
+    examples:
+      - "customer-360-pipeline"
+      - "sales-analytics-pipeline"
+  version:
+    type: string
+    description: Project version (semantic versioning)
+    pattern: "^\\d+\\.\\d+\\.\\d+$"
+    examples:
+      - "1.0.0"
+      - "2.3.1"
+  description:
+    type: string
+    description: Project description
+    minLength: 10
+    maxLength: 500
+  owner_team:
+    type: string
+    description: Owning team name
+    minLength: 1
+    examples:
+      - "data-analytics"
+      - "customer-insights"
+  environments:
+    type: object
+    description: Environment configurations
+    minProperties: 1
+    additionalProperties:
+      $ref: "#/definitions/EnvironmentConfig"
+    propertyNames:
+      enum: ["local", "lab", "dev", "prod"]
+  dependencies:
+    $ref: "#/definitions/DependencyConfig"
+  metadata:
+    $ref: "#/definitions/ProjectMetadata"
+
+# Conditional Validations
+allOf:
+  # If environment is not local, workspace_host is required
+  - if:
+      properties:
+        environments:
+          patternProperties:
+            "^(lab|dev|prod)$":
+              type: object
+    then:
+      properties:
+        environments:
+          patternProperties:
+            "^(lab|dev|prod)$":
+              required:
+                - workspace_host
+
+  # If environment is local, master is required
+  - if:
+      properties:
+        environments:
+          properties:
+            local:
+              type: object
+    then:
+      properties:
+        environments:
+          properties:
+            local:
+              properties:
+                spark:
+                  required:
+                    - master
+
+  # Git dependencies must have git_url and git_ref
+  - if:
+      properties:
+        dependencies:
+          properties:
+            shared_utilities:
+              contains:
+                properties:
+                  source:
+                    const: "git"
+    then:
+      properties:
+        dependencies:
+          properties:
+            shared_utilities:
+              items:
+                if:
+                  properties:
+                    source:
+                      const: "git"
+                then:
+                  required:
+                    - git_url
+                    - git_ref
+
+# Examples
+examples:
+  - name: "customer-360-pipeline"
+    version: "1.0.0"
+    description: "Customer 360 degree view data pipeline following medallion architecture"
+    owner_team: "data-analytics"
+    environments:
+      local:
+        environment_type: "local"
+        spark:
+          app_name: "customer-360-local"
+          master: "local[*]"
+          config:
+            spark.sql.shuffle.partitions: "4"
+        catalog:
+          name: "local_catalog"
+          schema_prefix: "customer_360"
+      dev:
+        environment_type: "dev"
+        spark:
+          app_name: "customer-360-dev"
+          config:
+            spark.sql.shuffle.partitions: "50"
+            spark.sql.adaptive.enabled: "true"
+        catalog:
+          name: "dev_analytics"
+          schema_prefix: "customer_360"
+        workspace_host: "https://dev.cloud.databricks.com"
+      prod:
+        environment_type: "prod"
+        spark:
+          app_name: "customer-360-prod"
+          config:
+            spark.sql.shuffle.partitions: "200"
+            spark.sql.adaptive.enabled: "true"
+            spark.databricks.delta.optimizeWrite.enabled: "true"
+        catalog:
+          name: "prod_analytics"
+          schema_prefix: "customer_360"
+        observability:
+          api_key_secret: "monte-carlo/api-key"
+          enabled: true
+        workspace_host: "https://prod.cloud.databricks.com"
+    dependencies:
+      python_version: "3.10"
+      shared_utilities:
+        - name: "databricks-utils"
+          version: "1.2.3"
+          source: "pypi"
+      external_packages:
+        - "pandas>=2.0.0"
+        - "pyarrow>=10.0.0"
+    metadata:
+      git_repository: "https://github.com/company/customer-360-pipeline"
+      git_branch: "main"
+      contributors: ["alice", "bob"]
+      tags: ["customer-data", "analytics", "medallion"]
+      documentation_url: "https://docs.company.com/pipelines/customer-360"
+
+# Validation Error Messages
+x-error-messages:
+  required:
+    name: "Project name is required"
+    version: "Project version is required"
+    environments: "At least one environment must be defined"
+  pattern:
+    name: "Project name must be lowercase with hyphens only"
+    version: "Version must follow semantic versioning (e.g., 1.0.0)"
+  minLength:
+    name: "Project name must be at least 3 characters"
+    description: "Description must be at least 10 characters"

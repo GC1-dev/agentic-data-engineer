@@ -5,9 +5,6 @@
 # to keep any tempoary stuff
 scratch
 
-# to keep any results locally
-results
-
 # Any auto generated files
 auto_generated
 
@@ -300,7 +297,6 @@ __marimo__/
 
 # Claude temporary and cache files
 # .claude/
-.claude/commands
 .claude-cache/
 .claude-temp/
 .claude-history/
@@ -317,7 +313,7 @@ claude-diff-*.patch
 # AI - Cursor
 
 # Cursor AI editor files
-# .cursor/
+.cursor/
 .cursor-cache/
 .cursor-history/
 .cursor-tmp/

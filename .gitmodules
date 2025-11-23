@@ -16,4 +16,6 @@
 [submodule "data-project-templates/blue-data-nova-cookiecutter"]
 	path = data-project-templates/blue-data-nova-cookiecutter
 	url = https://github.com/Skyscanner/blue-data-nova-cookiecutter.git
-
+[submodule "databricks-utils"]
+	path = databricks-utils
+	url = https://github.com/Skyscanner/databricks-utils.git

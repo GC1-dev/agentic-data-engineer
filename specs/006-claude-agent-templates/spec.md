@@ -15,6 +15,12 @@
 - Q: What makes a requirements.txt file "appropriate" for generated projects? → A: Databricks Runtime compatible versions with pinned version numbers
 - Q: What sections must be included in generated README.md documentation? → A: Extensive: setup, included features, directory structure, deployment steps, architecture diagrams, and API references
 
+### Session 2025-11-23 (Scope Simplification)
+
+- Q: What implementation approach fits your "don't overcomplicate it" request? → A: Create Claude agent (not slash command) that replaces the cookiecutter
+- Q: Should the agent reuse the existing cookiecutter template files or start fresh? → A: Reuse existing cookiecutter template files (agent copies/customizes them)
+- Q: How much extra functionality beyond basic conversational generation do you actually need? → A: Basic conversation only (ask questions → generate project)
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Interactive Project Generation (Priority: P1)
@@ -152,16 +158,56 @@ As a platform engineer, I want the Claude agent to learn from generated projects
 - **Git**: Generated projects include .gitignore and assume version control
 - **CI/CD Platforms**: Agent asks user which platform to target (GitHub Actions, GitLab CI, or Azure DevOps) and generates corresponding workflow configuration
 
-## Out of Scope *(optional)*
+## Simplified Scope (Per User Clarification 2025-11-23)
 
+**IMPORTANT**: Based on user feedback to "not overcomplicate it", this feature is now scoped as:
+
+### In Scope (Simplified)
+1. **Claude agent** that replaces the cookiecutter at `databricks-project-templates/cookiecutter-databricks-pipeline`
+2. **Conversational project generation**: Agent asks user questions conversationally, then generates project
+3. **Reuse existing template structure**: Copy and customize files from existing cookiecutter template directory
+4. **Basic customization**: Support the same variables as cookiecutter.json (project name, features, environments)
+5. **File generation only**: Create the project directory with all files, no additional infrastructure
+
+### Explicitly Out of Scope
+- ❌ **NO standalone Python package** - just a Claude agent that can be invoked
+- ❌ **NO analytics or session recording** - no tracking, no pattern learning, no template improvement suggestions
+- ❌ **NO complex feature module system** - just basic yes/no for optional features
+- ❌ **NO separate validation pipeline** - rely on Databricks validation tools post-generation
+- ❌ **NO pattern analyzer or AI-driven improvements** - keep it simple
 - Modifying existing projects (focus is new project generation)
 - Non-Databricks platforms (AWS Glue, Azure Data Factory)
-- Real-time project generation without conversation (batch mode only)
 - Automatic deployment of generated projects to Databricks workspaces
-- Template versioning and rollback (future enhancement)
 - Multi-language support (initially English only)
 - Integration with project management tools (Jira, ServiceNow)
 - Automatic dependency updates after project generation
+
+## Simplified Implementation Approach
+
+Based on the simplified scope, the implementation reduces from 97 tasks to approximately 5-8 steps:
+
+1. **Create Claude agent** with conversational prompt that:
+   - Understands it's replacing cookiecutter project generation
+   - Can read `databricks-project-templates/cookiecutter-databricks-pipeline/cookiecutter.json` to know what questions to ask
+   - Can read template directory structure
+   - Has access to file system tools (Read, Write, Bash) to copy and customize files
+
+2. **Agent conversation flow**:
+   - Read cookiecutter.json to understand variables needed
+   - Ask user for each variable value conversationally
+   - Validate project name is filesystem-safe
+   - Check if target directory exists (prompt if so)
+   - Confirm all answers before generation
+
+3. **Agent file generation**:
+   - Read all files from `databricks-project-templates/cookiecutter-databricks-pipeline/{{cookiecutter.project_slug}}/`
+   - For each file, replace `{{cookiecutter.variable}}` patterns with user's answers
+   - Write files to new project directory
+   - Preserve directory structure
+   - Report completion with next steps
+
+**Estimated Effort**: 1-2 hours to create agent prompt + test
+**Implementation**: Single agent prompt file that uses Claude's built-in tool access
 
 ## Technical Constraints *(optional)*
 

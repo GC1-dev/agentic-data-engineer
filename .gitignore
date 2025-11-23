@@ -18,11 +18,13 @@ auto_generated
 
 # Ignore submodules
 
-spark-session-utilities
-databricks-shared-utilities
-databricks-uc-utilities
-data-observability-utilities
-data-quality-utilities
+spark-session-utils
+databricks-shared-utils
+databricks-uc-utils
+data-observability-utils
+data-quality-utils
+
+data-project-templates/blue-data-nova-cookiecutter
 
 ########################################
 # Spark/Databricks

@@ -1,0 +1,135 @@
+bundle:
+  name: {{ cookiecutter.project_slug }}
+
+variables:
+  cluster_node_type:
+    description: Node type for clusters
+    default: i3.xlarge
+
+targets:
+  dev:
+    mode: development
+    workspace:
+      host: https://dev.cloud.databricks.com
+
+    resources:
+      jobs:
+        {{ cookiecutter.project_slug }}_pipeline:
+          name: "{{ cookiecutter.project_name }} - Pipeline"
+
+          tasks:
+            - task_key: bronze_ingestion
+              job_cluster_key: bronze_cluster
+              python_file: pipelines/bronze/example_ingest.py
+              arguments: ["dev"]
+              libraries:
+                - pypi:
+                    package: "databricks-utils==0.1.0"
+
+            - task_key: silver_transformation
+              depends_on:
+                - task_key: bronze_ingestion
+              job_cluster_key: silver_cluster
+              python_file: pipelines/silver/example_transform.py
+              arguments: ["dev"]
+              libraries:
+                - pypi:
+                    package: "databricks-utils==0.1.0"
+
+            - task_key: gold_aggregation
+              depends_on:
+                - task_key: silver_transformation
+              job_cluster_key: gold_cluster
+              python_file: pipelines/gold/example_aggregate.py
+              arguments: ["dev"]
+              libraries:
+                - pypi:
+                    package: "databricks-utils==0.1.0"
+
+          job_clusters:
+            - job_cluster_key: bronze_cluster
+              new_cluster:
+                spark_version: 13.3.x-scala2.12
+                node_type_id: ${var.cluster_node_type}
+                num_workers: 2
+
+            - job_cluster_key: silver_cluster
+              new_cluster:
+                spark_version: 13.3.x-scala2.12
+                node_type_id: ${var.cluster_node_type}
+                num_workers: 3
+
+            - job_cluster_key: gold_cluster
+              new_cluster:
+                spark_version: 13.3.x-scala2.12
+                node_type_id: ${var.cluster_node_type}
+                num_workers: 2
+
+          schedule:
+            quartz_cron_expression: "0 0 2 * * ?"  # Daily at 2 AM
+            timezone_id: "America/New_York"
+
+  prod:
+    mode: production
+    workspace:
+      host: https://prod.cloud.databricks.com
+      root_path: /Workspace/Production/{{ cookiecutter.project_slug }}
+
+    resources:
+      jobs:
+        {{ cookiecutter.project_slug }}_pipeline:
+          name: "{{ cookiecutter.project_name }} - Production"
+
+          tasks:
+            - task_key: bronze_ingestion
+              job_cluster_key: bronze_cluster
+              python_file: pipelines/bronze/example_ingest.py
+              arguments: ["prod"]
+              libraries:
+                - pypi:
+                    package: "databricks-utils==0.1.0"
+
+            - task_key: silver_transformation
+              depends_on:
+                - task_key: bronze_ingestion
+              job_cluster_key: silver_cluster
+              python_file: pipelines/silver/example_transform.py
+              arguments: ["prod"]
+              libraries:
+                - pypi:
+                    package: "databricks-utils==0.1.0"
+
+            - task_key: gold_aggregation
+              depends_on:
+                - task_key: silver_transformation
+              job_cluster_key: gold_cluster
+              python_file: pipelines/gold/example_aggregate.py
+              arguments: ["prod"]
+              libraries:
+                - pypi:
+                    package: "databricks-utils==0.1.0"
+
+          job_clusters:
+            - job_cluster_key: bronze_cluster
+              new_cluster:
+                spark_version: 13.3.x-scala2.12
+                node_type_id: ${var.cluster_node_type}
+                num_workers: 4
+
+            - job_cluster_key: silver_cluster
+              new_cluster:
+                spark_version: 13.3.x-scala2.12
+                node_type_id: ${var.cluster_node_type}
+                num_workers: 6
+
+            - job_cluster_key: gold_cluster
+              new_cluster:
+                spark_version: 13.3.x-scala2.12
+                node_type_id: ${var.cluster_node_type}
+                num_workers: 4
+
+          schedule:
+            quartz_cron_expression: "0 0 1 * * ?"  # Daily at 1 AM
+            timezone_id: "America/New_York"
+
+          max_concurrent_runs: 1

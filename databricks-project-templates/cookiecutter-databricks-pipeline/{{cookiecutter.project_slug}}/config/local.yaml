@@ -1,0 +1,16 @@
+environment_type: local
+
+spark:
+  app_name: "{{ cookiecutter.project_slug }}-local"
+  master: "local[*]"
+  config:
+    spark.sql.shuffle.partitions: "4"
+    spark.sql.adaptive.enabled: "true"
+
+catalog:
+  name: "local_catalog"
+  schema_prefix: "{{ cookiecutter.schema_prefix }}"
+  # Generated schemas:
+  # - local_catalog.{{ cookiecutter.schema_prefix }}_bronze
+  # - local_catalog.{{ cookiecutter.schema_prefix }}_silver
+  # - local_catalog.{{ cookiecutter.schema_prefix }}_gold

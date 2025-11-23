@@ -1,0 +1,18 @@
+{
+  "project_name": "My Pipeline",
+  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-').replace('_', '-') }}",
+  "description": "Databricks data pipeline following medallion architecture",
+  "owner_team": "data-team",
+  "python_version": ["3.10", "3.11"],
+  "databricks_runtime": "13.3 LTS",
+  "include_streaming": ["no", "yes"],
+  "include_ml_features": ["no", "yes"],
+  "catalog_name_dev": "dev_analytics",
+  "catalog_name_prod": "prod_analytics",
+  "schema_prefix": "{{ cookiecutter.project_slug.replace('-', '_') }}",
+  "_copy_without_render": [
+    "*.pyc",
+    "*.pyo",
+    "__pycache__"
+  ]
+}

@@ -1,0 +1,450 @@
+openapi: 3.0.3
+info:
+  title: Databricks Shared Utilities API
+  description: Public interface for shared utility functions used across data engineering projects
+  version: 1.2.3
+  contact:
+    name: Platform Team
+
+paths:
+  # This is a Python library, not a REST API
+  # This document describes the programmatic interface
+
+components:
+  schemas:
+    # Configuration Module
+    ConfigLoader:
+      type: object
+      description: Loads environment-specific configuration
+      x-python-module: databricks_utils.config.loader
+      x-functions:
+        - name: load
+          description: Load configuration for specified environment
+          signature: "load(env: str, config_path: Optional[str] = None) -> EnvironmentConfig"
+          parameters:
+            - name: env
+              type: string
+              enum: [local, lab, dev, prod]
+            - name: config_path
+              type: string
+              nullable: true
+          returns:
+            type: EnvironmentConfig
+          raises:
+            - ConfigurationError: Invalid or missing configuration
+            - ValidationError: Configuration validation failed
+          example: |
+            from databricks_utils.config import ConfigLoader
+            config = ConfigLoader.load("dev")
+            print(config.catalog.name)  # dev_analytics
+
+    SparkSessionFactory:
+      type: object
+      description: Creates environment-aware Spark sessions
+      x-python-module: databricks_utils.config.spark_session
+      x-functions:
+        - name: create
+          description: Create SparkSession for environment
+          signature: "create(env: str, config_path: Optional[str] = None) -> SparkSession"
+          parameters:
+            - name: env
+              type: string
+            - name: config_path
+              type: string
+              nullable: true
+          returns:
+            type: pyspark.sql.SparkSession
+          example: |
+            from databricks_utils.config import SparkSessionFactory
+            spark = SparkSessionFactory.create("dev")
+            df = spark.read.table("dev_analytics.customers")
+
+    # Logging Module
+    StructuredLogger:
+      type: object
+      description: Structured logging with context
+      x-python-module: databricks_utils.logging.logger
+      x-functions:
+        - name: get_logger
+          description: Get logger instance for module
+          signature: "get_logger(name: str, context: Optional[Dict] = None) -> Logger"
+          parameters:
+            - name: name
+              type: string
+            - name: context
+              type: object
+              nullable: true
+          returns:
+            type: Logger
+          example: |
+            from databricks_utils.logging import get_logger
+            logger = get_logger(__name__, {"pipeline": "customer-360"})
+            logger.info("Starting transformation", extra={"rows": 1000})
+
+        - name: log_metrics
+          description: Log structured metrics
+          signature: "log_metrics(metrics: Dict[str, Union[int, float]], tags: Optional[Dict] = None)"
+          parameters:
+            - name: metrics
+              type: object
+            - name: tags
+              type: object
+              nullable: true
+          example: |
+            from databricks_utils.logging import log_metrics
+            log_metrics(
+                {"rows_processed": 10000, "duration_seconds": 45.3},
+                tags={"layer": "bronze", "table": "customers"}
+            )
+
+    # Data Quality Module
+    DataQualityValidator:
+      type: object
+      description: Data quality validation utilities
+      x-python-module: databricks_utils.data_quality.validators
+      x-functions:
+        - name: validate_schema
+          description: Validate DataFrame against expected schema
+          signature: "validate_schema(df: DataFrame, expected_schema: StructType) -> ValidationResult"
+          parameters:
+            - name: df
+              type: pyspark.sql.DataFrame
+            - name: expected_schema
+              type: pyspark.sql.types.StructType
+          returns:
+            type: ValidationResult
+          example: |
+            from databricks_utils.data_quality import validate_schema
+            from pyspark.sql.types import *
+
+            expected = StructType([
+                StructField("id", LongType(), False),
+                StructField("name", StringType(), False)
+            ])
+            result = validate_schema(df, expected)
+            if not result.is_valid:
+                logger.error(f"Schema validation failed: {result.errors}")
+
+        - name: check_null_rate
+          description: Check null percentage in columns
+          signature: "check_null_rate(df: DataFrame, columns: List[str], max_null_rate: float = 0.05) -> ValidationResult"
+          parameters:
+            - name: df
+              type: pyspark.sql.DataFrame
+            - name: columns
+              type: array
+              items:
+                type: string
+            - name: max_null_rate
+              type: number
+              default: 0.05
+          returns:
+            type: ValidationResult
+
+        - name: check_duplicates
+          description: Check for duplicate records
+          signature: "check_duplicates(df: DataFrame, key_columns: List[str]) -> ValidationResult"
+          parameters:
+            - name: df
+              type: pyspark.sql.DataFrame
+            - name: key_columns
+              type: array
+              items:
+                type: string
+          returns:
+            type: ValidationResult
+
+    RuleEngine:
+      type: object
+      description: Apply data quality rules
+      x-python-module: databricks_utils.data_quality.rules
+      x-functions:
+        - name: apply_rules
+          description: Apply quality rules to DataFrame
+          signature: "apply_rules(df: DataFrame, rules: List[Rule]) -> RuleResult"
+          parameters:
+            - name: df
+              type: pyspark.sql.DataFrame
+            - name: rules
+              type: array
+              items:
+                type: Rule
+          returns:
+            type: RuleResult
+          example: |
+            from databricks_utils.data_quality import Rule, apply_rules
+
+            rules = [
+                Rule.null_check(["customer_id", "email"]),
+                Rule.range_check("age", min_val=0, max_val=120),
+                Rule.pattern_check("email", r"^[\w\.-]+@[\w\.-]+\.\w+$")
+            ]
+            result = apply_rules(df, rules)
+
+    # Unity Catalog Module
+    CatalogHelper:
+      type: object
+      description: Unity Catalog utilities
+      x-python-module: databricks_utils.catalog.schema_manager
+      x-functions:
+        - name: get_table_name
+          description: Generate fully-qualified table name
+          signature: "get_table_name(config: EnvironmentConfig, layer: str, table: str) -> str"
+          parameters:
+            - name: config
+              type: EnvironmentConfig
+            - name: layer
+              type: string
+              enum: [bronze, silver, gold]
+            - name: table
+              type: string
+          returns:
+            type: string
+          example: |
+            from databricks_utils.catalog import get_table_name
+
+            table = get_table_name(config, "bronze", "customers")
+            # Returns: "dev_analytics.customer_360_bronze.customers"
+
+        - name: create_schema_if_not_exists
+          description: Create Unity Catalog schema
+          signature: "create_schema_if_not_exists(spark: SparkSession, catalog: str, schema: str)"
+          parameters:
+            - name: spark
+              type: pyspark.sql.SparkSession
+            - name: catalog
+              type: string
+            - name: schema
+              type: string
+
+        - name: register_table
+          description: Register Delta table in Unity Catalog
+          signature: "register_table(spark: SparkSession, df: DataFrame, table_name: str, mode: str = 'overwrite')"
+          parameters:
+            - name: spark
+              type: pyspark.sql.SparkSession
+            - name: df
+              type: pyspark.sql.DataFrame
+            - name: table_name
+              type: string
+            - name: mode
+              type: string
+              enum: [overwrite, append, error, ignore]
+              default: overwrite
+
+    PermissionManager:
+      type: object
+      description: Manage Unity Catalog permissions
+      x-python-module: databricks_utils.catalog.permissions
+      x-functions:
+        - name: grant_select
+          description: Grant SELECT permission on table
+          signature: "grant_select(table_name: str, principal: str)"
+          parameters:
+            - name: table_name
+              type: string
+            - name: principal
+              type: string
+              description: User or group name
+
+        - name: validate_access
+          description: Check if user has access to table
+          signature: "validate_access(table_name: str, permission: str = 'SELECT') -> bool"
+          parameters:
+            - name: table_name
+              type: string
+            - name: permission
+              type: string
+              default: SELECT
+          returns:
+            type: boolean
+
+    # Observability Module
+    MonteCarloIntegration:
+      type: object
+      description: Monte Carlo integration utilities
+      x-python-module: databricks_utils.observability.monitor
+      x-functions:
+        - name: register_rule
+          description: Register data quality rule with Monte Carlo
+          signature: "register_rule(rule: DataQualityRule) -> str"
+          parameters:
+            - name: rule
+              type: DataQualityRule
+          returns:
+            type: string
+            description: Monte Carlo monitor ID
+          example: |
+            from databricks_utils.observability import register_rule
+            from databricks_utils.data_quality import Rule
+
+            rule = Rule.freshness_check(
+                table="prod_analytics.customer_360_gold.customers",
+                threshold_hours=24,
+                severity="high"
+            )
+            monitor_id = register_rule(rule)
+
+        - name: sync_lineage
+          description: Sync table lineage to Monte Carlo
+          signature: "sync_lineage(pipeline_name: str, tables: List[TableLineage])"
+          parameters:
+            - name: pipeline_name
+              type: string
+            - name: tables
+              type: array
+              items:
+                type: TableLineage
+
+    # Error Handling Module
+    RetryHelper:
+      type: object
+      description: Retry logic for transient failures
+      x-python-module: databricks_utils.errors.retry
+      x-functions:
+        - name: with_retry
+          description: Decorator for automatic retry
+          signature: "@with_retry(max_attempts: int = 3, backoff_seconds: int = 1)"
+          example: |
+            from databricks_utils.errors import with_retry
+
+            @with_retry(max_attempts=3, backoff_seconds=2)
+            def read_from_external_api():
+                # API call that might fail
+                pass
+
+        - name: exponential_backoff
+          description: Execute function with exponential backoff
+          signature: "exponential_backoff(func: Callable, max_attempts: int = 3, base_delay: float = 1.0) -> Any"
+          parameters:
+            - name: func
+              type: callable
+            - name: max_attempts
+              type: integer
+              default: 3
+            - name: base_delay
+              type: number
+              default: 1.0
+
+    # Common Models
+    ValidationResult:
+      type: object
+      description: Result of data validation
+      properties:
+        is_valid:
+          type: boolean
+        errors:
+          type: array
+          items:
+            type: string
+        warnings:
+          type: array
+          items:
+            type: string
+        metrics:
+          type: object
+          additionalProperties:
+            type: number
+
+    Rule:
+      type: object
+      description: Data quality rule definition
+      properties:
+        rule_id:
+          type: string
+        rule_type:
+          type: string
+          enum: [null_check, range_check, pattern_check, uniqueness, freshness, volume]
+        parameters:
+          type: object
+        severity:
+          type: string
+          enum: [low, medium, high, critical]
+
+    TableLineage:
+      type: object
+      description: Table lineage information
+      properties:
+        table_name:
+          type: string
+        upstream_tables:
+          type: array
+          items:
+            type: string
+        transformation_type:
+          type: string
+          enum: [ingestion, transformation, aggregation]
+
+# Usage Examples
+x-usage-examples:
+  complete_pipeline:
+    description: Complete pipeline example using utilities
+    code: |
+      from databricks_utils.config import ConfigLoader, SparkSessionFactory
+      from databricks_utils.logging import get_logger
+      from databricks_utils.catalog import get_table_name, register_table
+      from databricks_utils.data_quality import validate_schema, check_null_rate
+      from databricks_utils.observability import register_rule
+      from pyspark.sql.types import *
+
+      # 1. Initialize
+      config = ConfigLoader.load("dev")
+      spark = SparkSessionFactory.create("dev")
+      logger = get_logger(__name__)
+
+      # 2. Define schema
+      schema = StructType([
+          StructField("customer_id", LongType(), False),
+          StructField("name", StringType(), False),
+          StructField("email", StringType(), False),
+      ])
+
+      # 3. Read data
+      source_df = spark.read.schema(schema).json("s3://raw-data/customers/")
+      logger.info(f"Read {source_df.count()} rows")
+
+      # 4. Validate quality
+      schema_result = validate_schema(source_df, schema)
+      null_result = check_null_rate(source_df, ["customer_id", "email"])
+
+      if not schema_result.is_valid or not null_result.is_valid:
+          logger.error("Data quality checks failed")
+          raise DataQualityException()
+
+      # 5. Write to Unity Catalog
+      target_table = get_table_name(config, "bronze", "customers")
+      register_table(spark, source_df, target_table, mode="overwrite")
+      logger.info(f"Wrote to {target_table}")
+
+      # 6. Register monitoring
+      from databricks_utils.data_quality import Rule
+      rule = Rule.freshness_check(target_table, threshold_hours=24)
+      register_rule(rule)
+
+# Versioning and Compatibility
+x-versioning:
+  policy: Semantic Versioning (MAJOR.MINOR.PATCH)
+  compatibility:
+    - version: 1.x.x
+      python: ">=3.10"
+      pyspark: ">=3.4.0"
+      databricks_runtime: ">=11.3"
+  deprecation_policy: |
+    Deprecated functions will be marked with warnings for one minor version
+    before removal in the next major version.
+
+x-changelog:
+  1.2.3:
+    date: 2025-11-21
+    changes:
+      - "Added Monte Carlo lineage sync"
+      - "Improved error messages in validation"
+  1.2.0:
+    date: 2025-10-15
+    changes:
+      - "Added pattern_check rule"
+      - "Performance improvements in schema validation"
+  1.0.0:
+    date: 2025-08-01
+    changes:
+      - "Initial release"

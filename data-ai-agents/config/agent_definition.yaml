@@ -1,0 +1,56 @@
+# Agent Configuration Schema
+# Defines the structure for agent definitions
+
+agent_id: example-agent
+name: "Example Agent"
+description: "Template for agent definitions"
+agent_type: coding  # coding, testing, profiling, quality, optimization
+version: 1.0.0
+
+# Input specification
+inputs:
+  - name: layer
+    type: string
+    description: "Medallion architecture layer"
+    required: true
+    enum: [bronze, silver, gold]
+
+  - name: source
+    type: string
+    description: "Source path or table"
+    required: true
+
+  - name: target
+    type: string
+    description: "Target table name"
+    required: true
+
+  - name: description
+    type: string
+    description: "Natural language transformation description"
+    required: true
+
+# Output specification
+outputs:
+  type: code
+  format: python
+  validation_schema:
+    check_syntax: true
+    check_imports: true
+    required_functions: ["main"]
+
+# Prompt configuration
+prompt_template_path: "prompts/example_layer.md"
+examples_path: "examples/example_examples.json"
+
+# LLM settings
+model: "claude-sonnet-4"
+temperature: 0.2
+max_tokens: 4000
+timeout_seconds: 300
+retry_attempts: 3
+
+# Execution settings
+parallel_enabled: true
+caching_enabled: true
+validation_enabled: true

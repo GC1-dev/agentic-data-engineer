@@ -5,7 +5,7 @@ type: "etl"
 component:
   name: ai-native-data-engineering-process
   owner: zurg
-  description: Repo for defining AI-Native Data Engineering Process
+  description: AI-Native Data Engineering Process
   personalDataHandling: none
   soxScope: False
   paymentProcessing: False

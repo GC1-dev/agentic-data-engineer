@@ -214,6 +214,330 @@ See [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md) for step-by-step instructions.
 └── .gitmodules                                   # Submodule configuration
 ```
 
+## Architecture & Diagrams
+
+### Repository Structure Overview
+
+```mermaid
+flowchart TD
+    subgraph Main["Agentic Data Engineer (Main Repo)"]
+        SPECS[specs/]
+        CLAUDE[.claude/]
+        DOCS[Documentation]
+    end
+
+    subgraph Core["Core Utilities (Submodules)"]
+        DSU[data-shared-utils]
+        DCU[data-catalog-utils]
+        DBU[databricks-utils]
+    end
+
+    subgraph Specialized["Specialized Utilities (Submodules)"]
+        DQU[data-quality-utils]
+        DOU[data-observability-utils]
+        SSU[spark-session-utils]
+    end
+
+    subgraph Templates["Project Templates (Submodules)"]
+        COOK[blue-data-nova-cookiecutter]
+    end
+
+    Main --> Core
+    Main --> Specialized
+    Main --> Templates
+
+    DBU -.->|MCP Server| CLAUDE
+    DCU -.->|Used by| DSU
+```
+
+### Package Dependencies
+
+```mermaid
+flowchart LR
+    subgraph Applications["Data Applications"]
+        ETL[ETL Pipeline]
+        ANALYTICS[Analytics Jobs]
+        MONITORING[Data Monitoring]
+    end
+
+    subgraph Layer1["Foundation Layer"]
+        SSU[spark-session-utils<br/>Session Management]
+        DSU[data-shared-utils<br/>Core Utilities]
+    end
+
+    subgraph Layer2["Specialized Layer"]
+        DQU[data-quality-utils<br/>Validation & Profiling]
+        DOU[data-observability-utils<br/>Monte Carlo Integration]
+        DCU[data-catalog-utils<br/>Unity Catalog Ops]
+    end
+
+    subgraph Layer3["Integration Layer"]
+        DBU[databricks-utils<br/>MCP Server]
+    end
+
+    ETL --> DQU
+    ETL --> SSU
+    ETL --> DSU
+
+    ANALYTICS --> SSU
+    ANALYTICS --> DCU
+    ANALYTICS --> DSU
+
+    MONITORING --> DOU
+    MONITORING --> DQU
+
+    DQU --> SSU
+    DQU --> DSU
+
+    DOU --> DSU
+
+    DCU --> DSU
+
+    DBU --> DCU
+    DBU --> DSU
+```
+
+### Medallion Architecture with Entities
+
+```mermaid
+flowchart LR
+    subgraph Bronze["Bronze Layer<br/>(Raw Data)"]
+        B1[(Source Systems)]
+        B2[(Event Streams)]
+        B3[(Files)]
+    end
+
+    subgraph Silver["Silver Layer<br/>(Entity-Centric)"]
+        S1[User Entity]
+        S2[Partner Entity]
+        S3[Booking Entity]
+        S4[Itinerary Entity]
+        S5[SearchIntent Entity]
+        S6[SearchResult Entity]
+        S7[FlightSegment Entity]
+    end
+
+    subgraph Gold["Gold Layer<br/>(Analytics)"]
+        G1[Booking Facts]
+        G2[Search Analytics]
+        G3[Revenue Reports]
+        G4[User Insights]
+    end
+
+    B1 --> S1
+    B1 --> S2
+    B2 --> S3
+    B2 --> S5
+    B3 --> S4
+
+    S1 --> G1
+    S1 --> G4
+    S2 --> G1
+    S3 --> G1
+    S4 --> G1
+    S5 --> G2
+    S6 --> G2
+    S7 --> G2
+
+    S3 --> G3
+    S4 --> G3
+```
+
+### Silver Layer Entity Relationships
+
+```mermaid
+erDiagram
+    USER ||--o{ BOOKING : makes
+    USER ||--o{ SEARCH_INTENT : performs
+
+    BOOKING ||--|{ ITINERARY : contains
+
+    PARTNER ||--o{ ITINERARY : provides
+    PARTNER ||--o{ SEARCH_RESULT : offers
+    PARTNER ||--o{ FLIGHT_SEGMENT : operates
+
+    SEARCH_INTENT ||--o{ SEARCH_INTENT_RESULT : generates
+    SEARCH_RESULT ||--o{ SEARCH_INTENT_RESULT : "shown in"
+    SEARCH_RESULT ||--|{ FLIGHT_SEGMENT : "consists of"
+
+    USER {
+        bigint user_sk PK
+        string user_id UK
+        string email
+        string loyalty_tier
+        timestamp valid_from
+        timestamp valid_to
+        boolean is_current
+    }
+
+    PARTNER {
+        bigint partner_sk PK
+        string partner_id UK
+        string partner_name
+        string partner_type
+        string iata_code
+        boolean is_active
+    }
+
+    BOOKING {
+        bigint booking_sk PK
+        string booking_id UK
+        bigint user_sk FK
+        timestamp booking_date
+        string booking_status
+        decimal total_amount
+    }
+
+    ITINERARY {
+        bigint itinerary_sk PK
+        bigint booking_sk FK
+        bigint partner_sk FK
+        string itinerary_type
+        timestamp departure_date
+        timestamp return_date
+    }
+
+    SEARCH_INTENT {
+        bigint search_intent_sk PK
+        string search_intent_id UK
+        bigint user_sk FK
+        timestamp search_timestamp
+        string origin_code
+        string destination_code
+    }
+
+    SEARCH_RESULT {
+        bigint search_result_sk PK
+        string search_result_id UK
+        bigint partner_sk FK
+        string flight_number
+        timestamp departure_time
+        decimal price
+    }
+
+    FLIGHT_SEGMENT {
+        bigint flight_segment_sk PK
+        bigint search_result_sk FK
+        int segment_number
+        string origin_airport_code
+        string destination_airport_code
+    }
+
+    SEARCH_INTENT_RESULT {
+        bigint search_intent_result_sk PK
+        bigint search_intent_sk FK
+        bigint search_result_sk FK
+        int result_rank
+        boolean was_clicked
+        boolean was_booked
+    }
+```
+
+### Data Engineering Workflow
+
+```mermaid
+flowchart TD
+    subgraph Ingestion["Data Ingestion"]
+        A[Raw Data Sources] --> B[Bronze Tables]
+    end
+
+    subgraph EntityModeling["Entity Modeling"]
+        B --> C{silver-data-modeling-agent}
+        C -->|Design| D[Entity Schemas]
+        C -->|Apply SCD| E[History Tracking]
+        C -->|Define Rules| F[Quality Rules]
+    end
+
+    subgraph Transformation["Transformation Pipeline"]
+        D --> G[Entity Extraction]
+        E --> G
+        F --> G
+        G --> H[data-quality-utils<br/>Validate]
+        H --> I{Quality Pass?}
+        I -->|Yes| J[Silver Tables]
+        I -->|No| K[Quality Report]
+        K --> L[Fix Issues]
+        L --> G
+    end
+
+    subgraph Analytics["Analytics Layer"]
+        J --> M[dimensional-modeling-agent]
+        M --> N[Gold Tables]
+        N --> O[BI Reports]
+    end
+
+    subgraph Monitoring["Observability"]
+        H --> P[data-observability-utils]
+        P --> Q[Monte Carlo]
+        Q --> R[Alerts]
+    end
+```
+
+### Claude Code Agent Ecosystem
+
+```mermaid
+flowchart TD
+    subgraph Agents["Claude Code Agents"]
+        A1[silver-data-modeling-agent]
+        A2[dimensional-modeling-agent]
+        A3[bronze-table-finder]
+        A4[data-profiler]
+        A5[testing-agent]
+        A6[documentation-agent]
+    end
+
+    subgraph Tools["Data Engineering Tools"]
+        T1[data-quality-utils]
+        T2[spark-session-utils]
+        T3[data-catalog-utils]
+    end
+
+    subgraph MCP["MCP Integration"]
+        M1[databricks-utils<br/>MCP Server]
+        M2[Unity Catalog API]
+        M3[SQL Execution]
+    end
+
+    A1 -.->|Uses| T1
+    A1 -.->|Uses| T2
+    A1 -.->|References| A2
+    A1 -.->|References| A3
+    A1 -.->|References| A4
+
+    A4 -.->|Uses| T1
+    A3 -.->|Uses| T3
+
+    A1 -.->|Queries| M1
+    A3 -.->|Queries| M1
+
+    M1 --> M2
+    M1 --> M3
+```
+
+### Submodule Development Workflow
+
+```mermaid
+flowchart LR
+    subgraph Local["Local Development"]
+        A[Clone Main Repo] --> B[Initialize Submodules]
+        B --> C{Work on Submodule?}
+        C -->|Yes| D[cd into submodule]
+        C -->|No| E[Work on Main]
+        D --> F[Make Changes]
+        F --> G[Commit in Submodule]
+        G --> H[Push to Submodule Remote]
+        H --> I[Update Main Repo Reference]
+        I --> J[Commit Main Repo]
+    end
+
+    subgraph Remote["Remote Updates"]
+        K[Pull Main Repo] --> L[Update Submodules]
+        L --> M[git submodule update<br/>--remote --merge]
+    end
+
+    J --> K
+```
+
 ## Development
 
 ### Working with Submodules

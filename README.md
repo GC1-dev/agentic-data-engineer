@@ -2,45 +2,23 @@
 
 A multi-package monorepo for data engineering utilities with independent packages for data quality, observability, Spark session management, and Databricks integration.
 
+## Submodule Initialization
+
+This repository uses git submodules for package management. After cloning, initialize all submodules:
+
+```bash
+# Clone the repository with submodules
+git clone --recurse-submodules https://github.com/your-org/agentic-data-engineer.git
+
+# Or if already cloned, initialize submodules
+git submodule update --init --recursive
+```
+
 ## Packages
 
-This repository contains 4 independent Python packages:
+This repository contains 6 independent Python packages and 1 project template:
 
-### 1. data-quality-utils (v1.0.0)
-Standalone data quality validation and profiling for PySpark DataFrames.
-
-**Repository**: https://github.com/Skyscanner/data-quality-utils
-
-**Features**:
-- Declarative validation rules (completeness, uniqueness, freshness, schema, pattern, range)
-- Statistical data profiling with sampling support
-- Quality gates and anomaly detection
-
-**Installation**:
-```bash
-pip install data-quality-utils==1.0.0
-```
-
-[→ Documentation](./data-quality-utils/README.md)
-
-### 2. data-observability-utils (v1.0.0)
-Standalone Monte Carlo observability integration for data monitoring.
-
-**Repository**: https://github.com/Skyscanner/data-observability-utils
-
-**Features**:
-- Monte Carlo SDK wrapper
-- High-level integration helpers
-- Configuration management with credential handling
-
-**Installation**:
-```bash
-pip install data-observability-utils==1.0.0
-```
-
-[→ Documentation](./data-observability-utils/README.md)
-
-### 3. spark-session-utils (v1.0.0)
+### 1. spark-session-utils (v1.0.0)
 Spark session management, configuration, and logging utilities.
 
 **Repository**: https://github.com/Skyscanner/spark-session-utils
@@ -58,7 +36,7 @@ pip install spark-session-utils==1.0.0
 
 [→ Documentation](./spark-session-utils/README.md)
 
-### 4. data-shared-utils (v0.3.0)
+### 2. data-shared-utils (v0.3.0)
 Core utilities for Databricks with Unity Catalog integration and testing support.
 
 **Repository**: https://github.com/Skyscanner/data-shared-utils
@@ -74,6 +52,95 @@ pip install data-shared-utils==0.3.0
 ```
 
 [→ Documentation](./data-shared-utils/README.md)
+
+### 3. data-catalog-utils
+Unity Catalog utilities for data catalog management and metadata operations.
+
+**Repository**: https://github.com/Skyscanner/data-catalog-utils
+
+**Features**:
+- Unity Catalog table and schema operations
+- Metadata management
+- Catalog integration helpers
+
+**Installation**:
+```bash
+pip install data-catalog-utils
+```
+
+[→ Documentation](./data-catalog-utils/README.md)
+
+### 4. data-quality-utils (v1.0.0)
+Standalone data quality validation and profiling for PySpark DataFrames.
+
+**Repository**: https://github.com/Skyscanner/data-quality-utils
+
+**Features**:
+- Declarative validation rules (completeness, uniqueness, freshness, schema, pattern, range)
+- Statistical data profiling with sampling support
+- Quality gates and anomaly detection
+
+**Installation**:
+```bash
+pip install data-quality-utils==1.0.0
+```
+
+[→ Documentation](./data-quality-utils/README.md)
+
+### 5. data-observability-utils (v1.0.0)
+Standalone Monte Carlo observability integration for data monitoring.
+
+**Repository**: https://github.com/Skyscanner/data-observability-utils
+
+**Features**:
+- Monte Carlo SDK wrapper
+- High-level integration helpers
+- Configuration management with credential handling
+
+**Installation**:
+```bash
+pip install data-observability-utils==1.0.0
+```
+
+[→ Documentation](./data-observability-utils/README.md)
+
+### 6. databricks-utils
+Databricks integration utilities with MCP server support for Claude Code integration.
+
+**Repository**: https://github.com/Skyscanner/databricks-utils
+
+**Features**:
+- Model Context Protocol (MCP) server for Claude Code
+- Unity Catalog SQL query execution
+- Databricks workspace integration
+
+**Installation**:
+```bash
+pip install databricks-utils
+```
+
+[→ Documentation](./databricks-utils/README.md)
+
+## Project Templates
+
+### blue-data-nova-cookiecutter
+Cookiecutter template for creating new data projects following best practices.
+
+**Repository**: https://github.com/Skyscanner/blue-data-nova-cookiecutter
+
+**Features**:
+- Pre-configured project structure
+- Standard data engineering patterns
+- Testing and CI/CD setup
+- Configuration management templates
+
+**Usage**:
+```bash
+# Generate a new project from template
+cookiecutter data-project-templates/blue-data-nova-cookiecutter
+```
+
+[→ Documentation](./data-project-templates/blue-data-nova-cookiecutter/README.md)
 
 ## Quick Start
 
@@ -132,17 +199,40 @@ See [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md) for step-by-step instructions.
 
 ```
 .
-├── data-quality-utils/              # Data quality validation package
-├── data-observability-utils/        # Monte Carlo observability package
-├── spark-session-utils/             # Spark session management package
-├── data-shared-utils/               # Core Databricks utilities
-├── data-catalog-utils/              # Unity Catalog utilities
-├── specs/                           # Feature specifications
-├── MIGRATION_GUIDE.md              # Migration instructions
-└── CHANGELOG.md                    # Version history
+├── data-quality-utils/                           # Data quality validation package (submodule)
+├── data-observability-utils/                     # Monte Carlo observability package (submodule)
+├── spark-session-utils/                          # Spark session management package (submodule)
+├── data-shared-utils/                            # Core Databricks utilities (submodule)
+├── data-catalog-utils/                           # Unity Catalog utilities (submodule)
+├── databricks-utils/                             # Databricks integration with MCP server (submodule)
+├── data-project-templates/
+│   └── blue-data-nova-cookiecutter/              # Cookiecutter project template (submodule)
+├── .claude/                                      # Claude Code agents and configuration
+├── specs/                                        # Feature specifications
+├── MIGRATION_GUIDE.md                            # Migration instructions
+├── CHANGELOG.md                                  # Version history
+└── .gitmodules                                   # Submodule configuration
 ```
 
 ## Development
+
+### Working with Submodules
+
+```bash
+# Update all submodules to latest commits
+git submodule update --remote --merge
+
+# Update a specific submodule
+git submodule update --remote --merge data-quality-utils
+
+# Pull latest changes for all submodules
+git pull --recurse-submodules
+
+# Check submodule status
+git submodule status
+```
+
+### Package Development
 
 Each package is independently developed and versioned:
 

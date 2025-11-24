@@ -1,16 +1,16 @@
-name: databricks-uc-utilities CI
+name: data-catalog-utils CI
 
 on:
   push:
     branches: [ main, develop ]
     paths:
-      - 'databricks-uc-utilities/**'
-      - '.github/workflows/databricks-uc-utilities-ci.yml'
+      - 'data-catalog-utils/**'
+      - '.github/workflows/data-catalog-utils-ci.yml'
   pull_request:
     branches: [ main, develop ]
     paths:
-      - 'databricks-uc-utilities/**'
-      - '.github/workflows/databricks-uc-utilities-ci.yml'
+      - 'data-catalog-utils/**'
+      - '.github/workflows/data-catalog-utils-ci.yml'
 
 jobs:
   test:
@@ -32,43 +32,43 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('databricks-uc-utilities/pyproject.toml') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('data-catalog-utils/pyproject.toml') }}
         restore-keys: |
           ${{ runner.os }}-pip-
 
     - name: Install dependencies
-      working-directory: databricks-uc-utilities
+      working-directory: data-catalog-utils
       run: |
         python -m pip install --upgrade pip
         pip install -e ".[dev]"
 
     - name: Lint with ruff
-      working-directory: databricks-uc-utilities
+      working-directory: data-catalog-utils
       run: |
         ruff check src tests
 
     - name: Check formatting with black
-      working-directory: databricks-uc-utilities
+      working-directory: data-catalog-utils
       run: |
         black --check src tests
 
     - name: Type check with mypy
-      working-directory: databricks-uc-utilities
+      working-directory: data-catalog-utils
       run: |
         mypy src
       continue-on-error: true
 
     - name: Run unit tests
-      working-directory: databricks-uc-utilities
+      working-directory: data-catalog-utils
       run: |
-        pytest tests/unit -v --cov=databricks_uc_utilities --cov-report=xml --cov-report=term-missing
+        pytest tests/unit -v --cov=data_catalog_utils --cov-report=xml --cov-report=term-missing
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
-        file: databricks-uc-utilities/coverage.xml
-        flags: databricks-uc-utilities
-        name: databricks-uc-utilities-${{ matrix.python-version }}
+        file: data-catalog-utils/coverage.xml
+        flags: data-catalog-utils
+        name: data-catalog-utils-${{ matrix.python-version }}
 
   build:
     name: Build package
@@ -89,17 +89,17 @@ jobs:
         pip install build twine
 
     - name: Build package
-      working-directory: databricks-uc-utilities
+      working-directory: data-catalog-utils
       run: |
         python -m build
 
     - name: Check package
-      working-directory: databricks-uc-utilities
+      working-directory: data-catalog-utils
       run: |
         twine check dist/*
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: databricks-uc-utilities-dist
-        path: databricks-uc-utilities/dist/
+        name: data-catalog-utils-dist
+        path: data-catalog-utils/dist/

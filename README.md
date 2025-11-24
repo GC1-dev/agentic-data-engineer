@@ -1,4 +1,4 @@
-# AI-Native Data Engineering Process
+# Agentic Data Engineering
 
 A multi-package monorepo for data engineering utilities with independent packages for data quality, observability, Spark session management, and Databricks integration.
 

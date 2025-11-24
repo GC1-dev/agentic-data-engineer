@@ -123,6 +123,53 @@ pip install databricks-utils
 
 ## Project Templates
 
+### Generating New Projects
+
+There are two ways to create a new data engineering project following best practices:
+
+#### Option 1: Using data-project-generator Agent (Recommended)
+
+The conversational way to scaffold new Databricks pipeline projects. The agent interactively asks questions about your project requirements and generates a fully customized project structure.
+
+**Features**:
+- Conversational interface - no need to understand cookiecutter syntax
+- Interactive project configuration
+- Validates inputs and provides sensible defaults
+- Handles conditional features (streaming, ML)
+- Unity Catalog integration setup
+- Follows medallion architecture (Bronze → Silver → Gold)
+
+**Usage with Claude Code**:
+
+```bash
+# Start a natural conversation
+"Create a new Databricks project"
+"I need a new data pipeline for customer analytics"
+"Generate a streaming pipeline project"
+
+# Or invoke the agent directly
+@data-project-generator
+
+# Or with specific requirements
+"Use data-project-generator to create a project with:
+- Name: Customer Analytics Pipeline
+- Python: 3.11
+- Include streaming: yes
+- Team: data-engineering"
+```
+
+The agent will:
+1. Ask questions about your project (name, description, team, features)
+2. Show a summary and confirm
+3. Generate the complete project structure
+4. Provide next steps for setup and deployment
+
+[→ Agent Documentation](./.claude/agents/data-project-generator.md)
+
+#### Option 2: Using Cookiecutter (Manual)
+
+Traditional command-line template generation for those who prefer manual control.
+
 ### blue-data-nova-cookiecutter
 Cookiecutter template for creating new data projects following best practices.
 

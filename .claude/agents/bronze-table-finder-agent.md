@@ -1,5 +1,5 @@
 ---
-name: bronze-table-finder
+name: bronze-table-finder-agent
 description: |
   Use this agent to identify candidate Bronze layer input tables for Silver table definitions,
   including schema analysis, catalog navigation, and source table recommendations.

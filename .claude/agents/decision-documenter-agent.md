@@ -1,5 +1,5 @@
 ---
-name: decision-documenter
+name: decision-documenter-agent
 description: |
   Document architectural decisions, technical choices, and important project decisions following
   structured decision record practices. This agent creates comprehensive Architecture Decision Records

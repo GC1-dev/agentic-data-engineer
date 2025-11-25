@@ -1,5 +1,5 @@
 ---
-name: data-profiler
+name: data-profiler-agent
 description: |
   Use this agent to generate comprehensive data profiling reports for Databricks Unity Catalog tables,
   including statistical analysis, quality assessment, and nested STRUCT column analysis.

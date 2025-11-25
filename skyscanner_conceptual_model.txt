@@ -1,0 +1,295 @@
+Analyzing Skyscanner Bronze Tables...
+====================================================================================================
+
+Total tables: 804
+
+
+====================================================================================================
+SKYSCANNER CONCEPTUAL DATA MODEL - DOMAIN SUMMARY
+====================================================================================================
+
+OTHER (250 tables)
+----------------------------------------------------------------------------------------------------
+  • affiliate_gateway_redirects
+  • affiliates_link_api_redirects
+  • agora_applys
+  • agora_margins
+  • agora_redirects
+  • ancillaries_purchases
+  • ancillaries_quotes
+  • android_can_i_go_app_cigmaploaded
+  • android_can_i_go_app_form_sent
+  • android_can_i_go_app_form_success
+  ... and 240 more tables
+
+FLIGHTS (174 tables)
+----------------------------------------------------------------------------------------------------
+  • acorn_alternate_dates_redirect
+  • acorn_element_impression
+  • acorn_element_interaction
+  • acorn_flights_show_more_button_click
+  • acorn_funnel_events_search
+  • acorn_save_to_list_heart_click
+  • acorn_save_to_list_notification_cta_clicked
+  • ad_sponsored_content_flights_widget_click
+  • ads_forecast_booking_panel_poc
+  • android_app_flights_configuration_error
+  ... and 164 more tables
+
+SEARCH (63 tables)
+----------------------------------------------------------------------------------------------------
+  • android_ai_search_app_event
+  • android_can_i_go_app_search_cancel
+  • android_mini_search
+  • android_mini_search_pill_selected
+  • android_mini_search_result_selected
+  • android_mini_search_results_option
+  • android_mini_search_results_page
+  • android_mini_search_viewmore_selected
+  • android_mini_searchbox_component_action
+  • backend_mini_event_search_results_option
+  ... and 53 more tables
+
+TRACKING (62 tables)
+----------------------------------------------------------------------------------------------------
+  • alternatives_inventory_gridminievent
+  • android_cargroupcardevent
+  • android_explore_home_app_event
+  • android_mini_autosuggest_telemetryevent
+  • atlantis_api_request_event
+  • atlantis_orchestrator_event
+  • atlantis_staging_worker_process_event
+  • couponion_coupon_creation_coupon_couponcreationevent
+  • couponion_coupon_usage_coupon_couponusageevent
+  • deployment_events_slingshot_api
+  ... and 52 more tables
+
+SESSION (61 tables)
+----------------------------------------------------------------------------------------------------
+  • agora_day_view_result
+  • android_cancellation_view
+  • android_combined_results_view
+  • android_config_page_landing
+  • android_mini_trips_view
+  • android_mini_view
+  • android_mini_view_lifecyle
+  • android_send_itinerary_view
+  • banana_mini_view
+  • browse_view_page_loaded
+  ... and 51 more tables
+
+HOTELS (56 tables)
+----------------------------------------------------------------------------------------------------
+  • accom_web_search_result_selected
+  • accom_web_search_results_options
+  • android_apps_hotel_appshotelevent
+  • android_hotels_frontend_hotelsaction
+  • android_hotels_seen_hotelsseenevent
+  • bellboy_hotelsummary
+  • blackbird_funnel_events_blackbird_hotelshomeredirect
+  • delivery_service_sponsored_adhotelsinlineavailability
+  • egressor_hotel_search_scrape
+  • hotel_availability_missing
+  ... and 46 more tables
+
+PRICING (38 tables)
+----------------------------------------------------------------------------------------------------
+  • android_config_fare_family_option
+  • android_config_fare_family_selected
+  • android_should_show_config_fare_families
+  • fare_family_supply_response
+  • fare_family_supply_tracking
+  • frontend_price_alerts_marketing_opt_in_consent
+  • google_hpa_price_pull_events
+  • hpa_pull_price_request_event
+  • hpa_pull_price_response_event
+  • indicative_to_live_price_displayed
+  ... and 28 more tables
+
+USER (31 tables)
+----------------------------------------------------------------------------------------------------
+  • account_login
+  • android_mini_authentication_status_change
+  • android_mini_user_preferences
+  • android_profile_completion_action
+  • android_profile_completion_progress
+  • android_profile_settings_action
+  • android_profile_settings_queryfailure
+  • android_profile_settings_querysuccess
+  • banana_mini_user_preferences
+  • can_i_go_email_capture_tracking_useraction
+  ... and 21 more tables
+
+CAR HIRE (30 tables)
+----------------------------------------------------------------------------------------------------
+  • android_mini_car_hire_app_mapevent
+  • android_mini_car_hire_app_useraction
+  • car_hire_bumblebee_dropped_quotes
+  • car_hire_bumblebee_ranking
+  • car_hire_bumblebee_ranking_result
+  • car_hire_bumblebee_worker_dropped_quotes
+  • car_hire_filter_result
+  • car_hire_indicative_price_search_event
+  • car_hire_map_interactions
+  • car_hire_mcpc_query_event
+  ... and 20 more tables
+
+ADVERTISING (20 tables)
+----------------------------------------------------------------------------------------------------
+  • ad_sponsored_content_article_click
+  • ad_sponsored_content_video_event
+  • android_element_impression
+  • banana_element_impression
+  • delivery_service_adimpression
+  • delivery_service_sponsored_ad_click_external
+  • delivery_service_sponsored_ad_impression_external
+  • delivery_service_sponsored_ad_request_external
+  • delivery_service_sponsored_ad_response_external
+  • frontend_element_impression
+  ... and 10 more tables
+
+NOTIFICATIONS (13 tables)
+----------------------------------------------------------------------------------------------------
+  • can_i_go_alerts_event
+  • communication_email_event
+  • frontend_email_capture_marketing_opt_in_consent
+  • marketing_capture_email_create_travel_alert
+  • marketing_capture_email_request
+  • marketing_capture_email_response
+  • marketing_capture_email_subscribe_to_marketing
+  • marketing_email_capture
+  • marketing_email_promote
+  • saved_itinerary_alert_created
+  ... and 3 more tables
+
+LOCATION (5 tables)
+----------------------------------------------------------------------------------------------------
+  • android_mini_experiment_allocation
+  • b2b_geo_apicall
+  • discovery_ai_place
+  • frontend_mini_experiment_allocation
+  • ios_mini_experiment_allocation
+
+CONTENT (1 tables)
+----------------------------------------------------------------------------------------------------
+  • public_content_lab_autosuggesttelemetry_autosuggest_telemetryevent
+
+
+====================================================================================================
+HIGH-LEVEL CONCEPTUAL DATA MODEL
+====================================================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         SKYSCANNER DATA MODEL                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+1. CORE ENTITIES
+   ├── User/Traveller (UTID - Unique Traveller ID)
+   ├── Session
+   ├── Search
+   └── Booking/Transaction
+
+2. PRODUCT DOMAINS
+   ├── Flights
+   │   ├── Flight Search & Results
+   │   ├── Flight Itineraries
+   │   ├── Airlines/Carriers
+   │   ├── Airports
+   │   └── Flight Pricing
+   │
+   ├── Hotels/Accommodation
+   │   ├── Hotel Search & Results
+   │   ├── Hotel Properties
+   │   └── Hotel Pricing
+   │
+   └── Car Hire
+       ├── Car Search & Results
+       ├── Car Providers
+       └── Car Pricing
+
+3. USER BEHAVIOR & INTERACTION
+   ├── Page Views & Navigation
+   ├── Search Actions
+   ├── Click Events
+   ├── Form Interactions
+   └── Session Flow
+
+4. CONTENT & MARKETING
+   ├── Editorial Content (Articles, Guides)
+   ├── Advertising & Sponsored Content
+   ├── Media (Images, Videos)
+   └── Notifications & Communications
+
+5. LOCATION & GEOGRAPHY
+   ├── Cities
+   ├── Countries
+   ├── Airports
+   └── Geographic Hierarchies
+
+6. BUSINESS OPERATIONS
+   ├── Analytics & Tracking
+   ├── A/B Testing & Experiments
+   ├── Pricing & Revenue
+   └── Partner Management
+
+
+
+====================================================================================================
+KEY RELATIONSHIPS
+====================================================================================================
+
+User/Traveller (UTID)
+  │
+  ├─── has many ──→ Sessions
+  │                    │
+  │                    ├─── contains ──→ Searches
+  │                    │                    │
+  │                    │                    └─── returns ──→ Search Results
+  │                    │                                        │
+  │                    │                                        └─── leads to ──→ Clicks
+  │                    │                                                           │
+  │                    └─── includes ──→ Page Views                                └─── may result in ──→ Redirects/Bookings
+  │
+  └─── performs ──→ Account Actions (Login, Profile Updates)
+
+Search
+  │
+  ├─── for ──→ Flights (Origin/Destination, Dates)
+  ├─── for ──→ Hotels (Location, Dates)
+  └─── for ──→ Car Hire (Location, Dates)
+
+Advertising
+  │
+  ├─── Impressions
+  ├─── Clicks
+  └─── Conversions
+
+
+====================================================================================================
+COMMON DIMENSIONS & ATTRIBUTES
+====================================================================================================
+
+Temporal:
+  • dt (date partition)
+  • grappler_receive_timestamp
+  • event_timestamp
+
+Identity:
+  • utid (Unique Traveller ID)
+  • session_id
+  • guid (event GUID)
+
+Location:
+  • city_name
+  • country_name
+  • origin/destination
+
+Technical:
+  • origin_topic (source system)
+  • header (event metadata)
+  • service_name
+
+
+====================================================================================================
+Analysis complete. Total domains identified: 13
+====================================================================================================

@@ -1,5 +1,5 @@
 ---
-name: data-project-generator
+name: data-project-generator-agent
 description: |
   Conversationally generates new Databricks pipeline projects from cookiecutter templates by asking questions and creating customized project structures.
 

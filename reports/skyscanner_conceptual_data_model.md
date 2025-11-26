@@ -2111,125 +2111,36 @@ session_id STRING                       -- Session identifier
 
 ### 1. Flight Search-to-Book Journey
 
-```
-┌────────────────┐
-│     SEARCH     │ User enters search criteria
-│ (search_guid)  │
-└────────┬───────┘
-         │
-         ▼
-┌────────────────┐
-│    RESULTS     │ Search results displayed
-│                │
-└────────┬───────┘
-         │
-         ▼
-┌────────────────┐
-│    SELECT      │ User selects itinerary
-│                │
-└────────┬───────┘
-         │
-         ▼
-┌────────────────┐
-│  PRICING (FPS) │ Live quotes generated
-│(fps_session_id)│
-└────────┬───────┘
-         │
-         ▼
-┌────────────────┐
-│   CONFIG       │ Fare families, seats, bags
-│                │
-└────────┬───────┘
-         │
-         ▼
-┌────────────────┐
-│   CHECKOUT     │ Payment, passenger details
-│                │
-└────────┬───────┘
-         │
-         ▼
-┌────────────────┐
-│    BOOKING     │ Confirmed or failed
-│  (booking_id)  │
-└────────────────┘
+```mermaid
+flowchart TD
+    A[SEARCH<br/>search_guid<br/>User enters search criteria] --> B[RESULTS<br/>Search results displayed]
+    B --> C[SELECT<br/>User selects itinerary]
+    C --> D[PRICING FPS<br/>fps_session_id<br/>Live quotes generated]
+    D --> E[CONFIG<br/>Fare families, seats, bags]
+    E --> F[CHECKOUT<br/>Payment, passenger details]
+    F --> G[BOOKING<br/>booking_id<br/>Confirmed or failed]
 ```
 
 ### 2. Ad Monetization Flow
 
-```
-┌────────────────┐
-│  AD REQUEST    │ User views page
-│                │
-└────────┬───────┘
-         │
-         ▼
-┌────────────────┐
-│  AD RESPONSE   │ Ad server returns creative
-│ (response_id)  │
-└────────┬───────┘
-         │
-         ▼
-┌────────────────┐
-│  IMPRESSION    │ Ad rendered
-│(impression_id) │
-└────────┬───────┘
-         │
-         ▼
-┌────────────────┐
-│     VIEW       │ Ad viewable in viewport
-│                │
-└────────┬───────┘
-         │
-         ▼
-┌────────────────┐
-│    ENGAGE      │ User clicks ad
-│                │
-└────────┬───────┘
-         │
-         ▼
-┌────────────────┐
-│   REDIRECT     │ Redirect to partner
-│                │
-└────────────────┘
+```mermaid
+flowchart TD
+    A[AD REQUEST<br/>User views page] --> B[AD RESPONSE<br/>response_id<br/>Ad server returns creative]
+    B --> C[IMPRESSION<br/>impression_id<br/>Ad rendered]
+    C --> D[VIEW<br/>Ad viewable in viewport]
+    D --> E[ENGAGE<br/>User clicks ad]
+    E --> F[REDIRECT<br/>Redirect to partner]
 ```
 
 ### 3. Price Alerts Flow
 
-```
-┌────────────────┐
-│    SEARCH      │ User performs search
-│                │
-└────────┬───────┘
-         │
-         ▼
-┌────────────────┐
-│     SAVE       │ User saves itinerary/route
-│                │
-└────────┬───────┘
-         │
-         ▼
-┌────────────────┐
-│  ALERT CREATED │ Price alert subscription
-│                │
-└────────┬───────┘
-         │
-         ▼
-┌────────────────┐
-│ALERT CHECKED   │ System checks price
-│  (scheduled)   │
-└────────┬───────┘
-         │
-         ▼
-┌────────────────┐
-│ALERT PUBLISHED │ If price drop → notification
-│                │
-└────────┬───────┘
-         │
-         ▼
-┌────────────────┐
-│     CLICK      │ User clicks → return to search
-│                │
-└────────────────┘
+```mermaid
+flowchart TD
+    A[SEARCH<br/>User performs search] --> B[SAVE<br/>User saves itinerary/route]
+    B --> C[ALERT CREATED<br/>Price alert subscription]
+    C --> D[ALERT CHECKED<br/>scheduled<br/>System checks price]
+    D --> E[ALERT PUBLISHED<br/>If price drop → notification]
+    E --> F[CLICK<br/>User clicks → return to search]
 ```
 
 ---
@@ -2238,93 +2149,65 @@ session_id STRING                       -- Session identifier
 
 ### Core Entity Hierarchy
 
-```
-┌───────────────────────────────────────────────────────┐
-│                 TRAVELLER (utid)                      │
-│  - Unique Traveller Identifier (98% of tables)       │
-│  - Profile (preferences, consent)                     │
-│  - Authentication (account, identity)                 │
-└─────────────────────┬─────────────────────────────────┘
-                      │
-                      │ 1:N
-                      ▼
-┌───────────────────────────────────────────────────────┐
-│                SESSION (session_id)                   │
-│  - Device/Platform Context (iOS/Android/Web)         │
-│  - Geographic Context (city, country, market)        │
-│  - Experiment Allocations                            │
-│  - 552 tables (69%)                                  │
-└─────────────────────┬─────────────────────────────────┘
-                      │
-                      │ 1:N
-                      ▼
-         ┌────────────┴─────────┬────────────┬─────────┐
-         │                      │            │         │
-         ▼                      ▼            ▼         ▼
-┌────────────┐        ┌────────────┐  ┌──────────┐ ┌─────────┐
-│   SEARCH   │        │    VIEW    │  │ BOOKING  │ │   AD    │
-│  (113 tbl) │        │  (57 tbl)  │  │ (72 tbl) │ │ (30 tbl)│
-└─────┬──────┘        └────────────┘  └──────────┘ └─────────┘
-      │
-      │ may trigger
-      │
-      ├─────────┬────────────┐
-      │         │            │
-      ▼         ▼            ▼
-┌──────────┐ ┌──────────┐ ┌──────────┐
-│ PRICING  │ │ RESULTS  │ │  SAVED   │
-│ SESSION  │ │          │ │  ITEMS   │
-└────┬─────┘ └──────────┘ └──────────┘
-     │
-     │ may lead to
-     │
-     ▼
-┌──────────┐
-│ BOOKING  │
-└──────────┘
+```mermaid
+flowchart TD
+    A[TRAVELLER utid<br/>- Unique Traveller Identifier 98% of tables<br/>- Profile preferences, consent<br/>- Authentication account, identity]
+
+    A -->|1:N| B[SESSION session_id<br/>- Device/Platform Context iOS/Android/Web<br/>- Geographic Context city, country, market<br/>- Experiment Allocations<br/>- 552 tables 69%]
+
+    B -->|1:N| C[SEARCH<br/>113 tables]
+    B -->|1:N| D[VIEW<br/>57 tables]
+    B -->|1:N| E[BOOKING<br/>72 tables]
+    B -->|1:N| F[AD<br/>30 tables]
+
+    C -->|may trigger| G[PRICING SESSION]
+    C -->|may trigger| H[RESULTS]
+    C -->|may trigger| I[SAVED ITEMS]
+
+    G -->|may lead to| J[BOOKING]
 ```
 
 ### Vertical-Specific Models
 
 #### Flights Vertical
-```
-FLIGHT SEARCH (search_guid)
-    ├─ Search Parameters (origin, destination, dates, pax)
-    ├─ Search Results (itineraries)
-    └─ may trigger → PRICING SESSION (fps_session_id)
-        ├─ Quotes Generated
-        ├─ Live Updates
-        └─ may lead to → BOOKING (booking_id)
-            ├─ Fare Family Selection
-            ├─ Ancillaries
-            ├─ Payment
-            └─ Confirmation/Error
+```mermaid
+flowchart TD
+    A[FLIGHT SEARCH<br/>search_guid] --> B[Search Parameters<br/>origin, destination, dates, pax]
+    A --> C[Search Results<br/>itineraries]
+    A -->|may trigger| D[PRICING SESSION<br/>fps_session_id]
+    D --> E[Quotes Generated]
+    D --> F[Live Updates]
+    D -->|may lead to| G[BOOKING<br/>booking_id]
+    G --> H[Fare Family Selection]
+    G --> I[Ancillaries]
+    G --> J[Payment]
+    G --> K[Confirmation/Error]
 ```
 
 #### Hotels Vertical
-```
-HOTEL SEARCH
-    ├─ Search Criteria (location, dates, rooms, guests)
-    ├─ Hotel Results (impressions, prices)
-    └─ may lead to → HOTEL IMPRESSION
-        ├─ Hotel Details View
-        ├─ Room Options
-        ├─ Price Events
-        └─ may lead to → BOOKING/REDIRECT
+```mermaid
+flowchart TD
+    A[HOTEL SEARCH] --> B[Search Criteria<br/>location, dates, rooms, guests]
+    A --> C[Hotel Results<br/>impressions, prices]
+    A -->|may lead to| D[HOTEL IMPRESSION]
+    D --> E[Hotel Details View]
+    D --> F[Room Options]
+    D --> G[Price Events]
+    D -->|may lead to| H[BOOKING/REDIRECT]
 ```
 
 #### Car Hire Vertical
-```
-CAR HIRE SEARCH
-    ├─ Search Parameters (pickup/dropoff location & time)
-    ├─ Vehicle Options (car groups)
-    └─ may lead to → QUOTES
-        ├─ Bumblebee Ranking
-        ├─ Filter Results
-        └─ may lead to → BOOKING
-            ├─ Pending
-            ├─ Confirmed / Failed / Cancelled
-            └─ Confirmation Details
+```mermaid
+flowchart TD
+    A[CAR HIRE SEARCH] --> B[Search Parameters<br/>pickup/dropoff location & time]
+    A --> C[Vehicle Options<br/>car groups]
+    A -->|may lead to| D[QUOTES]
+    D --> E[Bumblebee Ranking]
+    D --> F[Filter Results]
+    D -->|may lead to| G[BOOKING]
+    G --> H[Pending]
+    G --> I[Confirmed / Failed / Cancelled]
+    G --> J[Confirmation Details]
 ```
 
 ---

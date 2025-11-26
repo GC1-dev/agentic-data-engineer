@@ -4,6 +4,7 @@ description: |
   Use this agent for designing gold layer data warehouses using Kimball dimensional modeling methodology,
   including star schemas, fact tables, dimension tables, and SCD patterns following Skyscanner's standards.
 model: sonnet
+skills: mermaid-diagrams-skill, pdf-creator-skill
 ---
 
 ## Capabilities

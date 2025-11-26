@@ -14,6 +14,7 @@ description: |
   decision, resolve technical debates with clear rationale, or maintain project decision history.
 
 model: haiku
+skills: mermaid-diagrams-skill, pdf-creator-skill
 ---
 
 ## Capabilities

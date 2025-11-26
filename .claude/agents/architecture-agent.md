@@ -4,6 +4,7 @@ description: |
   Use this agent when designing data pipelines, structuring projects, or making architectural decisions
   following medallion architecture and Databricks best practices.
 model: sonnet
+skills: mermaid-diagrams-skill, pdf-creator-skill
 ---
 
 ## Capabilities

@@ -4,6 +4,7 @@ description: |
   Use this agent to identify candidate Bronze layer input tables for Silver table definitions,
   including schema analysis, catalog navigation, and source table recommendations.
 model: sonnet
+skills: mermaid-diagrams-skill, pdf-creator-skill
 ---
 
 ## Capabilities

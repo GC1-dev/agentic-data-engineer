@@ -4,6 +4,7 @@ description: |
   Use this agent for creating documentation, diagrams, and visual representations for data
   engineering projects, including architecture docs, API references, and mermaid diagrams.
 model: sonnet
+skills: mermaid-diagrams-skill, pdf-creator-skill
 ---
 
 ## Capabilities

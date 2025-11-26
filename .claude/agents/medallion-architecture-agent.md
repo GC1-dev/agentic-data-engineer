@@ -5,6 +5,7 @@ description: |
   table categorization, naming conventions, data flow validation, Unity Catalog structure, dimensional modeling,
   and architectural decision-making for Bronze/Silver/Gold/Silicon layers.
 model: sonnet
+skills: mermaid-diagrams-skill, pdf-creator-skill
 ---
 
 ## Capabilities

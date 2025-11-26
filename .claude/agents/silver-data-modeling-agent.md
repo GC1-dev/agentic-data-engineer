@@ -21,6 +21,7 @@ description: |
   Reference schemas available in: dev_data_modelling_silver.reference
 
 model: sonnet
+skills: mermaid-diagrams-skill, pdf-creator-skill
 ---
 
 ## Capabilities

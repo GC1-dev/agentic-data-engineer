@@ -308,7 +308,7 @@ claude-diff-*.patch
 # AI - Cursor
 
 # Cursor AI editor files
-.cursor/
+# .cursor/
 .cursor-cache/
 .cursor-history/
 .cursor-tmp/

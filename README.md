@@ -138,6 +138,7 @@ The conversational way to scaffold new Databricks pipeline projects. The agent i
 - Handles conditional features (streaming, ML)
 - Unity Catalog integration setup
 - Follows medallion architecture (Bronze → Silver → Gold)
+- **Generates projects in `projects_tmp/` directory** for safe experimentation
 
 **Usage with Claude Code**:
 
@@ -161,10 +162,29 @@ The conversational way to scaffold new Databricks pipeline projects. The agent i
 The agent will:
 1. Ask questions about your project (name, description, team, features)
 2. Show a summary and confirm
-3. Generate the complete project structure
+3. Generate the complete project structure in `projects_tmp/[project-slug]/`
 4. Provide next steps for setup and deployment
 
-[→ Agent Documentation](./.claude/agents/data-project-generator.md)
+**Generated Project Location**:
+All projects are generated in the `projects_tmp/` directory to keep generated projects separate from the main repository structure. This allows you to:
+- Experiment with different project configurations
+- Version control generated projects separately
+- Clean up test projects easily
+- Move projects to their final location when ready
+
+Example:
+```bash
+# After generation, your project will be at:
+./projects_tmp/customer-analytics-pipeline/
+
+# Navigate to the project
+cd projects_tmp/customer-analytics-pipeline
+
+# When ready, move to final location
+mv projects_tmp/customer-analytics-pipeline ../my-projects/
+```
+
+[→ Agent Documentation](./.claude/agents/data-project-generator-agent.md)
 
 #### Option 2: Using Cookiecutter (Manual)
 
@@ -254,12 +274,18 @@ See [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md) for step-by-step instructions.
 ├── databricks-utils/                             # Databricks integration with MCP server (submodule)
 ├── data-project-templates/
 │   └── blue-data-nova-cookiecutter/              # Cookiecutter project template (submodule)
+├── projects_tmp/                                 # Generated projects directory (not in git)
+│   └── [generated-projects]/                     # Projects created by data-project-generator-agent
 ├── .claude/                                      # Claude Code agents and configuration
+│   └── agents/
+│       └── data-project-generator-agent.md       # Project scaffolding agent
 ├── specs/                                        # Feature specifications
 ├── MIGRATION_GUIDE.md                            # Migration instructions
 ├── CHANGELOG.md                                  # Version history
 └── .gitmodules                                   # Submodule configuration
 ```
+
+**Note**: The `projects_tmp/` directory is automatically created by the data-project-generator-agent and is typically excluded from version control (add to `.gitignore` if needed).
 
 ## Architecture & Diagrams
 

@@ -47,19 +47,21 @@ This agent replaces the traditional cookiecutter template system with a conversa
 Greet the user and conversationally gather these required variables:
 
 **Required variables:**
-- `project_name` - Human-readable project name (e.g., "Customer Analytics Pipeline")
+- `project_name` - Human-readable project name (e.g., "Meta Search Silver Data Product")
 - `description` - Brief description of what the pipeline does
-- `owner_team` - Team responsible for the project (e.g., "data-engineering")
-- `python_version` - Choice of "3.10" or "3.11" (recommend 3.11)
-- `databricks_runtime` - Default is "13.3 LTS"
-- `include_streaming` - "yes" or "no" - Whether to include streaming pipeline support
-- `include_ml_features` - "yes" or "no" - Whether to include ML feature engineering
-- `catalog_name_dev` - Unity Catalog name for dev environment (e.g., "dev_analytics")
-- `catalog_name_prod` - Unity Catalog name for prod environment (e.g., "prod_analytics")
+- `owner_team` - Team responsible for the project (e.g., "my-team-name")
+- `python_version` - Choice of "3.11" or "3.12" (recommend 3.12)
+- `databricks_runtime` - Default is "16.4 LTS"
+- `env_name` - Default: local (Enum: ["local", "lab", "dev", "prod"])
+- `medallion_layer` - Default: silver (Enum: ["silver", "gold", "silicon", "bronze"])
+- `schema_name` - Schema/Data Domain name for both dev/prod environment (e.g., "meta_search")
+- `package_name` - snakcase names (e.g., "search_request")
 
 **Derived variables** (calculate automatically):
-- `project_slug` - Lowercase, hyphenated version of project_name (e.g., "customer-analytics-pipeline")
-- `schema_prefix` - Underscore version of project_slug (e.g., "customer_analytics_pipeline")
+- `project_slug` - Lowercase, hyphenated version of project_name (e.g., "databricks-meta-search-domain")
+- `catalog_name_dev` - Append "dev_trusted_" + medallion_layer (e.g., "dev_trusted_silver")
+- `catalog_name_prod` - Append "prod_trusted_" + medallion_layer (e.g., "prod_trusted_silver")
+
 
 **Example conversation:**
 ```
@@ -74,7 +76,7 @@ User: [waits for answer]
 3. Which team owns this project?
 User: [waits for answer]
 
-4. Python version - 3.10 or 3.11? (recommend 3.11)
+4. Python version - 3.11 or 3.12? (recommend 3.12)
 User: [waits for answer]
 
 5. Will this include streaming data processing? (yes/no)
@@ -110,17 +112,23 @@ Ready to generate? (yes/no)
 
 ### **Step 2 — Process**
 
-#### 2.1 Check for Existing Directory
+#### 2.1 Create Base Directory and Check for Existing Project
 
-Before creating the project, check if the directory already exists:
+First, ensure the `projects_tmp` base directory exists:
 
 ```bash
-ls -d [project_slug] 2>/dev/null
+mkdir -p projects_tmp
+```
+
+Then check if the project directory already exists inside `projects_tmp`:
+
+```bash
+ls -d projects_tmp/[project_slug] 2>/dev/null
 ```
 
 If it exists, ask the user:
 ```
-⚠️ Warning: Directory '[project_slug]' already exists.
+⚠️ Warning: Directory 'projects_tmp/[project_slug]' already exists.
 
 What would you like to do?
 A) Backup existing and create new (will rename existing to [project_slug].backup.[timestamp])
@@ -135,7 +143,7 @@ Your choice:
 Scan the cookiecutter template to understand what needs to be copied:
 
 ```bash
-find /Users/puneethabagivalumanj/Documents/repos/python-repos/ai_native_repos/ai-native-data-engineering-process/databricks-project-templates/blue-data-nova-cookiecutter/{{cookiecutter.project_slug}} -type f -o -type d
+find ../../data-project-templates/blue-data-nova-cookiecutter/{{cookiecutter.project_slug}} -type f -o -type d
 ```
 
 Expected structure:
@@ -179,15 +187,16 @@ For EACH file in the template:
    - `{{cookiecutter.project_slug}}` → calculated project_slug
    - `{{cookiecutter.description}}` → user's description
    - `{{cookiecutter.owner_team}}` → user's owner_team
-   - `{{cookiecutter.python_version}}` → user's python_version
-   - `{{cookiecutter.databricks_runtime}}` → "13.3 LTS"
-   - `{{cookiecutter.include_streaming}}` → user's choice ("yes"/"no")
-   - `{{cookiecutter.include_ml_features}}` → user's choice ("yes"/"no")
-   - `{{cookiecutter.catalog_name_dev}}` → user's catalog_name_dev
-   - `{{cookiecutter.catalog_name_prod}}` → user's catalog_name_prod
-   - `{{cookiecutter.schema_prefix}}` → calculated schema_prefix
+   - `{{cookiecutter.python_version}}` → user's python_version (3.11 or 3.12)
+   - `{{cookiecutter.databricks_runtime}}` → "16.4 LTS"
+   - `{{cookiecutter.env_name}}` → user's env_name (local, lab, dev, or prod)
+   - `{{cookiecutter.medallion_layer}}` → user's medallion_layer (silver, gold, silicon, or bronze)
+   - `{{cookiecutter.schema_name}}` → user's schema_name
+   - `{{cookiecutter.package_name}}` → user's package_name
+   - `{{cookiecutter.catalog_name_dev}}` → calculated as "dev_trusted_" + medallion_layer
+   - `{{cookiecutter.catalog_name_prod}}` → calculated as "prod_trusted_" + medallion_layer
 
-3. **Write the customized file** to the new project directory using Write tool
+3. **Write the customized file** to the new project directory inside `projects_tmp` using Write tool
 
 **Example process:**
 ```python
@@ -196,37 +205,23 @@ template_file = Read("/path/to/template/{{cookiecutter.project_slug}}/README.md"
 customized = template_file.replace("{{cookiecutter.project_name}}", "Customer Analytics Pipeline")
 customized = customized.replace("{{cookiecutter.description}}", "Pipeline for customer analytics")
 # ... replace all other variables
-Write(f"{project_slug}/README.md", customized)
+Write(f"projects_tmp/{project_slug}/README.md", customized)
 ```
+
+**CRITICAL: All file writes must use the path pattern: `projects_tmp/{project_slug}/[relative_path]`**
 
 #### 2.4 Handle Conditional Content
 
 Some template files have conditional sections. Handle these:
 
-**If `include_streaming == "yes"`:**
-- Include streaming-specific pipeline code in `pipelines/streaming/`
-- Include streaming config in config files
-
-**If `include_ml_features == "yes"`:**
-- Include ML feature engineering code
-- Add ML dependencies to requirements.txt
-
-Look for these patterns in template files:
-```jinja
-{% if cookiecutter.include_streaming == "yes" %}
-  [streaming-specific content]
-{% endif %}
-```
-
-Convert these to: include content if user chose "yes", skip if "no".
 
 ### **Step 3 — Output**
 
 #### 3.1 Verify Structure
 
-Check that all directories were created:
+Check that all directories were created inside `projects_tmp`:
 ```bash
-ls -la [project_slug]/
+ls -la projects_tmp/[project_slug]/
 ```
 
 #### 3.2 Report Completion
@@ -235,10 +230,10 @@ Provide confirmation and next steps:
 ```
 ✅ Project '[project_name]' created successfully!
 
-📁 Location: ./[project_slug]/
+📁 Location: ./projects_tmp/[project_slug]/
 
 Next steps:
-1. cd [project_slug]
+1. cd projects_tmp/[project_slug]
 2. Review README.md for project-specific documentation
 3. Set up Unity Catalog connections in config/dev.yaml and config/prod.yaml
 4. Install dependencies: pip install -r requirements.txt
@@ -280,35 +275,36 @@ Need help with any of these steps?
 ```
 ✅ Project 'Customer Analytics Pipeline' created successfully!
 
-📁 Location: ./customer-analytics-pipeline/
+📁 Location: ./projects_tmp/customer-analytics-pipeline/
 
 Project structure:
-customer-analytics-pipeline/
+projects_tmp/customer-analytics-pipeline/
 ├── .github/workflows/
 ├── config/
 │   ├── dev.yaml
 │   ├── prod.yaml
 │   └── project.yaml
+├── workflows/
 ├── pipelines/
 │   ├── bronze/
 │   ├── silver/
 │   └── gold/
 ├── src/
 ├── tests/
-├── databricks/
+└── .catalog.yml
+└── .gitignore
 ├── README.md
 └── requirements.txt
 
+
 Configuration:
-- Python: 3.11
-- Runtime: 13.3 LTS
-- Streaming: no
-- ML Features: no
+- Python: 3.12
+- Runtime: 16.4 LTS
 - Dev Catalog: dev_analytics
 - Prod Catalog: prod_analytics
 
 Next steps:
-1. cd customer-analytics-pipeline
+1. cd projects_tmp/customer-analytics-pipeline
 2. Review README.md for project-specific documentation
 3. Set up Unity Catalog connections in config/dev.yaml and config/prod.yaml
 4. Install dependencies: pip install -r requirements.txt

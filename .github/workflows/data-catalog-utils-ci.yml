@@ -64,7 +64,7 @@ jobs:
         pytest tests/unit -v --cov=data_catalog_utils --cov-report=xml --cov-report=term-missing
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v5
       with:
         file: data-catalog-utils/coverage.xml
         flags: data-catalog-utils

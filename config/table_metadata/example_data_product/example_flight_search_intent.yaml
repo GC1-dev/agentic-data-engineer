@@ -1,0 +1,32 @@
+table:
+  name: "search_intent"
+  desription_detail:
+    description: >
+      A search result consists of a group of itineraries generated from a users search...
+    data_spec: "https://github.com/Skyscanner/databricks-meta-search-silver-domain/blob/main/data_specs/user_interaction_events/search_intent/flight_search_intent_data_spec.md"
+    granularity: >
+      One row per search_request_id, utid, pricing_option_id...
+    data_contract: "https://skyscanner.atlassian.net/wiki/x/AYCYSQ"
+    dev_data_pipeline: "https://skyscanner-dev.cloud.databricks.com/pipelines/fc41d815-a696-4a34-9886-f3bbcf7ea394"
+    prod_data_pipeline: "TBD"
+    data_product_github: "https://github.com/Skyscanner/databricks-meta-search-silver-domain"
+    slo:
+      type: "every_n_hours"
+      timezone: "UTC"
+      start: "09:00"
+      interval_hours: 2
+
+  metadata_tags:
+    data_owner: "Viserion"
+    data_category: "business_analytical_data"
+    data_classification: "internal"
+    business_criticality: "p2"
+    sox_scope: false
+    ooh_support: false
+    retention_period:
+      unit: "years"
+      value: 7
+      
+
+  data_model_tags:
+    sk: "guid+utid+dt"

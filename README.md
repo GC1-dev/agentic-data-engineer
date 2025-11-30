@@ -487,9 +487,21 @@ poetry -C databricks-utils install --with mcp
 The MCP server is configured in `.mcp.json`. Ensure the following environment variables are set:
 
 ```bash
+# 1. Authenticate via browser (one-time setup)
+databricks auth login --host https://your-workspace.cloud.databricks.com
+
+# 2. Databricks Host
 export DATABRICKS_HOST="https://your-workspace.cloud.databricks.com"
-export DATABRICKS_TOKEN="your-personal-access-token"
+
+# 3. (Optional) Use a specific profile
+export DATABRICKS_CONFIG_PROFILE="your-profile-name"
+
+# 4. For SQL execution
 export DATABRICKS_WAREHOUSE_ID="your-warehouse-id"
+
+# Check auth status
+cd databricks-utils
+poetry run python databricks_utils.mcp.server auth status
 ```
 
 Once configured, Claude Code will have access to Unity Catalog operations and SQL query execution capabilities through the MCP server.

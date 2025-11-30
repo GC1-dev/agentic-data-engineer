@@ -54,6 +54,60 @@ Every component must be testable and tested before deployment.
 - Testing stack: pytest, pytest-cov, local Spark for unit tests
 - Test environments mirror production
 
+#### 4 Core Testing Patterns for PySpark Transformations
+
+All tests must follow one or more of these proven patterns:
+
+**Pattern 1: Parametrized Scenario Testing**
+- Use for testing multiple distinct input scenarios systematically
+- Test happy path, edge cases, and boundary conditions
+- Use `Scenarios` helper from `tests.parametrize_helpers`
+- Example: Empty input, single record, multiple records, boundary values
+
+**Pattern 2: Data Quality Validation**
+- Use for validating transformation output quality
+- Validate: row counts, nulls, duplicates, schema, value ranges
+- Use assertion helpers: `assert_row_count`, `assert_no_nulls`, `assert_no_duplicates`, `assert_columns_equal`, `assert_values_in_range`
+- Each assertion can include `test_id` for debugging
+- Example: Ensure enriched table has no null PKs, correct column set, no duplicates
+
+**Pattern 3: Scale Testing**
+- Use for testing at different data volumes (0, 1, 10, 100, 1000+ rows)
+- Parametrize with `@pytest.mark.parametrize("row_count", [...])`
+- Validate behavior and performance at each scale
+- Example: Aggregation works correctly with empty, small, and large datasets
+
+**Pattern 4: Error Condition Testing**
+- Use for testing error handling and validation logic
+- Test business rule violations, schema mismatches, invalid inputs
+- Use `pytest.raises(expected_error)` to verify exceptions
+- Example: Null keys should raise ValueError, duplicates should raise error
+
+**Combining Patterns**: Mix patterns as needed (e.g., scenarios with quality checks, scale with quality validation)
+
+#### Test Structure Requirements
+
+- **Test Organization**: Mirror `src/` structure exactly in `tests/` directory
+- **Test Naming**: Use `test_<function>_<scenario>` or `test_<function>_quality`, `test_<function>_scenarios`, `test_<function>_scale`, `test_<function>_errors`
+- **Test Classes**: Group related tests with `class Test<FunctionName>`
+- **Arrange-Act-Assert**: Clear structure: setup (Arrange) → execute (Act) → validate (Assert)
+- **One Concept per Test**: Each test validates one thing
+- **Independent Tests**: Tests must not depend on each other
+- **Use Fixtures**: Share common setup via pytest fixtures in `tests/conftest.py`
+
+#### Test Coverage Checklist
+
+For each transformation, ensure coverage of:
+- ✅ Happy path (normal input → expected output)
+- ✅ Empty input (graceful handling of empty DataFrames)
+- ✅ Single record (minimal data edge case)
+- ✅ Multiple records (typical volumes)
+- ✅ Edge cases (boundary conditions, nulls, special values)
+- ✅ Data quality (row counts, nulls, duplicates, schema validation)
+- ✅ Error conditions (invalid inputs raise appropriate exceptions)
+- ✅ Scale testing (different data volumes)
+- ✅ Business logic (all branches and conditions covered)
+
 ### VI. Configuration Over Code
 Behavior should be configurable without code changes.
 
@@ -294,9 +348,10 @@ docs-agentic-data-engineer/
 ### Key Standards Documents
 1. **[Python Project Structure Standards](./knowledge_base/python-standards/coding.md)** - Src layout, Poetry, Google docstrings, Pydantic Settings
 2. **[Test Directory Structure](./knowledge_base/python-standards/testing_structure.md)** - Mandatory tests/ mirroring of src/ structure, test file naming, enforcement rules
-3. **[PySpark Configuration Standards](./knowledge_base/pyspark-standards/configuration.md)** - Spark session, configs, Unity Catalog, Asset Bundles
-4. **[Medallion Architecture](./knowledge_base/medallion-architecture/)** - Layer specs, naming, technical standards, design rationale
-5. **[Dimensional Modeling](./knowledge_base/dimensional-modeling/)** - Dimension/fact table design, SCD patterns
+3. **[Testing Patterns & Best Practices](#v-test-first-development-non-negotiable)** - 4 core patterns for PySpark tests, structure requirements, coverage checklist
+4. **[PySpark Configuration Standards](./knowledge_base/pyspark-standards/configuration.md)** - Spark session, configs, Unity Catalog, Asset Bundles
+5. **[Medallion Architecture](./knowledge_base/medallion-architecture/)** - Layer specs, naming, technical standards, design rationale
+6. **[Dimensional Modeling](./knowledge_base/dimensional-modeling/)** - Dimension/fact table design, SCD patterns
 
 ## Governance
 
@@ -335,6 +390,30 @@ Standards violations require documented justification:
 4. **Track**: Log exception in Architecture Decision Record (ADR)
 5. **Remediate**: Create plan to resolve technical debt with timeline
 
+## AI-Assisted Development with Agents
+
+The project provides specialized AI agents to assist with development tasks while maintaining standards compliance.
+
+### Available Agents
+
+**testing-agent** (Model: Claude 3.5 Sonnet)
+- Use for writing comprehensive unit and end-to-end tests for PySpark transformations
+- Applies 4 core testing patterns: parametrized scenarios, data quality, scale, error conditions
+- Handles test file organization, fixture creation, and assertion helpers
+- When to use: Writing tests for data transformations, adding quality validation tests, creating parametrized test suites, testing error handling
+- Output: Well-structured test code following Skyscanner testing patterns with 80%+ coverage
+
+### Agent Compliance
+
+All agent-generated code must:
+- Follow this constitution and all standards
+- Respect test directory structure requirements (tests/ mirrors src/)
+- Use appropriate testing patterns (Pattern 1-4)
+- Include proper docstrings and type hints
+- Pass ruff linting and mypy type checking
+- Achieve 80%+ test coverage on new code
+- Be reviewed by humans before merging
+
 ## Onboarding Requirements
 
 New contributors must complete:
@@ -357,4 +436,4 @@ New contributors must complete:
    - [ ] Build Gold aggregation
    - [ ] Deploy via Databricks Asset Bundle
 
-**Version**: 1.0 | **Ratified**: 2025-11-30 | **Last Amended**: 2025-11-30
+**Version**: 1.1 | **Ratified**: 2025-11-30 | **Last Amended**: 2025-11-30

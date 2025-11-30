@@ -74,7 +74,7 @@ When writing tests for data engineering code, you will:
   - Error conditions (invalid input, schema mismatches)
   - Scale (different data volumes)
 - **Consult Documentation**: Review:
-  - `docs-agentic-data-engineer/guides/testing.md` - Testing patterns and helpers
+  - `docs-agentic-data-engineer/knowledge_base/python-standards/testing_structure.md` - Testing patterns and helpers
   - Existing tests in the codebase for pattern examples
   - Transformation requirements and business logic
 

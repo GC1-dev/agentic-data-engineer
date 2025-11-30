@@ -9,6 +9,9 @@ scratch
 auto_generated
 # reports
 
+# Generated project structure goes here
+projects_tmp
+
 # MCP Server - local
 # .mcp.json
 
@@ -305,7 +308,7 @@ claude-diff-*.patch
 # AI - Cursor
 
 # Cursor AI editor files
-.cursor/
+# .cursor/
 .cursor-cache/
 .cursor-history/
 .cursor-tmp/

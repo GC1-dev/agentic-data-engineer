@@ -1,20 +1,16 @@
 {
-    "mcpServers": {
-      "databricks-utils": {
-        "command": "poetry",
-        "args": [
-          "-C",
-          "databricks-utils",
-          "run",
-          "python",
-          "-m",
-          "src.mcp"
-        ],
-        "env": {
-          "DATABRICKS_HOST": "${DATABRICKS_HOST}",
-          "DATABRICKS_TOKEN": "${DATABRICKS_TOKEN}",
-          "DATABRICKS_WAREHOUSE_ID": "${DATABRICKS_WAREHOUSE_ID}"
-        }
+  "mcpServers": {
+    "databricks-utils": {
+      "command": "./.venv/bin/python",
+      "args": [
+        "-m",
+        "databricks_utils.mcp.server"
+      ],
+      "env": {
+        "DATABRICKS_HOST": "${DATABRICKS_HOST}",
+        "DATABRICKS_CONFIG_PROFILE": "${DATABRICKS_CONFIG_PROFILE}",
+        "DATABRICKS_WAREHOUSE_ID": "${DATABRICKS_WAREHOUSE_ID}"
       }
     }
   }
+}

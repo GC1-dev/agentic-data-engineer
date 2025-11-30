@@ -4,7 +4,9 @@ version = "0.1.0"
 description = "AI-native data engineering utilities and tools"
 authors = ["Your Name <your.email@example.com>"]
 readme = "README.md"
-packages = []
+packages = [
+    { include = "agentic_data_engineer" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.10"

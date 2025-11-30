@@ -6,8 +6,8 @@
 **Purpose**: Comprehensive guide for implementing batch processing with materialized views in DLT pipelines
 
 > 📖 **Related Documentation**:
-> - [DLT Best Practices Overview](./LAKEFLOW_DECLARATIVE_PIPELINES_BEST_PRACTICES.md) - Core concepts, expectations, configuration
-> - [Streaming Tables Best Practices](./LAKEFLOW_STREAMING_TABLES_BEST_PRACTICES.md) - Real-time processing patterns
+> - [DLT Best Practices Overview](./lakeflow-pipelines.md) - Core concepts, expectations, configuration
+> - [Streaming Tables Best Practices](./streaming-tables.md) - Real-time processing patterns
 
 ---
 
@@ -225,7 +225,7 @@ def silver_enriched_transactions():
 
 ## Data Quality for Materialized Views
 
-> 📖 **Core DLT Expectations**: See [DLT Best Practices - Data Quality Expectations](./LAKEFLOW_DECLARATIVE_PIPELINES_BEST_PRACTICES.md#data-quality-expectations) for:
+> 📖 **Core DLT Expectations**: See [DLT Best Practices - Data Quality Expectations](./lakeflow-pipelines.md#data-quality-expectations) for:
 > - Expectation types (TRACK, DROP, FAIL)
 > - Severity guidelines
 > - Grouping expectations
@@ -361,7 +361,7 @@ def events_by_date():
 
 ## Performance Optimization
 
-> 📖 **Core Optimization Principles**: See [DLT Best Practices - Performance Optimization](./LAKEFLOW_DECLARATIVE_PIPELINES_BEST_PRACTICES.md#performance-optimization) for:
+> 📖 **Core Optimization Principles**: See [DLT Best Practices - Performance Optimization](./lakeflow-pipelines.md#performance-optimization) for:
 > - Partitioning guidelines
 > - Auto-optimization settings
 > - Cluster sizing
@@ -440,7 +440,7 @@ def hourly_counts():
 
 ## Configuration Best Practices
 
-> 📖 **Core Configuration**: See [DLT Best Practices - Configuration](./LAKEFLOW_DECLARATIVE_PIPELINES_BEST_PRACTICES.md#configuration-best-practices) for:
+> 📖 **Core Configuration**: See [DLT Best Practices - Configuration](./lakeflow-pipelines.md#configuration-best-practices) for:
 > - Pipeline YAML structure
 > - Environment-specific configuration
 > - Secrets management
@@ -531,7 +531,7 @@ clusters:
 
 ## Monitoring Batch Pipelines
 
-> 📖 **Core Monitoring**: See [DLT Best Practices - Monitoring & Observability](./LAKEFLOW_DECLARATIVE_PIPELINES_BEST_PRACTICES.md#monitoring--observability) for:
+> 📖 **Core Monitoring**: See [DLT Best Practices - Monitoring & Observability](./lakeflow-pipelines.md#monitoring--observability) for:
 > - Event logs overview
 > - Data quality metrics queries
 > - Key metrics to track
@@ -580,7 +580,7 @@ ORDER BY date DESC
 
 ## Testing Strategy
 
-> 📖 **Core Testing Principles**: See [DLT Best Practices - Testing Strategy](./LAKEFLOW_DECLARATIVE_PIPELINES_BEST_PRACTICES.md#testing-strategy) for:
+> 📖 **Core Testing Principles**: See [DLT Best Practices - Testing Strategy](./lakeflow-pipelines.md#testing-strategy) for:
 > - Local development setup
 > - Basic unit test patterns
 > - Data quality test patterns
@@ -867,7 +867,7 @@ def table_name():
 - Z-Ordering: https://docs.databricks.com/en/delta/data-skipping.html
 
 **Related Knowledge Base Documentation**:
-- Streaming Tables: `.agents/knowledge_base/LAKEFLOW_STREAMING_TABLES_BEST_PRACTICES.md`
+- Streaming Tables: `./streaming-tables.md`
 - Project Structure: `.agents/knowledge_base/PROJECT_STRUCTURE.md`
 - Medallion Architecture: `.agents/knowledge_base/MEDALLION_ARCHITECTURE.md`
 

@@ -571,7 +571,10 @@ MYAPP_OPENAI_API_KEY=sk-real-key-here
 
 For complex configurations, use YAML files with environment-specific overrides:
 
+> **Note**: Configuration files referenced here are typically stored in the `config/` directory and committed to version control. They serve as templates that can be customized per environment or developer.
+
 **config/base.yaml:**
+> **Status**: Version-controlled in repository at `./config/base.yaml`
 ```yaml
 app:
   name: mypackage

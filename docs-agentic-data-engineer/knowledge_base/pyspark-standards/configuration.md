@@ -296,9 +296,12 @@ MYPROJECT_DATABRICKS__TOKEN=dapi_your_token_here
 
 ## YAML Configuration Files
 
+> **Configuration Files Location**: All configuration templates referenced in this section are committed to the repository in the `config/` directory. You can use these as-is for local development or as templates for customization. See [Configuration File Location](#configuration-file-location) section below for details.
+
 ### Spark Configuration
 
 **config/spark/dev.yaml:**
+> **Status**: Version-controlled in repository at `./config/spark/dev.yaml`
 ```yaml
 spark:
   app_name: myproject_dev
@@ -314,6 +317,7 @@ spark:
 ```
 
 **config/spark/prod.yaml:**
+> **Status**: Version-controlled in repository at `./config/spark/prod.yaml`
 ```yaml
 spark:
   app_name: myproject_prod
@@ -822,6 +826,47 @@ class CatalogConfig(BaseSettings):
             raise ValueError("Checkpoint location must start with /dbfs")
         return self
 ```
+
+## Configuration File Location
+
+### Accessing Configuration Files
+
+All configuration files referenced in this document are committed to the repository and available at the repository root under the `config/` directory:
+
+```
+./config/spark/
+├── dev.yaml        # Development environment Spark configuration
+├── prod.yaml       # Production environment Spark configuration
+├── lab.yaml        # Lab/testing environment Spark configuration
+└── local.yaml      # Local development Spark configuration
+```
+
+### Using Configuration Files
+
+**In Python code:**
+```python
+from myproject.config import get_settings
+
+# Automatically loads from config/spark/{ENVIRONMENT}.yaml
+settings = get_settings(env="dev")  # Loads config/spark/dev.yaml
+```
+
+**At runtime:**
+```bash
+# Load configuration for different environments
+MYPROJECT_ENVIRONMENT=dev python -m myproject.jobs.bronze.ingest
+
+MYPROJECT_ENVIRONMENT=prod python -m myproject.jobs.bronze.ingest
+```
+
+### Configuration File Strategy
+
+- **Version-controlled**: All config files are committed to the repository
+- **Environment-specific**: Separate files for dev, prod, lab, and local environments
+- **Customizable**: Can be customized per developer for local development needs
+- **Template-based**: Use as-is or modify for your specific needs
+
+---
 
 ## References
 

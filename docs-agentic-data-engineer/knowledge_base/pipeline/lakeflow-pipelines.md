@@ -11,8 +11,8 @@
 
 This document provides a high-level overview of Lakeflow Declarative Pipelines. For detailed best practices on specific table types, refer to the specialized documents:
 
-- **[Streaming Tables Best Practices](./LAKEFLOW_STREAMING_TABLES_BEST_PRACTICES.md)** - Comprehensive guide for real-time, incremental processing with streaming tables
-- **[Materialized Views Best Practices](./LAKEFLOW_MATERIALIZED_VIEWS_BEST_PRACTICES.md)** - Comprehensive guide for batch processing with materialized views
+- **[Streaming Tables Best Practices](./streaming-tables.md)** - Comprehensive guide for real-time, incremental processing with streaming tables
+- **[Materialized Views Best Practices](./materialized-views.md)** - Comprehensive guide for batch processing with materialized views
 
 ---
 
@@ -65,8 +65,8 @@ Pipeline
 ### 1. Batch vs. Streaming
 
 > 📖 **For detailed guidance**, see:
-> - [Streaming Tables Best Practices](./LAKEFLOW_STREAMING_TABLES_BEST_PRACTICES.md)
-> - [Materialized Views Best Practices](./LAKEFLOW_MATERIALIZED_VIEWS_BEST_PRACTICES.md)
+> - [Streaming Tables Best Practices](./streaming-tables.md)
+> - [Materialized Views Best Practices](./materialized-views.md)
 
 #### Use **Streaming Tables** when:
 - ✅ Data arrives continuously (Kafka, Kinesis, cloud storage)
@@ -195,8 +195,8 @@ def daily_user_metrics():
 ## Table Types & When to Use
 
 > 📖 **For detailed guidance**, see:
-> - [Streaming Tables Best Practices](./LAKEFLOW_STREAMING_TABLES_BEST_PRACTICES.md) - Real-time processing patterns
-> - [Materialized Views Best Practices](./LAKEFLOW_MATERIALIZED_VIEWS_BEST_PRACTICES.md) - Batch processing patterns
+> - [Streaming Tables Best Practices](./streaming-tables.md) - Real-time processing patterns
+> - [Materialized Views Best Practices](./materialized-views.md) - Batch processing patterns
 
 ### Comparison Table
 
@@ -405,8 +405,8 @@ def events_quarantine():
 ## CDC & Incremental Processing
 
 > 📖 **For detailed CDC patterns**, see:
-> - [Streaming Tables Best Practices](./LAKEFLOW_STREAMING_TABLES_BEST_PRACTICES.md) - CDC with streaming, APPLY CHANGES API
-> - [Materialized Views Best Practices](./LAKEFLOW_MATERIALIZED_VIEWS_BEST_PRACTICES.md) - Incremental batch processing
+> - [Streaming Tables Best Practices](./streaming-tables.md) - CDC with streaming, APPLY CHANGES API
+> - [Materialized Views Best Practices](./materialized-views.md) - Incremental batch processing
 
 ### Enable CDC (Change Data Capture)
 
@@ -456,8 +456,8 @@ deletes = changes_df.filter(col("_change_type") == "delete")
 ## Performance Optimization
 
 > 📖 **For detailed optimization patterns**, see:
-> - [Streaming Tables Best Practices](./LAKEFLOW_STREAMING_TABLES_BEST_PRACTICES.md) - Auto Loader, trigger tuning, state management
-> - [Materialized Views Best Practices](./LAKEFLOW_MATERIALIZED_VIEWS_BEST_PRACTICES.md) - Batch optimization, joins, caching
+> - [Streaming Tables Best Practices](./streaming-tables.md) - Auto Loader, trigger tuning, state management
+> - [Materialized Views Best Practices](./materialized-views.md) - Batch optimization, joins, caching
 
 ### Core Optimization Principles
 
@@ -595,8 +595,8 @@ api_key = dbutils.secrets.get(scope="external_api", key="api_key")
 ## Monitoring & Observability
 
 > 📖 **For detailed monitoring patterns**, see:
-> - [Streaming Tables Best Practices](./LAKEFLOW_STREAMING_TABLES_BEST_PRACTICES.md) - Streaming lag, backlog monitoring
-> - [Materialized Views Best Practices](./LAKEFLOW_MATERIALIZED_VIEWS_BEST_PRACTICES.md) - Batch execution metrics
+> - [Streaming Tables Best Practices](./streaming-tables.md) - Streaming lag, backlog monitoring
+> - [Materialized Views Best Practices](./materialized-views.md) - Batch execution metrics
 
 ### Core Monitoring Principles
 
@@ -798,8 +798,8 @@ Use this payload to integrate with external alerting systems (PagerDuty, Opsgeni
 ## Testing Strategy
 
 > 📖 **For detailed testing patterns**, see:
-> - [Streaming Tables Best Practices](./LAKEFLOW_STREAMING_TABLES_BEST_PRACTICES.md) - Streaming-specific tests
-> - [Materialized Views Best Practices](./LAKEFLOW_MATERIALIZED_VIEWS_BEST_PRACTICES.md) - Batch processing tests
+> - [Streaming Tables Best Practices](./streaming-tables.md) - Streaming-specific tests
+> - [Materialized Views Best Practices](./materialized-views.md) - Batch processing tests
 
 ### Core Testing Principles
 
@@ -1062,8 +1062,8 @@ def silver_output():
 - Best Practices: https://docs.databricks.com/en/delta-live-tables/best-practices.html
 
 **DLT-Specific Documentation**:
-- **Streaming Tables**: `.agents/knowledge_base/LAKEFLOW_STREAMING_TABLES_BEST_PRACTICES.md`
-- **Materialized Views**: `.agents/knowledge_base/LAKEFLOW_MATERIALIZED_VIEWS_BEST_PRACTICES.md`
+- **Streaming Tables**: `./streaming-tables.md`
+- **Materialized Views**: `./materialized-views.md`
 
 **Related Knowledge Base Documentation**:
 - Project Structure: `.agents/knowledge_base/PROJECT_STRUCTURE.md`

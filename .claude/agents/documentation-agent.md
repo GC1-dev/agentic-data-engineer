@@ -14,7 +14,7 @@ skills: mermaid-diagrams-skill, pdf-creator-skill
 - Create architecture documentation with diagrams
 - Write API documentation for functions and modules
 - Generate runbooks for operational procedures
-- Save documentation to appropriate locations (docs/, docs/architecture/, docs/runbooks/)
+- Save documentation to appropriate locations (docs-agentic-data-engineer/, docs-agentic-data-engineer/architecture/, docs-agentic-data-engineer/runbooks/)
 - Ensure light/dark mode compatibility (no colors in diagrams)
 
 ## Usage
@@ -74,7 +74,7 @@ Ask clarifying questions to determine:
 - **Audience**: Who will read it? (engineers, business users, leadership)
 - **Scope**: What needs to be documented? (system, component, process, decision)
 - **Format**: What format is needed? (markdown, diagram, runbook, API docs)
-- **Location**: Where should it be saved? (`docs/`, `docs/architecture/`, `docs/runbooks/`)
+- **Location**: Where should it be saved? (`docs-agentic-data-engineer/`, `docs-agentic-data-engineer/architecture/`, `docs-agentic-data-engineer/runbooks/`)
 
 ### 2. Gather Accurate Information
 
@@ -208,7 +208,7 @@ graph TB
 
 #### Documentation Structure
 
-**Architecture Documentation** (`docs/architecture/`)
+**Architecture Documentation** (`docs-agentic-data-engineer/architecture/`)
 ```markdown
 # [Component/System] Architecture
 
@@ -246,7 +246,7 @@ graph TB
 - [Source code links]
 ```
 
-**API Documentation** (`docs/api/`)
+**API Documentation** (`docs-agentic-data-engineer/api/`)
 ```markdown
 # [Module] API Reference
 
@@ -276,7 +276,7 @@ result = function_name(arg1, arg2)
 - [Related function]
 ```
 
-**Runbooks** (`docs/runbooks/`)
+**Runbooks** (`docs-agentic-data-engineer/runbooks/`)
 ```markdown
 # [Process] Runbook
 
@@ -314,12 +314,12 @@ result = function_name(arg1, arg2)
 
 | Type | Location | Examples |
 |------|----------|----------|
-| Architecture | `docs/architecture/` | `medallion_architecture.md` |
-| Diagrams | `docs/images/` | `data_flow.png`, `data_flow.svg` |
-| API Docs | `docs/api/` | `transformations_api.md` |
-| Runbooks | `docs/runbooks/` | `pipeline_failures.md` |
+| Architecture | `docs-agentic-data-engineer/architecture/` | `medallion_architecture.md` |
+| Diagrams | `docs-agentic-data-engineer/images/` | `data_flow.png`, `data_flow.svg` |
+| API Docs | `docs-agentic-data-engineer/api/` | `transformations_api.md` |
+| Runbooks | `docs-agentic-data-engineer/runbooks/` | `pipeline_failures.md` |
 | ADRs | `.claude/decisions/` | `decision_2025-11-18_v1.md` |
-| Guides | `docs/guides/` | `getting_started.md` |
+| Guides | `docs-agentic-data-engineer/guides/` | `getting_started.md` |
 
 #### File Naming Conventions
 
@@ -338,14 +338,14 @@ For broader compatibility, generate image versions:
 npm install -g @mermaid-js/mermaid-cli
 
 # Generate PNG
-mmdc -i diagram.mmd -o docs/images/diagram.png
+mmdc -i diagram.mmd -o docs-agentic-data-engineer/images/diagram.png
 
 # Generate SVG (vector, scalable)
-mmdc -i diagram.mmd -o docs/images/diagram.svg
+mmdc -i diagram.mmd -o docs-agentic-data-engineer/images/diagram.svg
 
 # Generate both themes
-mmdc -i diagram.mmd -o docs/images/diagram-light.png -t default
-mmdc -i diagram.mmd -o docs/images/diagram-dark.png -t dark
+mmdc -i diagram.mmd -o docs-agentic-data-engineer/images/diagram-light.png -t default
+mmdc -i diagram.mmd -o docs-agentic-data-engineer/images/diagram-dark.png -t dark
 ```
 
 #### Option 2: Online Converters
@@ -366,7 +366,7 @@ Examples:
 
 Create a documentation network:
 
-**docs/README.md** (Documentation Index)
+**docs-agentic-data-engineer/README.md** (Documentation Index)
 ```markdown
 # Documentation Index
 

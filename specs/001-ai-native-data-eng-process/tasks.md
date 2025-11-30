@@ -68,7 +68,7 @@ This feature uses a **multi-repository architecture** with 4 separate repositori
 
 **Independent Test**:
 1. Run template agent with project requirements
-2. Verify all 9 directories are created (src/, pipelines/, dashboards/, databricks_apps/, monte_carlo/, data_validation/, tests/, config/, docs/)
+2. Verify all 9 directories are created (src/, pipelines/, dashboards/, databricks_apps/, monte_carlo/, data_validation/, tests/, config/, docs-agentic-data-engineer/)
 3. Verify environment config files are present
 4. Verify shared utility references are included
 5. Confirm project can import databricks-utils successfully
@@ -77,7 +77,7 @@ This feature uses a **multi-repository architecture** with 4 separate repositori
 
 - [X] T017 [P] [US1] Create base cookiecutter template structure in databricks-project-templates/cookiecutter-databricks-pipeline/
 - [X] T018 [P] [US1] Define cookiecutter.json with project variables in databricks-project-templates/cookiecutter-databricks-pipeline/cookiecutter.json
-- [X] T019 [US1] Create template directory structure generator for 9 directories (src/, pipelines/, dashboards/, databricks_apps/, monte_carlo/, data_validation/, tests/, config/, docs/) in databricks-project-templates/cookiecutter-databricks-pipeline/{{cookiecutter.project_slug}}/
+- [X] T019 [US1] Create template directory structure generator for 9 directories (src/, pipelines/, dashboards/, databricks_apps/, monte_carlo/, data_validation/, tests/, config/, docs-agentic-data-engineer/) in databricks-project-templates/cookiecutter-databricks-pipeline/{{cookiecutter.project_slug}}/
 - [X] T020 [P] [US1] Create environment config templates (local.yaml, lab.yaml, dev.yaml, prod.yaml) in databricks-project-templates/cookiecutter-databricks-pipeline/{{cookiecutter.project_slug}}/config/
 - [X] T021 [P] [US1] Create project.yaml template with dependency specifications in databricks-project-templates/cookiecutter-databricks-pipeline/{{cookiecutter.project_slug}}/config/project.yaml
 - [X] T022 [P] [US1] Create README.md template in databricks-project-templates/cookiecutter-databricks-pipeline/{{cookiecutter.project_slug}}/README.md
@@ -158,7 +158,7 @@ This feature uses a **multi-repository architecture** with 4 separate repositori
 - [ ] T056 [P] [US3] Create comprehensive error messages for missing/invalid configs in databricks-shared-utilities/src/databricks_utils/config/errors.py
 - [ ] T057 [US3] Add environment-aware catalog path resolution in databricks-shared-utilities/src/databricks_utils/catalog/path_resolver.py
 - [ ] T058 [US3] Implement environment flag parsing in pipeline entry points (update cookiecutter template)
-- [ ] T059 [US3] Create environment execution examples in databricks-project-templates/cookiecutter-databricks-pipeline/{{cookiecutter.project_slug}}/docs/environments.md
+- [ ] T059 [US3] Create environment execution examples in databricks-project-templates/cookiecutter-databricks-pipeline/{{cookiecutter.project_slug}}/docs-agentic-data-engineer/environments.md
 - [ ] T060 [US3] Update shared utilities to version 0.2.0 and publish to private PyPI
 
 **Checkpoint**: At this point, pipelines execute consistently across all four environments without code changes
@@ -190,11 +190,11 @@ This feature uses a **multi-repository architecture** with 4 separate repositori
 - [ ] T068 [P] [US4] Implement permission validation utilities in databricks-shared-utilities/src/databricks_utils/catalog/permissions.py
 - [ ] T069 [US4] Implement three-level namespace utilities in databricks-shared-utilities/src/databricks_utils/catalog/namespace.py
 - [ ] T070 [P] [US4] Implement environment-aware utility behavior in databricks-shared-utilities/src/databricks_utils/config/aware_base.py
-- [ ] T071 [US4] Create utility discovery documentation in databricks-shared-utilities/docs/api-reference.md
+- [ ] T071 [US4] Create utility discovery documentation in databricks-shared-utilities/docs-agentic-data-engineer/api-reference.md
 - [ ] T072 [US4] Implement backward compatibility validation in databricks-shared-utilities/tests/compatibility/
 - [ ] T073 [US4] Create comprehensive utility examples in databricks-shared-utilities/examples/
 - [ ] T074 [US4] Setup semantic versioning enforcement in CI/CD in databricks-shared-utilities/.github/workflows/release.yml
-- [ ] T075 [US4] Create migration guides for version updates in databricks-shared-utilities/docs/migrations/
+- [ ] T075 [US4] Create migration guides for version updates in databricks-shared-utilities/docs-agentic-data-engineer/migrations/
 - [ ] T076 [US4] Update shared utilities to version 1.0.0 and publish to private PyPI
 
 **Checkpoint**: At this point, multiple teams can leverage shared utilities with proper versioning and no code duplication
@@ -228,7 +228,7 @@ This feature uses a **multi-repository architecture** with 4 separate repositori
 - [ ] T085 [US5] Implement bundle deployment metadata tracking in databricks-ai-agents/agents/bundle_agent.py
 - [ ] T086 [US5] Create deployment verification utilities in databricks-shared-utilities/src/databricks_utils/deployment/verifier.py
 - [ ] T087 [US5] Implement independent component deployment (pipelines vs dashboards vs apps) in databricks-ai-agents/agents/bundle_agent.py
-- [ ] T088 [US5] Create deployment documentation in databricks-project-templates/cookiecutter-databricks-pipeline/{{cookiecutter.project_slug}}/docs/deployment.md
+- [ ] T088 [US5] Create deployment documentation in databricks-project-templates/cookiecutter-databricks-pipeline/{{cookiecutter.project_slug}}/docs-agentic-data-engineer/deployment.md
 
 **Checkpoint**: At this point, pipelines can be deployed as Asset Bundles in under 10 minutes with all dependencies
 
@@ -259,7 +259,7 @@ This feature uses a **multi-repository architecture** with 4 separate repositori
 - [ ] T096 [P] [US6] Implement structured metric logging in databricks-shared-utilities/src/databricks_utils/logging/metrics.py
 - [ ] T097 [P] [US6] Create Monte Carlo configuration templates in databricks-project-templates/cookiecutter-databricks-pipeline/{{cookiecutter.project_slug}}/monte_carlo/
 - [ ] T098 [US6] Implement alert routing configuration in databricks-project-templates/cookiecutter-databricks-pipeline/{{cookiecutter.project_slug}}/monte_carlo/alerts.yaml
-- [ ] T099 [US6] Create observability integration documentation in databricks-project-templates/cookiecutter-databricks-pipeline/{{cookiecutter.project_slug}}/docs/observability.md
+- [ ] T099 [US6] Create observability integration documentation in databricks-project-templates/cookiecutter-databricks-pipeline/{{cookiecutter.project_slug}}/docs-agentic-data-engineer/observability.md
 - [ ] T100 [US6] Update shared utilities to version 1.1.0 with observability features and publish to private PyPI
 
 **Checkpoint**: At this point, all pipelines have comprehensive observability with <15 minute issue detection
@@ -291,7 +291,7 @@ This feature uses a **multi-repository architecture** with 4 separate repositori
 - [ ] T107 [P] [US7] Create template analytics dashboard data collection in databricks-ai-agents/analytics/
 - [ ] T108 [P] [US7] Implement template success metrics tracking in databricks-ai-agents/agents/template_agent.py
 - [ ] T109 [US7] Add template evolution CLI commands in databricks-ai-agents/cli/main.py (databricks-agent template analyze/propose/update)
-- [ ] T110 [US7] Create template evolution documentation in databricks-project-templates/docs/evolution.md
+- [ ] T110 [US7] Create template evolution documentation in databricks-project-templates/docs-agentic-data-engineer/evolution.md
 
 **Checkpoint**: At this point, templates continuously improve based on real usage patterns, reducing setup friction
 
@@ -319,12 +319,12 @@ This feature uses a **multi-repository architecture** with 4 separate repositori
 - [ ] T117 [P] Create comprehensive README for databricks-shared-utilities repository in databricks-shared-utilities/README.md
 - [ ] T118 [P] Create comprehensive README for databricks-ai-agents repository in databricks-ai-agents/README.md
 - [ ] T119 [P] Create comprehensive README for databricks-project-templates repository in databricks-project-templates/README.md
-- [ ] T120 [P] Create API reference documentation in databricks-shared-utilities/docs/api-reference.md
-- [ ] T121 [P] Create agent usage guide in databricks-ai-agents/docs/agent-guide.md
+- [ ] T120 [P] Create API reference documentation in databricks-shared-utilities/docs-agentic-data-engineer/api-reference.md
+- [ ] T121 [P] Create agent usage guide in databricks-ai-agents/docs-agentic-data-engineer/agent-guide.md
 - [ ] T122 [P] Create best practices documentation across all repositories
-- [ ] T123 [P] Create architecture decision records (ADRs) in docs/adr/ for each repository
+- [ ] T123 [P] Create architecture decision records (ADRs) in docs-agentic-data-engineer/adr/ for each repository
 - [ ] T124 Validate quickstart.md guide end-to-end
-- [ ] T125 [P] Create troubleshooting guide in each repository docs/
+- [ ] T125 [P] Create troubleshooting guide in each repository docs-agentic-data-engineer/
 - [ ] T126 [P] Setup security scanning in CI/CD workflows
 - [ ] T127 [P] Implement dependency vulnerability checking
 - [ ] T128 Create example pipeline projects in databricks-project-templates/examples/
@@ -523,7 +523,7 @@ cookiecutter-databricks-pipeline/
     ├── data_validation/                  # T019
     ├── tests/                            # T019
     ├── config/                           # T020-T021
-    ├── docs/                             # T019, T059, T088, T099
+    ├── docs-agentic-data-engineer/                             # T019, T059, T088, T099
     ├── databricks/bundle.yml             # T024, T078
     ├── requirements.txt                  # T023
     ├── README.md                         # T022

@@ -11,7 +11,7 @@
 
 - Q: Spark Session Lifecycle Ownership - Where does the Spark session instance sit during pipeline execution? → A: Shared utilities singleton - SparkSessionFactory creates and maintains a single global SparkSession instance that all pipeline code accesses via utility methods
 - Q: Project Initialization Mechanism - Should the system use cookiecutter templates, or can an AI agent create templates? → A: AI agent creates and maintains templates - AI agent both uses AND automatically updates/creates cookiecutter templates based on learnings from usage patterns
-- Q: Project Directory Structure - How should pipelines, dashboards, and other components be organized relative to src/? → A: All major components are in separate top-level directories parallel to src/ (project root contains: src/, pipelines/, dashboards/, databricks_apps/, monte_carlo/, data_validation/, tests/, config/, docs/)
+- Q: Project Directory Structure - How should pipelines, dashboards, and other components be organized relative to src/? → A: All major components are in separate top-level directories parallel to src/ (project root contains: src/, pipelines/, dashboards/, databricks_apps/, monte_carlo/, data_validation/, tests/, config/, docs-agentic-data-engineer/)
 
 ### Session 2025-11-22
 
@@ -29,7 +29,7 @@ A data engineer starts a new data pipeline project and needs to quickly scaffold
 
 **Acceptance Scenarios**:
 
-1. **Given** a data engineer wants to start a new pipeline project, **When** they invoke the template agent with project requirements in natural language, **Then** the agent either selects an existing cookiecutter template or generates a new one, creating a complete project structure with top-level directories: src/ (utilities and helpers), pipelines/ (data transformations), dashboards/ (visualization), databricks_apps/ (Databricks applications), monte_carlo/ (observability config), data_validation/ (quality rules), tests/, config/, and docs/
+1. **Given** a data engineer wants to start a new pipeline project, **When** they invoke the template agent with project requirements in natural language, **Then** the agent either selects an existing cookiecutter template or generates a new one, creating a complete project structure with top-level directories: src/ (utilities and helpers), pipelines/ (data transformations), dashboards/ (visualization), databricks_apps/ (Databricks applications), monte_carlo/ (observability config), data_validation/ (quality rules), tests/, config/, and docs-agentic-data-engineer/
 2. **Given** a project is initialized for a specific environment (dev/prod), **When** the initialization completes, **Then** environment-specific configuration files are created with appropriate Spark session settings and Unity Catalog references
 3. **Given** a team wants to use shared utilities, **When** they initialize a project, **Then** the system automatically includes references to organization-wide shared utility libraries and agent configurations
 4. **Given** multiple projects have been initialized over time, **When** the template agent analyzes usage patterns, **Then** it automatically updates existing cookiecutter templates or creates new template variants to reflect emerging best practices
@@ -163,9 +163,9 @@ The template agent continuously learns from project initialization patterns and 
 
 #### Project Structure & Organization
 
-- **FR-001**: System MUST provide a standardized project structure with top-level directories: src/ (utilities and helper functions), pipelines/ (data transformation workflows), dashboards/ (visualization and reporting), databricks_apps/ (Databricks applications), monte_carlo/ (observability configuration), data_validation/ (data quality rules), tests/ (test suites), config/ (environment configurations), and docs/ (documentation)
+- **FR-001**: System MUST provide a standardized project structure with top-level directories: src/ (utilities and helper functions), pipelines/ (data transformation workflows), dashboards/ (visualization and reporting), databricks_apps/ (Databricks applications), monte_carlo/ (observability configuration), data_validation/ (data quality rules), tests/ (test suites), config/ (environment configurations), and docs-agentic-data-engineer/ (documentation)
 - **FR-002**: System MUST support separation of concerns with pipelines/ containing only data transformation logic, src/ containing reusable utility code, dashboards/ containing visualization definitions, databricks_apps/ containing Databricks app definitions, monte_carlo/ containing observability configuration, and data_validation/ containing quality validation rules
-- **FR-003**: System MUST enable project initialization through a template agent that either uses existing cookiecutter templates or generates new ones based on natural language project requirements, creating the complete directory structure (src/, pipelines/, dashboards/, databricks_apps/, monte_carlo/, data_validation/, tests/, config/, docs/)
+- **FR-003**: System MUST enable project initialization through a template agent that either uses existing cookiecutter templates or generates new ones based on natural language project requirements, creating the complete directory structure (src/, pipelines/, dashboards/, databricks_apps/, monte_carlo/, data_validation/, tests/, config/, docs-agentic-data-engineer/)
 - **FR-004**: System MUST organize pipelines/ following medallion architecture principles with subdirectories or clear file naming for bronze, silver, and gold layer transformations
 - **FR-005**: System MUST include a template agent that analyzes project initialization patterns and automatically creates or updates cookiecutter templates in the template repository
 - **FR-006**: System MUST version control all cookiecutter templates with semantic versioning and maintain template change logs
@@ -244,7 +244,7 @@ The template agent continuously learns from project initialization patterns and 
 #### Documentation & Templates
 
 - **FR-057**: System MUST include comprehensive documentation covering project structure, agent usage, utility functions, and deployment procedures
-- **FR-058**: System MUST maintain a template repository with cookiecutter templates for different project types (batch pipelines, streaming pipelines, ML feature engineering) that include the standardized directory structure (src/, pipelines/, dashboards/, databricks_apps/, monte_carlo/, data_validation/, tests/, config/, docs/)
+- **FR-058**: System MUST maintain a template repository with cookiecutter templates for different project types (batch pipelines, streaming pipelines, ML feature engineering) that include the standardized directory structure (src/, pipelines/, dashboards/, databricks_apps/, monte_carlo/, data_validation/, tests/, config/, docs-agentic-data-engineer/)
 - **FR-059**: System MUST include example projects demonstrating best practices for common use cases
 - **FR-060**: System MUST provide architecture decision records (ADRs) explaining key design choices
 - **FR-061**: System MUST track template usage metrics (how often each template is used, common customizations, success rates)
@@ -252,12 +252,12 @@ The template agent continuously learns from project initialization patterns and 
 
 ### Key Entities
 
-- **Project**: A data engineering initiative containing pipeline code, configurations, tests, and documentation. Has attributes: name, version, environment configurations, dependency specifications, owner team, and template version used. Structured with top-level directories: src/, pipelines/, dashboards/, databricks_apps/, monte_carlo/, data_validation/, tests/, config/, docs/
+- **Project**: A data engineering initiative containing pipeline code, configurations, tests, and documentation. Has attributes: name, version, environment configurations, dependency specifications, owner team, and template version used. Structured with top-level directories: src/, pipelines/, dashboards/, databricks_apps/, monte_carlo/, data_validation/, tests/, config/, docs-agentic-data-engineer/
 - **Environment Configuration**: Environment-specific settings defining Spark session parameters, Unity Catalog references, resource allocations, and service endpoints. Has attributes: environment type, cluster size, catalog/schema names, and feature flags. Stored in config/ directory
 - **Shared Utility Library**: A versioned collection of reusable functions and classes for common data engineering operations. Has attributes: version number, exported functions, dependencies, and compatibility matrix. Includes singleton SparkSession management with `get_spark()` method. Referenced by code in src/ directory
 - **AI Agent**: A specialized AI component that performs specific data engineering tasks like code generation, testing, or template management. Has attributes: agent type, input specification, output format, and configuration parameters. Related to Projects through usage tracking
 - **Template Agent**: Specialized AI agent responsible for managing cookiecutter templates. Has attributes: learning algorithms, approval workflow, template generation logic, and usage pattern analysis capabilities
-- **Cookiecutter Template**: A version-controlled project structure template. Has attributes: template name, version, creation date, last updated date, usage count, customization patterns, and change log. Defines directory structure including src/, pipelines/, dashboards/, databricks_apps/, monte_carlo/, data_validation/, tests/, config/, docs/
+- **Cookiecutter Template**: A version-controlled project structure template. Has attributes: template name, version, creation date, last updated date, usage count, customization patterns, and change log. Defines directory structure including src/, pipelines/, dashboards/, databricks_apps/, monte_carlo/, data_validation/, tests/, config/, docs-agentic-data-engineer/
 - **Pipeline**: A data transformation workflow implementing medallion architecture layers. Has attributes: source tables, target tables, transformation logic, schedule, and quality rules. Related to Unity Catalog objects through table references. Accesses Spark session via singleton pattern. Located in pipelines/ directory
 - **Dashboard**: A visualization or reporting artifact that presents data from pipelines. Has attributes: dashboard name, data sources (tables from pipelines), visualization type, refresh schedule. Located in dashboards/ directory
 - **Databricks App**: An application deployed to Databricks. Has attributes: app name, entrypoint, dependencies, resource requirements. Located in databricks_apps/ directory

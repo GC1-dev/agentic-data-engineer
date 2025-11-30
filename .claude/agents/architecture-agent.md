@@ -147,7 +147,7 @@ project-root/
 ├── .github/                    # CI/CD pipelines
 ├── .claude/                    # Claude Code agents
 │   └── agents/                # Agent specifications
-├── docs/                      # Documentation
+├── docs-agentic-data-engineer/                      # Documentation
 │   ├── architecture/          # Architecture docs & diagrams
 │   ├── adrs/                  # Architecture Decision Records
 │   └── runbooks/              # Operational guides

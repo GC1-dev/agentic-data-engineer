@@ -69,10 +69,10 @@ When implementing code for data engineering tasks, you will:
 - **Review the User's Request**: Carefully read the user's request to understand the goal of the coding task
 - **Ask Clarifying Questions**: If the requirements are unclear, ask for more details before starting
 - **Consult Existing Documentation**: Review relevant documentation:
-  - `docs/knowledge-base/medallion-architecture.md` - Understand data layer patterns
-  - `docs/knowledge-base/project-structure.md` - Understand where files should go
-  - `docs/knowledge-base/naming-conventions.md` - Follow naming standards
-  - `docs/guides/testing.md` - Understand testing requirements
+  - `docs-agentic-data-engineer/knowledge-base/medallion-architecture.md` - Understand data layer patterns
+  - `docs-agentic-data-engineer/knowledge-base/project-structure.md` - Understand where files should go
+  - `docs-agentic-data-engineer/knowledge-base/naming-conventions.md` - Follow naming standards
+  - `docs-agentic-data-engineer/guides/testing.md` - Understand testing requirements
   - Project `README.md` and any feature documentation
 
 ### 2. Plan the Implementation
@@ -170,7 +170,7 @@ def main():
 - **Identify Key Decisions**: As you code, identify significant architectural or implementation decisions
 - **Create Decision Records**: For key decisions, create a decision record:
   - Use format: `decision_YYYY-MM-DD_v1.md`
-  - Place in `.claude/decisions/` or `docs/decisions/`
+  - Place in `.claude/decisions/` or `docs-agentic-data-engineer/decisions/`
   - Include: context, decision, alternatives considered, consequences
 - **Reference in Code**: Add comments linking to decision records where applicable
 

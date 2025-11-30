@@ -106,7 +106,7 @@ databricks-shared-utilities/
 │   ├── unit/
 │   ├── integration/
 │   └── contract/
-├── docs/
+├── docs-agentic-data-engineer/
 ├── pyproject.toml
 ├── setup.py
 └── README.md
@@ -164,7 +164,7 @@ databricks-ai-agents/
 │   ├── agent_base.py
 │   └── utils.py
 ├── tests/
-├── docs/
+├── docs-agentic-data-engineer/
 └── README.md
 ```
 

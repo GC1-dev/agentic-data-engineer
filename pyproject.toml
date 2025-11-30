@@ -23,6 +23,9 @@ data-shared-utils = { git = "https://github.com/Skyscanner/data-shared-utils.git
 data-observability-utils = { git = "https://github.com/Skyscanner/data-observability-utils.git", branch = "dev" }
 data-quality-utils = { git = "https://github.com/Skyscanner/data-quality-utils.git", branch = "dev" }
 
+skyscanner-databricks-utils = { git = "https://github.com/Skyscanner/databricks-utils.git", branch = "main" }
+
+
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.0"
 ruff = "^0.11.13"

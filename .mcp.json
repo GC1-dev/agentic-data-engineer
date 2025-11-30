@@ -1,12 +1,8 @@
 {
   "mcpServers": {
     "databricks-utils": {
-      "command": "poetry",
+      "command": "./.venv/bin/python",
       "args": [
-        "-C",
-        "databricks-utils",
-        "run",
-        "python",
         "-m",
         "databricks_utils.mcp.server"
       ],

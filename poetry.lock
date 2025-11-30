@@ -1927,6 +1927,25 @@ requests = ["requests"]
 websocket = ["websocket-client"]
 
 [[package]]
+name = "skyscanner-databricks-utils"
+version = "0.1.0"
+description = "Databricks utilities repository containing Python CLI tools for Unity Catalog and data quality validation"
+optional = false
+python-versions = ">=3.9,<4.0"
+groups = ["main"]
+files = []
+develop = false
+
+[package.dependencies]
+sqlglot = ">=27.0.0"
+
+[package.source]
+type = "git"
+url = "https://github.com/Skyscanner/databricks-utils.git"
+reference = "main"
+resolved_reference = "28ec9a41c2115e89efc74f29ffc8cb02ac622db5"
+
+[[package]]
 name = "spark-session-utils"
 version = "0.2.0"
 description = "Minimal Spark session management with configuration and testing support"
@@ -1949,6 +1968,22 @@ type = "git"
 url = "https://github.com/Skyscanner/spark-session-utils.git"
 reference = "dev"
 resolved_reference = "7961fe9b19d3bf95dcbcd6bb41b851de9f399516"
+
+[[package]]
+name = "sqlglot"
+version = "28.0.0"
+description = "An easily customizable SQL parser and transpiler"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "sqlglot-28.0.0-py3-none-any.whl", hash = "sha256:ac1778e7fa4812f4f7e5881b260632fc167b00ca4c1226868891fb15467122e4"},
+    {file = "sqlglot-28.0.0.tar.gz", hash = "sha256:cc9a651ef4182e61dac58aa955e5fb21845a5865c6a4d7d7b5a7857450285ad4"},
+]
+
+[package.extras]
+dev = ["duckdb (>=0.6)", "maturin (>=1.4,<2.0)", "mypy", "pandas", "pandas-stubs", "pdoc", "pre-commit", "pyperf", "python-dateutil", "pytz", "ruff (==0.7.2)", "types-python-dateutil", "types-pytz", "typing_extensions"]
+rs = ["sqlglotrs (==0.7.3)"]
 
 [[package]]
 name = "sse-starlette"
@@ -2151,4 +2186,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "e61bed4b7c92918634c859d6a54dcf68559594850ca40b5501de95a9d4ca53c7"
+content-hash = "54cd01811935b3397b6aeff75044a5816d6e4760f905f5fb790fef758940b07a"

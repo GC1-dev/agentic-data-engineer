@@ -14,6 +14,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-21
 - Python 3.10+ (aligns with Databricks Runtime 13.0+ requirement from spec) (006-claude-agent-templates)
 - Python 3.12+ (managed via pyenv), GNU Make 3.81+ + pyenv, poetry 2.2+, ruff 0.11+, bash/zsh shell (001-makefile-build-tools)
 - N/A (build tooling - no persistent storage) (001-makefile-build-tools)
+- N/A (refactoring task - no code execution) + Git (for tracking rename), bash/shell utilities (find, sed, grep) (007-rename-docs-dir)
+- Filesystem only (local directory structure) (007-rename-docs-dir)
 
 - Python 3.10+ (Databricks Runtime compatibility) (001-ai-native-data-eng-process)
 
@@ -33,9 +35,9 @@ cd src [ONLY COMMANDS FOR ACTIVE TECHNOLOGIES][ONLY COMMANDS FOR ACTIVE TECHNOLO
 Python 3.10+ (Databricks Runtime compatibility): Follow standard conventions
 
 ## Recent Changes
+- 007-rename-docs-dir: Added N/A (refactoring task - no code execution) + Git (for tracking rename), bash/shell utilities (find, sed, grep)
 - 001-makefile-build-tools: Added Python 3.12+ (managed via pyenv), GNU Make 3.81+ + pyenv, poetry 2.2+, ruff 0.11+, bash/zsh shell
 - 006-claude-agent-templates: Added Python 3.10+ (aligns with Databricks Runtime 13.0+ requirement from spec)
-- 005-separate-utilities: Added Python 3.10+ (existing codebase standard)
 
 
 <!-- MANUAL ADDITIONS START -->

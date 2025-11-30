@@ -97,16 +97,80 @@ All tests must follow one or more of these proven patterns:
 
 #### Test Coverage Checklist
 
-For each transformation, ensure coverage of:
-- ✅ Happy path (normal input → expected output)
-- ✅ Empty input (graceful handling of empty DataFrames)
-- ✅ Single record (minimal data edge case)
-- ✅ Multiple records (typical volumes)
-- ✅ Edge cases (boundary conditions, nulls, special values)
-- ✅ Data quality (row counts, nulls, duplicates, schema validation)
-- ✅ Error conditions (invalid inputs raise appropriate exceptions)
-- ✅ Scale testing (different data volumes)
-- ✅ Business logic (all branches and conditions covered)
+For each transformation, ensure coverage of the 10 data coverage dimensions:
+
+**1. Schema Coverage**
+- ✅ Column presence, data types, nullability constraints
+- ✅ Primary/unique key constraints
+- ✅ Partition columns, nested structures
+- ✅ Schema evolution cases
+
+**2. Distribution Coverage**
+- ✅ Min/max values, normal ranges
+- ✅ Long-tail values, outliers
+- ✅ Zero-variance columns, value drift scenarios
+
+**3. Logical/Domain Rule Coverage**
+- ✅ Business logic rules (eligibility, mappings, conversions)
+- ✅ Derived fields, conditional logic
+- ✅ Rule-based quality checks
+
+**4. Edge Case Coverage**
+- ✅ Empty datasets, single-row datasets
+- ✅ Very large datasets, high-null columns
+- ✅ Duplicate rows, invalid types, unexpected categories
+
+**5. Temporal Coverage**
+- ✅ Old/recent/future timestamps
+- ✅ Daylight savings transitions
+- ✅ End-of-month/quarter boundaries, skewed time distributions
+
+**6. Cross-Field Relationship Coverage**
+- ✅ Referential integrity, derived correctness
+- ✅ Multi-column uniqueness, consistency checks
+
+**7. Negative Coverage (Invalid Data)**
+- ✅ Wrong types, malformed records
+- ✅ Missing required fields, constraint violations
+- ✅ Corrupted payloads, impossible/illogical values
+
+**8. Volume Coverage**
+- ✅ Very small datasets, medium datasets
+- ✅ Large datasets (millions of rows)
+- ✅ Highly skewed partitions, shuffle-heavy operations
+
+**9. Environment Coverage**
+- ✅ Local execution, test cluster, production-like cluster
+- ✅ Configuration variations, dependency version variations
+
+**10. Pipeline Coverage (End-to-End)**
+- ✅ Input ingestion, transformations, aggregations
+- ✅ Output schema validation, data quality rules
+- ✅ Metadata propagation, data contract enforcement
+
+#### Test Dimensions Taxonomy
+
+For systematic test case design, use these dimension categories when generating test data and scenarios:
+
+**Volume/Scale Dimensions**
+- **CARDINALITY**: `empty` | `single` | `few` | `many` (0, 1, 2-10, 100+ rows)
+- **SCALE**: `small` | `medium` | `large` | `very_large` (100-1K, 1K-100K, 100K-1M, 1M+ rows)
+
+**Data Quality Dimensions**
+- **NULL_HANDLING**: `no_nulls` | `some_nulls` | `all_nulls` | `mixed_nulls`
+- **DATA_TYPES**: `string` | `numeric` | `date` | `boolean` | `nested` | `decimal` | `timestamp`
+- **STRING_VARIANTS**: `empty_string` | `whitespace` | `special_chars` | `unicode` | `long_strings`
+
+**Business Logic Dimensions**
+- **GROUPING**: `no_groups` | `single_group` | `multiple_groups` | `skewed_groups`
+- **AGGREGATION**: `sum` | `count` | `avg` | `min` | `max` | `distinct` | `concat`
+- **TIME_PARTITIONING**: `single_date` | `multiple_dates` | `date_range` | `overlapping_ranges` | `gaps`
+
+**Edge Cases Dimensions**
+- **EDGE_CASES**: `duplicates` | `outliers` | `extreme_values` | `boundary_values` | `contradictions`
+- **SCHEMA_VARIANTS**: `all_required` | `missing_fields` | `extra_fields` | `nested_structures` | `schema_mismatch`
+
+When generating tests, apply relevant dimensions to create comprehensive test datasets covering all aspects of the data pipeline.
 
 ### VI. Configuration Over Code
 Behavior should be configurable without code changes.
@@ -349,9 +413,10 @@ docs-agentic-data-engineer/
 1. **[Python Project Structure Standards](./knowledge_base/python-standards/coding.md)** - Src layout, Poetry, Google docstrings, Pydantic Settings
 2. **[Test Directory Structure](./knowledge_base/python-standards/testing_structure.md)** - Mandatory tests/ mirroring of src/ structure, test file naming, enforcement rules
 3. **[Testing Patterns & Best Practices](#v-test-first-development-non-negotiable)** - 4 core patterns for PySpark tests, structure requirements, coverage checklist
-4. **[PySpark Configuration Standards](./knowledge_base/pyspark-standards/configuration.md)** - Spark session, configs, Unity Catalog, Asset Bundles
-5. **[Medallion Architecture](./knowledge_base/medallion-architecture/)** - Layer specs, naming, technical standards, design rationale
-6. **[Dimensional Modeling](./knowledge_base/dimensional-modeling/)** - Dimension/fact table design, SCD patterns
+4. **[Data Coverage Dimensions](./knowledge_base/pyspark-standards/data_coverage_instructions.md)** - 10 dimensions for comprehensive test data coverage (schema, distribution, logic, edges, temporal, cross-field, negative, volume, environment, pipeline)
+5. **[PySpark Configuration Standards](./knowledge_base/pyspark-standards/configuration.md)** - Spark session, configs, Unity Catalog, Asset Bundles
+6. **[Medallion Architecture](./knowledge_base/medallion-architecture/)** - Layer specs, naming, technical standards, design rationale
+7. **[Dimensional Modeling](./knowledge_base/dimensional-modeling/)** - Dimension/fact table design, SCD patterns
 
 ## Governance
 

@@ -1,0 +1,50 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: "Spark Job Configuration Schema"
+type: object
+required:
+  - environment_type
+  - spark
+
+properties:
+
+  # ---------------------------------------------------
+  # ENVIRONMENT TYPE
+  # ---------------------------------------------------
+  environment_type:
+    type: string
+    enum:
+      - local
+      - lab
+      - dev
+      - prod
+    description: "Execution environment for Spark job"
+
+  # ---------------------------------------------------
+  # SPARK BLOCK
+  # ---------------------------------------------------
+  spark:
+    type: object
+    required:
+      - app_name
+      - config
+    properties:
+
+      app_name:
+        type: string
+        description: "Spark application name"
+
+      master:
+        type: string
+        nullable: true
+        description: "Spark master endpoint (optional)"
+
+      config:
+        type: object
+        description: "Arbitrary Spark configuration key/value pairs"
+        additionalProperties:
+          type: string
+        examples:
+          - spark.sql.session.timeZone: "UTC"
+          - spark.sql.shuffle.partitions: "4"
+          - spark.sql.adaptive.enabled: "false"
+          - spark.sql.warehouse.dir: "spark-warehouse"

@@ -1,0 +1,6 @@
+environment_type: prod
+
+spark:
+  app_name: "my-domain-silver-job-prod"
+  config:
+    spark.sql.session.timeZone: "UTC"

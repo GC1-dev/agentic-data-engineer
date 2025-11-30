@@ -5,7 +5,7 @@ description = "AI-native data engineering utilities and tools"
 authors = ["Your Name <your.email@example.com>"]
 readme = "README.md"
 packages = [
-    { include = "agentic_data_engineer" }
+    { include = "src/agentic_data_engineer" }
 ]
 
 [tool.poetry.dependencies]

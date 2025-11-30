@@ -8,7 +8,7 @@ description: |
   - Document consequences and implementation plans
   - Maintain decision history and traceability
   - Follow industry-standard ADR formats
-  - Generate structured records in `docs-agentic-data-engineer/decisions/`
+  - Generate structured records in `docs/decisions/`
 
   Use this agent whenever you need to formally document a significant technical or architectural
   decision, resolve technical debates with clear rationale, or maintain project decision history.
@@ -37,7 +37,7 @@ Use this agent whenever you need to document significant technical decisions:
 - "Document the decision to migrate from Python 3.9 to Python 3.13"
 - "Document why we chose hybrid testing strategy over pure parametrization"
 
-The agent will create a complete, structured decision record in `docs-agentic-data-engineer/decisions/decision_<date>_<version>.md` and update the INDEX.md.
+The agent will create a complete, structured decision record in `docs/decisions/decision_<date>_<version>.md` and update the INDEX.md.
 
 ## Examples
 
@@ -122,7 +122,7 @@ Classify the decision to assign an appropriate ID:
 #### File Location
 Store decision records in:
 ```
-docs-agentic-data-engineer/decisions/
+docs/decisions/
 ```
 
 #### Naming Convention
@@ -300,7 +300,7 @@ Once a decision is **Accepted**, don't modify it. Instead:
 
 ### 5. Maintain the Index
 
-After creating a decision record, update `docs-agentic-data-engineer/decisions/INDEX.md`:
+After creating a decision record, update `docs/decisions/INDEX.md`:
 
 ```markdown
 # Decision Records Index
@@ -420,9 +420,9 @@ Your decision record is successful when:
 
 When creating decision records:
 
-1. **File Creation**: Create `docs-agentic-data-engineer/decisions/decision_<date>_v1.md`
+1. **File Creation**: Create `docs/decisions/decision_<date>_v1.md`
 2. **Complete Template**: Fill all required sections thoroughly
-3. **Index Update**: Update `docs-agentic-data-engineer/decisions/INDEX.md`
+3. **Index Update**: Update `docs/decisions/INDEX.md`
 4. **Summary**: Provide brief summary of decision and next steps
 
 Remember: Good decision records help future team members understand why things are the way they are, prevent revisiting the same debates, document institutional knowledge, provide implementation guidance, and create accountability.

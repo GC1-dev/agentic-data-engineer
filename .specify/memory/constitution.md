@@ -137,6 +137,40 @@ Documentation is a first-class deliverable.
 - pytest with 80%+ coverage
 - Pydantic for configuration
 
+#### Test Directory Structure (Mandatory)
+The `tests/` directory must mirror the `src/` directory structure exactly:
+
+**Directory Mirroring Rules:**
+- Every Python module under `src/` must have a corresponding test module under `tests/`
+- Subpackage hierarchies in `src/` must be replicated exactly in `tests/`
+- Test files must be named `test_<module>.py` for each `<module>.py` in `src/`
+
+**Example:**
+```
+src/
+  package_a/
+    module_x.py
+    module_y.py
+  package_b/
+    utils/
+      transform.py
+
+tests/
+  package_a/
+    test_module_x.py
+    test_module_y.py
+  package_b/
+    utils/
+      test_transform.py
+```
+
+**Enforcement:**
+- Tests must **never** be stored inside `src/`
+- New modules in `src/` automatically generate test scaffolds in `tests/`
+- When source files are updated or renamed, test files must be updated/renamed accordingly
+- When source files are removed, corresponding test files must be removed
+- If inconsistency exists between `src/` and `tests/`, `src/` is the source of truth and `tests/` must be aligned
+
 ### PySpark Standards
 - Environment-specific Spark configurations
 - SparkSession utilities with configuration injection
@@ -234,11 +268,12 @@ All contributions must meet these criteria:
 
 ### Knowledge Base Structure
 ```
-docs/
+docs-agentic-data-engineer/
 ├── constitution.md                     # This file
 ├── knowledge_base/
 │   ├── python-standards/
-│   │   └── coding.md                  # Python/Poetry/Pydantic standards
+│   │   ├── coding.md                  # Python/Poetry/Pydantic standards
+│   │   └── testing_structure.md       # Test directory structure requirements
 │   ├── pyspark-standards/
 │   │   ├── README.md                  # PySpark overview
 │   │   └── configuration.md           # Spark/Databricks config
@@ -258,9 +293,10 @@ docs/
 
 ### Key Standards Documents
 1. **[Python Project Structure Standards](./knowledge_base/python-standards/coding.md)** - Src layout, Poetry, Google docstrings, Pydantic Settings
-2. **[PySpark Configuration Standards](./knowledge_base/pyspark-standards/configuration.md)** - Spark session, configs, Unity Catalog, Asset Bundles
-3. **[Medallion Architecture](./knowledge_base/medallion-architecture/)** - Layer specs, naming, technical standards, design rationale
-4. **[Dimensional Modeling](./knowledge_base/dimensional-modeling/)** - Dimension/fact table design, SCD patterns
+2. **[Test Directory Structure](./knowledge_base/python-standards/testing_structure.md)** - Mandatory tests/ mirroring of src/ structure, test file naming, enforcement rules
+3. **[PySpark Configuration Standards](./knowledge_base/pyspark-standards/configuration.md)** - Spark session, configs, Unity Catalog, Asset Bundles
+4. **[Medallion Architecture](./knowledge_base/medallion-architecture/)** - Layer specs, naming, technical standards, design rationale
+5. **[Dimensional Modeling](./knowledge_base/dimensional-modeling/)** - Dimension/fact table design, SCD patterns
 
 ## Governance
 

@@ -16,7 +16,7 @@ VENV_PATH := .venv
 # Targets
 
 # Declare all targets as phony to prevent conflicts with files
-.PHONY: help activate-pyenv check-pyenv install-databricks-cli install-poetry install-deps setup-mcp setup validate lint format lint-fix test test-cov build clean
+.PHONY: help activate-pyenv check-pyenv install-databricks-cli install-poetry install-deps install-hooks setup-mcp setup validate lint format lint-fix test test-cov build clean
 
 .PHONY: help
 help: ## Show this help message
@@ -129,6 +129,13 @@ install-deps: install-poetry ## Install project dependencies
 	@poetry install --no-root
 	@echo "✓ Dependencies installed"
 
+.PHONY: install-hooks
+install-hooks: ## Install pre-commit hooks
+	@test -d $(VENV_PATH) || { echo "ERROR: Virtual environment not found. Run 'make setup' first."; exit 1; }
+	@echo "Installing pre-commit hooks..."
+	@poetry run pre-commit install
+	@echo "✓ Pre-commit hooks installed"
+
 .PHONY: setup-mcp
 setup-mcp: ## Install MCP dependencies for databricks-utils submodule
 	@echo "Installing MCP dependencies for databricks-utils..."
@@ -141,7 +148,7 @@ setup-mcp: ## Install MCP dependencies for databricks-utils submodule
 	@echo "  Command: poetry run python -m databricks_utils.mcp"
 
 .PHONY: setup
-setup: check-pyenv install-poetry install-deps ## Set up development environment
+setup: check-pyenv install-poetry install-deps install-hooks ## Set up development environment
 	@echo ""
 	@echo "✓ Development environment ready"
 	@echo ""

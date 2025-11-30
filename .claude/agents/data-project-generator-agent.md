@@ -162,7 +162,7 @@ Expected structure:
 ├── databricks/
 │   └── bundle.yml
 ├── databricks_apps/
-├── docs/
+├── docs-agentic-data-engineer/
 ├── monte_carlo/
 ├── pipelines/
 │   ├── bronze/

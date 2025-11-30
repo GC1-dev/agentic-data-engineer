@@ -27,11 +27,11 @@ This is a documentation refactoring task affecting:
 
 **Purpose**: Verify prerequisites and create safety backups before making any changes
 
-- [ ] T001 Verify working tree is clean: `git status` should show no uncommitted changes
-- [ ] T002 Verify current branch is 007-rename-docs-dir: `git branch --show-current`
-- [ ] T003 Verify docs/ directory exists: `ls -ld docs/`
-- [ ] T004 Verify docs-agentic-data-engineer/ does not exist: `ls docs-agentic-data-engineer/ 2>&1` (should fail)
-- [ ] T005 Create safety tag for rollback: `git tag pre-docs-rename-007`
+- [X] T001 Verify working tree is clean: `git status` should show no uncommitted changes
+- [X] T002 Verify current branch is 007-rename-docs-dir: `git branch --show-current`
+- [X] T003 Verify docs/ directory exists: `ls -ld docs/`
+- [X] T004 Verify docs-agentic-data-engineer/ does not exist: `ls docs-agentic-data-engineer/ 2>&1` (should fail)
+- [X] T005 Create safety tag for rollback: `git tag pre-docs-rename-007`
 
 **Checkpoint**: All prerequisites verified - safe to proceed with rename
 
@@ -47,11 +47,11 @@ This is a documentation refactoring task affecting:
 
 ### Implementation for User Story 1
 
-- [ ] T006 [US1] Rename directory using git: `git mv docs docs-agentic-data-engineer`
-- [ ] T007 [US1] Verify git recognized rename: `git status` should show "renamed: docs -> docs-agentic-data-engineer"
-- [ ] T008 [US1] Verify new directory exists with content: `ls -la docs-agentic-data-engineer/ | head -10`
-- [ ] T009 [US1] Verify old directory is gone: `ls docs/ 2>&1 | grep "No such file or directory"`
-- [ ] T010 [US1] Verify directory content preserved: Check key files like `docs-agentic-data-engineer/knowledge_base/` exist
+- [X] T006 [US1] Rename directory using git: `git mv docs docs-agentic-data-engineer`
+- [X] T007 [US1] Verify git recognized rename: `git status` should show "renamed: docs -> docs-agentic-data-engineer"
+- [X] T008 [US1] Verify new directory exists with content: `ls -la docs-agentic-data-engineer/ | head -10`
+- [X] T009 [US1] Verify old directory is gone: `ls docs/ 2>&1 | grep "No such file or directory"`
+- [X] T010 [US1] Verify directory content preserved: Check key files like `docs-agentic-data-engineer/knowledge_base/` exist
 
 **Checkpoint**: Directory successfully renamed and git tracked the change. All other user stories can now proceed in parallel.
 
@@ -67,15 +67,15 @@ This is a documentation refactoring task affecting:
 
 ### Implementation for User Story 2
 
-- [ ] T011 [US2] Identify agent files with docs/ references: `grep -l "docs/" .claude/agents/*.md`
-- [ ] T012 [US2] Update architecture-agent.md references: `sed -i '' 's|docs/|docs-agentic-data-engineer/|g' .claude/agents/architecture-agent.md`
-- [ ] T013 [US2] Update coding-agent.md references: `sed -i '' 's|docs/|docs-agentic-data-engineer/|g' .claude/agents/coding-agent.md`
-- [ ] T014 [US2] Update data-project-generator-agent.md references: `sed -i '' 's|docs/|docs-agentic-data-engineer/|g' .claude/agents/data-project-generator-agent.md`
-- [ ] T015 [US2] Update decision-documenter-agent.md references: `sed -i '' 's|docs/|docs-agentic-data-engineer/|g' .claude/agents/decision-documenter-agent.md`
-- [ ] T016 [US2] Update dimensional-modeling-agent.md references: `sed -i '' 's|docs/|docs-agentic-data-engineer/|g' .claude/agents/dimensional-modeling-agent.md`
-- [ ] T017 [US2] Update documentation-agent.md references: `sed -i '' 's|docs/|docs-agentic-data-engineer/|g' .claude/agents/documentation-agent.md`
-- [ ] T018 [US2] Update testing-agent.md references: `sed -i '' 's|docs/|docs-agentic-data-engineer/|g' .claude/agents/testing-agent.md`
-- [ ] T019 [US2] Verify zero docs/ references remain in .claude/agents: `grep -r "docs/" .claude/agents/ | grep -v "docs-agentic-data-engineer" | wc -l` should return 0
+- [X] T011 [US2] Identify agent files with docs/ references: `grep -l "docs/" .claude/agents/*.md`
+- [X] T012 [US2] Update architecture-agent.md references: `sed -i '' 's|docs/|docs-agentic-data-engineer/|g' .claude/agents/architecture-agent.md`
+- [X] T013 [US2] Update coding-agent.md references: `sed -i '' 's|docs/|docs-agentic-data-engineer/|g' .claude/agents/coding-agent.md`
+- [X] T014 [US2] Update data-project-generator-agent.md references: `sed -i '' 's|docs/|docs-agentic-data-engineer/|g' .claude/agents/data-project-generator-agent.md`
+- [X] T015 [US2] Update decision-documenter-agent.md references: `sed -i '' 's|docs/|docs-agentic-data-engineer/|g' .claude/agents/decision-documenter-agent.md`
+- [X] T016 [US2] Update dimensional-modeling-agent.md references: `sed -i '' 's|docs/|docs-agentic-data-engineer/|g' .claude/agents/dimensional-modeling-agent.md`
+- [X] T017 [US2] Update documentation-agent.md references: `sed -i '' 's|docs/|docs-agentic-data-engineer/|g' .claude/agents/documentation-agent.md`
+- [X] T018 [US2] Update testing-agent.md references: `sed -i '' 's|docs/|docs-agentic-data-engineer/|g' .claude/agents/testing-agent.md`
+- [X] T019 [US2] Verify zero docs/ references remain in .claude/agents: `grep -r "docs/" .claude/agents/ | grep -v "docs-agentic-data-engineer" | wc -l` should return 0
 
 **Checkpoint**: All agent configurations updated and verified. Agents can now access documentation at correct paths.
 
@@ -91,12 +91,12 @@ This is a documentation refactoring task affecting:
 
 ### Implementation for User Story 3
 
-- [ ] T020 [P] [US3] Update specs/001-ai-native-data-eng-process/tasks.md internal references: Replace docs/ with docs-agentic-data-engineer/ (preserve external URLs)
-- [ ] T021 [P] [US3] Update specs/001-ai-native-data-eng-process/plan.md project structure references: Replace docs/ with docs-agentic-data-engineer/ in structure diagrams
-- [ ] T022 [P] [US3] Update IMPLEMENTATION_SUMMARY.md project structure references: Replace docs/ with docs-agentic-data-engineer/
-- [ ] T023 [P] [US3] Scan for additional markdown files with internal docs/ references: `grep -r "docs/" --include="*.md" . | grep -v "https://" | grep -v "http://" | grep -v "docs-agentic-data-engineer"`
-- [ ] T024 [US3] Update any additional markdown files found in T023 (manual review required for context)
-- [ ] T025 [US3] Verify zero internal docs/ references in markdown files: Run verification grep excluding external URLs
+- [X] T020 [P] [US3] Update specs/001-ai-native-data-eng-process/tasks.md internal references: Replace docs/ with docs-agentic-data-engineer/ (preserve external URLs)
+- [X] T021 [P] [US3] Update specs/001-ai-native-data-eng-process/plan.md project structure references: Replace docs/ with docs-agentic-data-engineer/ in structure diagrams
+- [X] T022 [P] [US3] Update IMPLEMENTATION_SUMMARY.md project structure references: Replace docs/ with docs-agentic-data-engineer/
+- [X] T023 [P] [US3] Scan for additional markdown files with internal docs/ references: `grep -r "docs/" --include="*.md" . | grep -v "https://" | grep -v "http://" | grep -v "docs-agentic-data-engineer"`
+- [X] T024 [US3] Update any additional markdown files found in T023 (manual review required for context)
+- [X] T025 [US3] Verify zero internal docs/ references in markdown files: Run verification grep excluding external URLs
 
 **Checkpoint**: All markdown documentation updated. Internal links should resolve correctly.
 
@@ -112,13 +112,13 @@ This is a documentation refactoring task affecting:
 
 ### Implementation for User Story 4
 
-- [ ] T026 [P] [US4] Search for docs/ references in configuration files: `grep -r "docs/" pyproject.toml Makefile *.json *.yml *.yaml 2>/dev/null`
-- [ ] T027 [P] [US4] Search for docs/ references in Python files: `grep -r "docs/" --include="*.py" . | grep -v ".git" | grep -v "__pycache__"`
-- [ ] T028 [P] [US4] Search for docs/ references in shell scripts: `grep -r "docs/" --include="*.sh" . | grep -v ".git"`
-- [ ] T029 [US4] Update any configuration files found with internal docs/ references (manual review for context)
-- [ ] T030 [US4] Update any Python files found with internal docs/ references (manual review for context)
-- [ ] T031 [US4] Update any shell scripts found with internal docs/ references (manual review for context)
-- [ ] T032 [US4] Perform comprehensive project-wide verification: `grep -r "docs/" --exclude-dir=.git --exclude-dir=node_modules . | grep -v "https://" | grep -v "http://" | grep -v "docs-agentic-data-engineer"`
+- [X] T026 [P] [US4] Search for docs/ references in configuration files: `grep -r "docs/" pyproject.toml Makefile *.json *.yml *.yaml 2>/dev/null`
+- [X] T027 [P] [US4] Search for docs/ references in Python files: `grep -r "docs/" --include="*.py" . | grep -v ".git" | grep -v "__pycache__"`
+- [X] T028 [P] [US4] Search for docs/ references in shell scripts: `grep -r "docs/" --include="*.sh" . | grep -v ".git"`
+- [X] T029 [US4] Update any configuration files found with internal docs/ references (manual review for context)
+- [X] T030 [US4] Update any Python files found with internal docs/ references (manual review for context)
+- [X] T031 [US4] Update any shell scripts found with internal docs/ references (manual review for context)
+- [X] T032 [US4] Perform comprehensive project-wide verification: `grep -r "docs/" --exclude-dir=.git --exclude-dir=node_modules . | grep -v "https://" | grep -v "http://" | grep -v "docs-agentic-data-engineer"`
 
 **Checkpoint**: All project-wide references updated. Only acceptable exclusions remain in search results.
 
@@ -130,20 +130,20 @@ This is a documentation refactoring task affecting:
 
 ### Validation Tasks
 
-- [ ] T033 Validate SC-001: Verify docs-agentic-data-engineer/ exists with all content: `ls -la docs-agentic-data-engineer/`
-- [ ] T034 Validate SC-002: Verify zero docs/ in .claude/agents: `grep -r "docs/" .claude/agents/ | grep -v "docs-agentic-data-engineer" | wc -l` = 0
-- [ ] T035 Validate SC-003: Verify zero docs/ in markdown files (excluding external): `grep -r "docs/" --include="*.md" . | grep -v "https://" | grep -v "http://" | grep -v "docs-agentic-data-engineer" | wc -l` = 0
-- [ ] T036 Validate SC-004: Manual spot-check 5-10 internal documentation links resolve correctly
-- [ ] T037 Validate SC-005: Verify git history preserved: `git log --follow --oneline docs-agentic-data-engineer/ | head -5`
-- [ ] T038 Validate SC-006: Review remaining grep matches are only acceptable exclusions (external URLs, submodules)
+- [X] T033 Validate SC-001: Verify docs-agentic-data-engineer/ exists with all content: `ls -la docs-agentic-data-engineer/`
+- [X] T034 Validate SC-002: Verify zero docs/ in .claude/agents: `grep -r "docs/" .claude/agents/ | grep -v "docs-agentic-data-engineer" | wc -l` = 0
+- [X] T035 Validate SC-003: Verify zero docs/ in markdown files (excluding external): `grep -r "docs/" --include="*.md" . | grep -v "https://" | grep -v "http://" | grep -v "docs-agentic-data-engineer" | wc -l` = 0
+- [X] T036 Validate SC-004: Manual spot-check 5-10 internal documentation links resolve correctly
+- [X] T037 Validate SC-005: Verify git history preserved: `git log --follow --oneline docs-agentic-data-engineer/ | head -5`
+- [X] T038 Validate SC-006: Review remaining grep matches are only acceptable exclusions (external URLs, submodules)
 
 ### Commit Tasks
 
-- [ ] T039 Stage all changes: `git add -A`
-- [ ] T040 Review staged changes: `git status` and `git diff --cached --name-status | head -30`
-- [ ] T041 Create commit with descriptive message: `git commit -m "Rename docs/ to docs-agentic-data-engineer/..."`
-- [ ] T042 Verify commit looks correct: `git show --name-status HEAD | head -30`
-- [ ] T043 Final verification: `git status` should show clean working tree
+- [X] T039 Stage all changes: `git add -A`
+- [X] T040 Review staged changes: `git status` and `git diff --cached --name-status | head -30`
+- [X] T041 Create commit with descriptive message: `git commit -m "Rename docs/ to docs-agentic-data-engineer/..."`
+- [X] T042 Verify commit looks correct: `git show --name-status HEAD | head -30`
+- [X] T043 Final verification: `git status` should show clean working tree
 
 **Checkpoint**: All changes committed successfully. Feature complete and ready for PR.
 

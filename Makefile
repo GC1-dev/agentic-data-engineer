@@ -16,7 +16,7 @@ VENV_PATH := .venv
 # Targets
 
 # Declare all targets as phony to prevent conflicts with files
-.PHONY: help activate-pyenv check-pyenv install-poetry install-deps setup-mcp setup validate lint format lint-fix test test-cov build clean
+.PHONY: help activate-pyenv check-pyenv install-databricks-cli install-poetry install-deps setup-mcp setup validate lint format lint-fix test test-cov build clean
 
 .PHONY: help
 help: ## Show this help message
@@ -89,6 +89,24 @@ check-pyenv: ## Verify pyenv installation and Python version
 		echo "Run: pyenv local $(PYTHON_VERSION)"; \
 	fi
 
+
+.PHONY: install-databricks-cli
+install-databricks-cli: ## Install Databricks CLI if not present
+	@if command -v databricks >/dev/null 2>&1; then \
+		echo "✓ databricks CLI already installed (version $$(databricks --version 2>&1))"; \
+	else \
+		echo "Installing Databricks CLI..."; \
+		if command -v brew >/dev/null 2>&1; then \
+			brew tap databricks/tap; \
+			brew install databricks; \
+		else \
+			echo "Installing via curl..."; \
+			curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh; \
+		fi; \
+		echo "✓ databricks CLI installed"; \
+	fi
+
+
 .PHONY: install-poetry
 install-poetry: ## Install poetry if not present
 	@if command -v poetry >/dev/null 2>&1; then \
@@ -115,12 +133,12 @@ install-deps: install-poetry ## Install project dependencies
 setup-mcp: ## Install MCP dependencies for databricks-utils submodule
 	@echo "Installing MCP dependencies for databricks-utils..."
 	@test -d databricks-utils || { echo "ERROR: databricks-utils submodule not found. Run 'git submodule update --init' first."; exit 1; }
-	@poetry -C databricks-utils install --with mcp
-	@echo "✓ MCP dependencies installed for databricks-utils"
+	@poetry -C databricks-utils install --with cli --with mcp
+	@echo "✓ MCP dependencies installed for databricks-utils (including CLI dependencies required by MCP server)"
 	@echo ""
 	@echo "MCP server is now ready. Configure it in Claude Code with:"
 	@echo "  Path: $(shell pwd)/databricks-utils"
-	@echo "  Command: poetry run python -m src.mcp"
+	@echo "  Command: poetry run python -m databricks_utils.mcp"
 
 .PHONY: setup
 setup: check-pyenv install-poetry install-deps ## Set up development environment

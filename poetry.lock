@@ -14,24 +14,23 @@ files = [
 
 [[package]]
 name = "anyio"
-version = "4.11.0"
+version = "4.12.0"
 description = "High-level concurrency and networking framework on top of asyncio or Trio"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "anyio-4.11.0-py3-none-any.whl", hash = "sha256:0287e96f4d26d4149305414d4e3bc32f0dcd0862365a4bddea19d7a1ec38c4fc"},
-    {file = "anyio-4.11.0.tar.gz", hash = "sha256:82a8d0b81e318cc5ce71a5f1f8b5c4e63619620b63141ef8c995fa0db95a57c4"},
+    {file = "anyio-4.12.0-py3-none-any.whl", hash = "sha256:dad2376a628f98eeca4881fc56cd06affd18f659b17a747d3ff0307ced94b1bb"},
+    {file = "anyio-4.12.0.tar.gz", hash = "sha256:73c693b567b0c55130c104d0b43a9baf3aa6a31fc6110116509f27bf75e21ec0"},
 ]
 
 [package.dependencies]
 exceptiongroup = {version = ">=1.0.2", markers = "python_version < \"3.11\""}
 idna = ">=2.8"
-sniffio = ">=1.1"
 typing_extensions = {version = ">=4.5", markers = "python_version < \"3.13\""}
 
 [package.extras]
-trio = ["trio (>=0.31.0)"]
+trio = ["trio (>=0.31.0) ; python_version < \"3.10\"", "trio (>=0.32.0) ; python_version >= \"3.10\""]
 
 [[package]]
 name = "attrs"
@@ -43,6 +42,18 @@ groups = ["main"]
 files = [
     {file = "attrs-25.4.0-py3-none-any.whl", hash = "sha256:adcf7e2a1fb3b36ac48d97835bb6d8ade15b8dcce26aba8bf1d14847b57a3373"},
     {file = "attrs-25.4.0.tar.gz", hash = "sha256:16d5969b87f0859ef33a48b35d55ac1be6e42ae49d5e853b597db70c35c57e11"},
+]
+
+[[package]]
+name = "cachetools"
+version = "6.2.2"
+description = "Extensible memoizing collections and decorators"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "cachetools-6.2.2-py3-none-any.whl", hash = "sha256:6c09c98183bf58560c97b2abfcedcbaf6a896a490f534b031b661d3723b45ace"},
+    {file = "cachetools-6.2.2.tar.gz", hash = "sha256:8e6d266b25e539df852251cfd6f990b4bc3a141db73b939058d809ebd2590fc6"},
 ]
 
 [[package]]
@@ -398,6 +409,134 @@ test = ["certifi (>=2024)", "cryptography-vectors (==46.0.3)", "pretend (>=0.7)"
 test-randomorder = ["pytest-randomly"]
 
 [[package]]
+name = "data-catalog-utils"
+version = "0.2.0"
+description = "Unity Catalog operations independent of Spark"
+optional = false
+python-versions = ">=3.10,<4.0"
+groups = ["main"]
+files = []
+develop = false
+
+[package.dependencies]
+databricks-sdk = ">=0.12.0"
+pydantic = ">=2.0.0"
+
+[package.extras]
+dev = ["black (>=23.0.0)", "mypy (>=1.0.0)", "pytest (>=7.0.0)", "pytest-cov (>=4.0.0)", "ruff (>=0.1.0)"]
+
+[package.source]
+type = "git"
+url = "https://github.com/Skyscanner/data-catalog-utils.git"
+reference = "dev"
+resolved_reference = "4b4173b1ca740306837201d57890b52d45a5c3fe"
+
+[[package]]
+name = "data-observability-utils"
+version = "1.0.0"
+description = "Standalone Monte Carlo observability integration utilities for data monitoring"
+optional = false
+python-versions = ">=3.10,<4.0"
+groups = ["main"]
+files = []
+develop = false
+
+[package.dependencies]
+pycarlo = ">=0.12.5"
+pyspark = ">=3.0.0"
+
+[package.extras]
+dev = ["black (>=23.0.0)", "mypy (>=1.0.0)", "pytest (>=7.0.0)", "pytest-cov (>=4.0.0)", "ruff (>=0.1.0)"]
+
+[package.source]
+type = "git"
+url = "https://github.com/Skyscanner/data-observability-utils.git"
+reference = "dev"
+resolved_reference = "9c4742fe763446148b0b2b108e1ece52c16fec9d"
+
+[[package]]
+name = "data-quality-utils"
+version = "1.0.0"
+description = "Standalone data quality validation and profiling utilities for PySpark DataFrames"
+optional = false
+python-versions = ">=3.10,<4.0"
+groups = ["main"]
+files = []
+develop = false
+
+[package.dependencies]
+numpy = ">=1.20.0"
+pydantic = ">=2.0.0"
+pyspark = ">=3.0.0"
+scipy = ">=1.9.0"
+
+[package.extras]
+dev = ["black (>=23.0.0)", "mypy (>=1.0.0)", "pytest (>=7.0.0)", "pytest-cov (>=4.0.0)", "ruff (>=0.1.0)"]
+
+[package.source]
+type = "git"
+url = "https://github.com/Skyscanner/data-quality-utils.git"
+reference = "dev"
+resolved_reference = "d4a3e3fe0a093596bb86e79d28c50cacf3392ce2"
+
+[[package]]
+name = "data-shared-utils"
+version = "0.3.0"
+description = "Core utilities for Databricks with Spark integration, Unity Catalog, and testing support"
+optional = false
+python-versions = ">=3.10,<4.0"
+groups = ["main"]
+files = []
+develop = false
+
+[package.extras]
+dev = ["black (>=23.0.0)", "mypy (>=1.0.0)", "pytest (>=7.0.0)", "pytest-cov (>=4.0.0)", "ruff (>=0.1.0)"]
+
+[package.source]
+type = "git"
+url = "https://github.com/Skyscanner/data-shared-utils.git"
+reference = "dev"
+resolved_reference = "0ed251a8db2df970ad10dff323755a774b8eeed5"
+
+[[package]]
+name = "databricks-sdk"
+version = "0.73.0"
+description = "Databricks SDK for Python (Beta)"
+optional = false
+python-versions = ">=3.7"
+groups = ["main"]
+files = [
+    {file = "databricks_sdk-0.73.0-py3-none-any.whl", hash = "sha256:a4d3cfd19357a2b459d2dc3101454d7f0d1b62865ce099c35d0c342b66ac64ff"},
+    {file = "databricks_sdk-0.73.0.tar.gz", hash = "sha256:db09eaaacd98e07dded78d3e7ab47d2f6c886e0380cb577977bd442bace8bd8d"},
+]
+
+[package.dependencies]
+google-auth = ">=2.0,<3.0"
+protobuf = ">=4.25.8,<5.26.dev0 || >5.29.0,<5.29.1 || >5.29.1,<5.29.2 || >5.29.2,<5.29.3 || >5.29.3,<5.29.4 || >5.29.4,<6.30.0 || >6.30.0,<6.30.1 || >6.30.1,<6.31.0 || >6.31.0,<7.0"
+requests = ">=2.28.1,<3"
+
+[package.extras]
+dev = ["autoflake", "black", "build", "databricks-connect", "httpx", "ipython", "ipywidgets", "isort", "langchain-openai ; python_version > \"3.7\"", "openai", "pycodestyle", "pyfakefs", "pytest", "pytest-cov", "pytest-mock", "pytest-rerunfailures", "pytest-xdist (>=3.6.1,<4.0)", "requests-mock", "wheel"]
+notebook = ["ipython (>=8,<10)", "ipywidgets (>=8,<9)"]
+openai = ["httpx", "langchain-openai ; python_version > \"3.7\"", "openai"]
+
+[[package]]
+name = "dataclasses-json"
+version = "0.6.7"
+description = "Easily serialize dataclasses to and from JSON."
+optional = false
+python-versions = "<4.0,>=3.7"
+groups = ["main"]
+files = [
+    {file = "dataclasses_json-0.6.7-py3-none-any.whl", hash = "sha256:0dbf33f26c8d5305befd61b39d2b3414e8a407bedc2834dea9b8d642666fb40a"},
+    {file = "dataclasses_json-0.6.7.tar.gz", hash = "sha256:b6b3e528266ea45b9535223bc53ca645f5208833c29229e847b3f26a1cc55fc0"},
+]
+
+[package.dependencies]
+marshmallow = ">=3.18.0,<4.0.0"
+typing-inspect = ">=0.4.0,<1"
+
+[[package]]
 name = "distlib"
 version = "0.4.0"
 description = "Distribution utilities"
@@ -438,6 +577,45 @@ groups = ["dev"]
 files = [
     {file = "filelock-3.20.0-py3-none-any.whl", hash = "sha256:339b4732ffda5cd79b13f4e2711a31b0365ce445d95d243bb996273d072546a2"},
     {file = "filelock-3.20.0.tar.gz", hash = "sha256:711e943b4ec6be42e1d4e6690b48dc175c822967466bb31c0c293f34334c13f4"},
+]
+
+[[package]]
+name = "google-auth"
+version = "2.43.0"
+description = "Google Authentication Library"
+optional = false
+python-versions = ">=3.7"
+groups = ["main"]
+files = [
+    {file = "google_auth-2.43.0-py2.py3-none-any.whl", hash = "sha256:af628ba6fa493f75c7e9dbe9373d148ca9f4399b5ea29976519e0a3848eddd16"},
+    {file = "google_auth-2.43.0.tar.gz", hash = "sha256:88228eee5fc21b62a1b5fe773ca15e67778cb07dc8363adcb4a8827b52d81483"},
+]
+
+[package.dependencies]
+cachetools = ">=2.0.0,<7.0"
+pyasn1-modules = ">=0.2.1"
+rsa = ">=3.1.4,<5"
+
+[package.extras]
+aiohttp = ["aiohttp (>=3.6.2,<4.0.0)", "requests (>=2.20.0,<3.0.0)"]
+enterprise-cert = ["cryptography", "pyopenssl"]
+pyjwt = ["cryptography (<39.0.0) ; python_version < \"3.8\"", "cryptography (>=38.0.3)", "pyjwt (>=2.0)"]
+pyopenssl = ["cryptography (<39.0.0) ; python_version < \"3.8\"", "cryptography (>=38.0.3)", "pyopenssl (>=20.0.0)"]
+reauth = ["pyu2f (>=0.1.5)"]
+requests = ["requests (>=2.20.0,<3.0.0)"]
+testing = ["aiohttp (<3.10.0)", "aiohttp (>=3.6.2,<4.0.0)", "aioresponses", "cryptography (<39.0.0) ; python_version < \"3.8\"", "cryptography (<39.0.0) ; python_version < \"3.8\"", "cryptography (>=38.0.3)", "cryptography (>=38.0.3)", "flask", "freezegun", "grpcio", "mock", "oauth2client", "packaging", "pyjwt (>=2.0)", "pyopenssl (<24.3.0)", "pyopenssl (>=20.0.0)", "pytest", "pytest-asyncio", "pytest-cov", "pytest-localserver", "pyu2f (>=0.1.5)", "requests (>=2.20.0,<3.0.0)", "responses", "urllib3"]
+urllib3 = ["packaging", "urllib3"]
+
+[[package]]
+name = "graphql-core"
+version = "3.2.7"
+description = "GraphQL implementation for Python, a port of GraphQL.js, the JavaScript reference implementation for GraphQL."
+optional = false
+python-versions = "<4,>=3.7"
+groups = ["main"]
+files = [
+    {file = "graphql_core-3.2.7-py3-none-any.whl", hash = "sha256:17fc8f3ca4a42913d8e24d9ac9f08deddf0a0b2483076575757f6c412ead2ec0"},
+    {file = "graphql_core-3.2.7.tar.gz", hash = "sha256:27b6904bdd3b43f2a0556dad5d579bdfdeab1f38e8e8788e555bdcb586a6f62c"},
 ]
 
 [[package]]
@@ -591,6 +769,26 @@ files = [
 referencing = ">=0.31.0"
 
 [[package]]
+name = "marshmallow"
+version = "3.26.1"
+description = "A lightweight library for converting complex datatypes to and from native Python datatypes."
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "marshmallow-3.26.1-py3-none-any.whl", hash = "sha256:3350409f20a70a7e4e11a27661187b77cdcaeb20abca41c1454fe33636bea09c"},
+    {file = "marshmallow-3.26.1.tar.gz", hash = "sha256:e6d8affb6cb61d39d26402096dc0aee12d5a26d490a121f118d2e81dc0719dc6"},
+]
+
+[package.dependencies]
+packaging = ">=17.0"
+
+[package.extras]
+dev = ["marshmallow[tests]", "pre-commit (>=3.5,<5.0)", "tox"]
+docs = ["autodocsumm (==0.2.14)", "furo (==2024.8.6)", "sphinx (==8.1.3)", "sphinx-copybutton (==0.5.2)", "sphinx-issues (==5.0.0)", "sphinxext-opengraph (==0.9.1)"]
+tests = ["pytest", "simplejson"]
+
+[[package]]
 name = "mcp"
 version = "1.22.0"
 description = "Model Context Protocol SDK"
@@ -622,6 +820,18 @@ uvicorn = {version = ">=0.31.1", markers = "sys_platform != \"emscripten\""}
 cli = ["python-dotenv (>=1.0.0)", "typer (>=0.16.0)"]
 rich = ["rich (>=13.9.4)"]
 ws = ["websockets (>=15.0.1)"]
+
+[[package]]
+name = "mypy-extensions"
+version = "1.1.0"
+description = "Type system extensions for programs checked with the mypy type checker."
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "mypy_extensions-1.1.0-py3-none-any.whl", hash = "sha256:1be4cccdb0f2482337c4743e60421de3a356cd97508abadd57d47403e94f5505"},
+    {file = "mypy_extensions-1.1.0.tar.gz", hash = "sha256:52e68efc3284861e772bbcd66823fde5ae21fd2fdb51c62a211403730b916558"},
+]
 
 [[package]]
 name = "nodeenv"
@@ -687,7 +897,7 @@ version = "25.0"
 description = "Core utilities for Python packages"
 optional = false
 python-versions = ">=3.8"
-groups = ["dev"]
+groups = ["main", "dev"]
 files = [
     {file = "packaging-25.0-py3-none-any.whl", hash = "sha256:29572ef2b1f17581046b3a2227d5c611fb25ec70ca1ba8554b24b0e69331a484"},
     {file = "packaging-25.0.tar.gz", hash = "sha256:d443872c98d677bf60f6a1f2f8c1cb748e8fe762d2bf9d3148b5599295b0fc4f"},
@@ -855,6 +1065,26 @@ pyyaml = ">=5.1"
 virtualenv = ">=20.10.0"
 
 [[package]]
+name = "protobuf"
+version = "6.33.1"
+description = ""
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "protobuf-6.33.1-cp310-abi3-win32.whl", hash = "sha256:f8d3fdbc966aaab1d05046d0240dd94d40f2a8c62856d41eaa141ff64a79de6b"},
+    {file = "protobuf-6.33.1-cp310-abi3-win_amd64.whl", hash = "sha256:923aa6d27a92bf44394f6abf7ea0500f38769d4b07f4be41cb52bd8b1123b9ed"},
+    {file = "protobuf-6.33.1-cp39-abi3-macosx_10_9_universal2.whl", hash = "sha256:fe34575f2bdde76ac429ec7b570235bf0c788883e70aee90068e9981806f2490"},
+    {file = "protobuf-6.33.1-cp39-abi3-manylinux2014_aarch64.whl", hash = "sha256:f8adba2e44cde2d7618996b3fc02341f03f5bc3f2748be72dc7b063319276178"},
+    {file = "protobuf-6.33.1-cp39-abi3-manylinux2014_s390x.whl", hash = "sha256:0f4cf01222c0d959c2b399142deb526de420be8236f22c71356e2a544e153c53"},
+    {file = "protobuf-6.33.1-cp39-abi3-manylinux2014_x86_64.whl", hash = "sha256:8fd7d5e0eb08cd5b87fd3df49bc193f5cfd778701f47e11d127d0afc6c39f1d1"},
+    {file = "protobuf-6.33.1-cp39-cp39-win32.whl", hash = "sha256:023af8449482fa884d88b4563d85e83accab54138ae098924a985bcbb734a213"},
+    {file = "protobuf-6.33.1-cp39-cp39-win_amd64.whl", hash = "sha256:df051de4fd7e5e4371334e234c62ba43763f15ab605579e04c7008c05735cd82"},
+    {file = "protobuf-6.33.1-py3-none-any.whl", hash = "sha256:d595a9fd694fdeb061a62fbe10eb039cc1e444df81ec9bb70c7fc59ebcb1eafa"},
+    {file = "protobuf-6.33.1.tar.gz", hash = "sha256:97f65757e8d09870de6fd973aeddb92f85435607235d20b2dfed93405d00c85b"},
+]
+
+[[package]]
 name = "py4j"
 version = "0.10.9.7"
 description = "Enables Python programs to dynamically access arbitrary Java objects"
@@ -865,6 +1095,52 @@ files = [
     {file = "py4j-0.10.9.7-py2.py3-none-any.whl", hash = "sha256:85defdfd2b2376eb3abf5ca6474b51ab7e0de341c75a02f46dc9b5976f5a5c1b"},
     {file = "py4j-0.10.9.7.tar.gz", hash = "sha256:0b6e5315bb3ada5cf62ac651d107bb2ebc02def3dee9d9548e3baac644ea8dbb"},
 ]
+
+[[package]]
+name = "pyasn1"
+version = "0.6.1"
+description = "Pure-Python implementation of ASN.1 types and DER/BER/CER codecs (X.208)"
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "pyasn1-0.6.1-py3-none-any.whl", hash = "sha256:0d632f46f2ba09143da3a8afe9e33fb6f92fa2320ab7e886e2d0f7672af84629"},
+    {file = "pyasn1-0.6.1.tar.gz", hash = "sha256:6f580d2bdd84365380830acf45550f2511469f673cb4a5ae3857a3170128b034"},
+]
+
+[[package]]
+name = "pyasn1-modules"
+version = "0.4.2"
+description = "A collection of ASN.1-based protocols modules"
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "pyasn1_modules-0.4.2-py3-none-any.whl", hash = "sha256:29253a9207ce32b64c3ac6600edc75368f98473906e8fd1043bd6b5b1de2c14a"},
+    {file = "pyasn1_modules-0.4.2.tar.gz", hash = "sha256:677091de870a80aae844b1ca6134f54652fa2c8c5a52aa396440ac3106e941e6"},
+]
+
+[package.dependencies]
+pyasn1 = ">=0.6.1,<0.7.0"
+
+[[package]]
+name = "pycarlo"
+version = "0.12.5"
+description = "Monte Carlo's Python SDK"
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "pycarlo-0.12.5-py3-none-any.whl", hash = "sha256:60049cfa4ec8454a87f4ea8c4b2c191113a0cd02edb5006ad3953975f45b82f4"},
+    {file = "pycarlo-0.12.5.tar.gz", hash = "sha256:f89327740443da89982f35b31ecd3ad32ae517834c6a0e758f3c8dceff194a56"},
+]
+
+[package.dependencies]
+dataclasses-json = ">=0.5.7,<6.0.0"
+python-box = ">=5.0.0"
+requests = ">=2.0.0,<3.0.0"
+responses = ">=0.20.0"
+sgqlc = ">=14.1,<17.0"
 
 [[package]]
 name = "pycparser"
@@ -881,14 +1157,14 @@ files = [
 
 [[package]]
 name = "pydantic"
-version = "2.12.4"
+version = "2.12.5"
 description = "Data validation using Python type hints"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "pydantic-2.12.4-py3-none-any.whl", hash = "sha256:92d3d202a745d46f9be6df459ac5a064fdaa3c1c4cd8adcfa332ccf3c05f871e"},
-    {file = "pydantic-2.12.4.tar.gz", hash = "sha256:0f8cb9555000a4b5b617f66bfd2566264c4984b27589d3b845685983e8ea85ac"},
+    {file = "pydantic-2.12.5-py3-none-any.whl", hash = "sha256:e561593fccf61e8a20fc46dfc2dfe075b8be7d0188df33f221ad1f0139180f9d"},
+    {file = "pydantic-2.12.5.tar.gz", hash = "sha256:4d351024c75c0f085a9febbb665ce8c0c6ec5d30e903bdb6394b7ede26aebb49"},
 ]
 
 [package.dependencies]
@@ -1141,6 +1417,42 @@ tomli = {version = ">=1", markers = "python_version < \"3.11\""}
 dev = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "requests", "setuptools", "xmlschema"]
 
 [[package]]
+name = "python-box"
+version = "7.3.2"
+description = "Advanced Python dictionaries with dot notation access"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "python_box-7.3.2-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:d136163294fd61a1554db7dd203f2e3035064798d30c17d67d948f0de5c572de"},
+    {file = "python_box-7.3.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:47d72e96547d8e2c2c333909826e9fae338d9a7e4cde07d5c6058cdd468432c0"},
+    {file = "python_box-7.3.2-cp310-cp310-win_amd64.whl", hash = "sha256:3aa52e3b5cc50c80bb7ef4be3e41e81d095310f619454a7ffd61eef3209a6225"},
+    {file = "python_box-7.3.2-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:32163b1cb151883de0da62b0cd3572610dc72ccf0762f2447baf1d2562e25bea"},
+    {file = "python_box-7.3.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:064cb59b41e25aaf7dbd39efe53151a5f6797cc1cb3c68610f0f21a9d406d67e"},
+    {file = "python_box-7.3.2-cp311-cp311-win_amd64.whl", hash = "sha256:488f0fba9a6416c3334b602366dcd92825adb0811e07e03753dfcf0ed79cd6f7"},
+    {file = "python_box-7.3.2-cp312-cp312-macosx_10_13_universal2.whl", hash = "sha256:39009a2da5c20133718b24891a206592adbe09169856aedc450ad1600fc2e511"},
+    {file = "python_box-7.3.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:2e2a72e2f6fb97c7e472ff3272da207ecc615aa222e52e98352391428527c469"},
+    {file = "python_box-7.3.2-cp312-cp312-win_amd64.whl", hash = "sha256:9eead914b9fb7d98a1473f5027dcfe27d26b3a10ffa33b9ba22cf948a23cd280"},
+    {file = "python_box-7.3.2-cp313-cp313-macosx_10_13_universal2.whl", hash = "sha256:1dfc3b9b073f3d7cad1fa90de98eaaa684a494d0574bbc0666f74fa8307fd6b6"},
+    {file = "python_box-7.3.2-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:3ca4685a7f764b5a71b6e08535ce2a96b7964bb63d8cb4df10f6bb7147b6c54b"},
+    {file = "python_box-7.3.2-cp313-cp313-win_amd64.whl", hash = "sha256:e143295f74d47a9ab24562ead2375c9be10629599b57f2e86717d3fff60f82a9"},
+    {file = "python_box-7.3.2-cp39-cp39-macosx_10_9_universal2.whl", hash = "sha256:f3118ab3076b645c76133b8fac51deee30237cecdcafc3af664c4b9000f04db9"},
+    {file = "python_box-7.3.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:42a760074ba12ccc247796f43b6c61f686ada4b8349ab59e2a6303b27f3ae082"},
+    {file = "python_box-7.3.2-cp39-cp39-win_amd64.whl", hash = "sha256:ea436e7ff5f87bd728472f1e31a9e6e95572c81028c44a8e00097e0968955638"},
+    {file = "python_box-7.3.2-py3-none-any.whl", hash = "sha256:fd7d74d5a848623f93b5221fd9fb00b8c00ff0e130fa87f396277aa188659c92"},
+    {file = "python_box-7.3.2.tar.gz", hash = "sha256:028b9917129e67f311932d93347b8a4f1b500d7a5a2870ee3c035f4e7b19403b"},
+]
+
+[package.extras]
+all = ["msgpack", "ruamel.yaml (>=0.17)", "toml"]
+msgpack = ["msgpack"]
+pyyaml = ["PyYAML"]
+ruamel-yaml = ["ruamel.yaml (>=0.17)"]
+toml = ["toml"]
+tomli = ["tomli ; python_version < \"3.11\"", "tomli-w"]
+yaml = ["ruamel.yaml (>=0.17)"]
+
+[[package]]
 name = "python-dotenv"
 version = "1.2.1"
 description = "Read key-value pairs from a .env file and set them as environment variables"
@@ -1322,6 +1634,48 @@ renderpm = ["rl_renderPM (>=4.0.3,<4.1)"]
 shaping = ["uharfbuzz"]
 
 [[package]]
+name = "requests"
+version = "2.32.5"
+description = "Python HTTP for Humans."
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "requests-2.32.5-py3-none-any.whl", hash = "sha256:2462f94637a34fd532264295e186976db0f5d453d1cdd31473c85a6a161affb6"},
+    {file = "requests-2.32.5.tar.gz", hash = "sha256:dbba0bac56e100853db0ea71b82b4dfd5fe2bf6d3754a8893c3af500cec7d7cf"},
+]
+
+[package.dependencies]
+certifi = ">=2017.4.17"
+charset_normalizer = ">=2,<4"
+idna = ">=2.5,<4"
+urllib3 = ">=1.21.1,<3"
+
+[package.extras]
+socks = ["PySocks (>=1.5.6,!=1.5.7)"]
+use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
+
+[[package]]
+name = "responses"
+version = "0.25.8"
+description = "A utility library for mocking out the `requests` Python library."
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "responses-0.25.8-py3-none-any.whl", hash = "sha256:0c710af92def29c8352ceadff0c3fe340ace27cf5af1bbe46fb71275bcd2831c"},
+    {file = "responses-0.25.8.tar.gz", hash = "sha256:9374d047a575c8f781b94454db5cab590b6029505f488d12899ddb10a4af1cf4"},
+]
+
+[package.dependencies]
+pyyaml = "*"
+requests = ">=2.30.0,<3.0"
+urllib3 = ">=1.25.10,<3.0"
+
+[package.extras]
+tests = ["coverage (>=6.0.0)", "flake8", "mypy", "pytest (>=7.0.0)", "pytest-asyncio", "pytest-cov", "pytest-httpserver", "tomli ; python_version < \"3.11\"", "tomli-w", "types-PyYAML", "types-requests"]
+
+[[package]]
 name = "rpds-py"
 version = "0.29.0"
 description = "Python bindings to Rust's persistent data structures (rpds)"
@@ -1447,6 +1801,21 @@ files = [
 ]
 
 [[package]]
+name = "rsa"
+version = "4.9.1"
+description = "Pure-Python RSA implementation"
+optional = false
+python-versions = "<4,>=3.6"
+groups = ["main"]
+files = [
+    {file = "rsa-4.9.1-py3-none-any.whl", hash = "sha256:68635866661c6836b8d39430f97a996acbd61bfa49406748ea243539fe239762"},
+    {file = "rsa-4.9.1.tar.gz", hash = "sha256:e7bdbfdb5497da4c07dfd35530e1a902659db6ff241e39d9953cad06ebd0ae75"},
+]
+
+[package.dependencies]
+pyasn1 = ">=0.1.3"
+
+[[package]]
 name = "ruff"
 version = "0.11.13"
 description = "An extremely fast Python linter and code formatter, written in Rust."
@@ -1539,16 +1908,47 @@ doc = ["intersphinx_registry", "jupyterlite-pyodide-kernel", "jupyterlite-sphinx
 test = ["Cython", "array-api-strict (>=2.0,<2.1.1)", "asv", "gmpy2", "hypothesis (>=6.30)", "meson", "mpmath", "ninja ; sys_platform != \"emscripten\"", "pooch", "pytest", "pytest-cov", "pytest-timeout", "pytest-xdist", "scikit-umfpack", "threadpoolctl"]
 
 [[package]]
-name = "sniffio"
-version = "1.3.1"
-description = "Sniff out which async library your code is running under"
+name = "sgqlc"
+version = "16.5"
+description = "Simple GraphQL Client"
 optional = false
-python-versions = ">=3.7"
+python-versions = "<4,>=3.8"
 groups = ["main"]
 files = [
-    {file = "sniffio-1.3.1-py3-none-any.whl", hash = "sha256:2f6da418d1f1e0fddd844478f41680e794e6051915791a034ff65e5f100525a2"},
-    {file = "sniffio-1.3.1.tar.gz", hash = "sha256:f4324edc670a0f49750a81b895f35c3adb843cca46f0530f79fc1babb23789dc"},
+    {file = "sgqlc-16.5-py3-none-any.whl", hash = "sha256:56952622e3fcd771e079de290cf8a244dc014cbd9b65059d04f262ec8d8f0f44"},
+    {file = "sgqlc-16.5.tar.gz", hash = "sha256:93edcd29ee138f5305d13f211a2b2091bd77873c404c87b87ae16a4023c62d4a"},
 ]
+
+[package.dependencies]
+graphql-core = ">=3.2.4,<4.0.0"
+
+[package.extras]
+requests = ["requests"]
+websocket = ["websocket-client"]
+
+[[package]]
+name = "spark-session-utils"
+version = "0.2.0"
+description = "Minimal Spark session management with configuration and testing support"
+optional = false
+python-versions = ">=3.10,<4.0"
+groups = ["main"]
+files = []
+develop = false
+
+[package.dependencies]
+pydantic = ">=2.0.0"
+pyspark = ">=3.0.0"
+pyyaml = ">=6.0.0"
+
+[package.extras]
+dev = ["black (>=23.0.0)", "chispa (>=0.9.0)", "mypy (>=1.0.0)", "pytest (>=7.0.0)", "pytest-cov (>=4.0.0)", "ruff (>=0.1.0)"]
+
+[package.source]
+type = "git"
+url = "https://github.com/Skyscanner/spark-session-utils.git"
+reference = "dev"
+resolved_reference = "7961fe9b19d3bf95dcbcd6bb41b851de9f399516"
 
 [[package]]
 name = "sse-starlette"
@@ -1657,6 +2057,22 @@ files = [
 markers = {dev = "python_version == \"3.10\""}
 
 [[package]]
+name = "typing-inspect"
+version = "0.9.0"
+description = "Runtime inspection utilities for typing module."
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "typing_inspect-0.9.0-py3-none-any.whl", hash = "sha256:9ee6fc59062311ef8547596ab6b955e1b8aa46242d854bfc78f4f6b0eff35f9f"},
+    {file = "typing_inspect-0.9.0.tar.gz", hash = "sha256:b23fc42ff6f6ef6954e4852c1fb512cdd18dbea03134f91f856a95ccc9461f78"},
+]
+
+[package.dependencies]
+mypy-extensions = ">=0.3.0"
+typing-extensions = ">=3.7.4"
+
+[[package]]
 name = "typing-inspection"
 version = "0.4.2"
 description = "Runtime typing introspection tools"
@@ -1670,6 +2086,24 @@ files = [
 
 [package.dependencies]
 typing-extensions = ">=4.12.0"
+
+[[package]]
+name = "urllib3"
+version = "2.5.0"
+description = "HTTP library with thread-safe connection pooling, file post, and more."
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "urllib3-2.5.0-py3-none-any.whl", hash = "sha256:e6b01673c0fa6a13e374b50871808eb3bf7046c4b125b216f6bf1cc604cff0dc"},
+    {file = "urllib3-2.5.0.tar.gz", hash = "sha256:3fc47733c7e419d4bc3f6b3dc2b4f890bb743906a30d56ba4a5bfa4bbff92760"},
+]
+
+[package.extras]
+brotli = ["brotli (>=1.0.9) ; platform_python_implementation == \"CPython\"", "brotlicffi (>=0.8.0) ; platform_python_implementation != \"CPython\""]
+h2 = ["h2 (>=4,<5)"]
+socks = ["pysocks (>=1.5.6,!=1.5.7,<2.0)"]
+zstd = ["zstandard (>=0.18.0)"]
 
 [[package]]
 name = "uvicorn"
@@ -1717,4 +2151,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "fd585b47eca2499ce0144b3151aa80e10d982f43fc698c3cb540c5a1eb67fbde"
+content-hash = "e61bed4b7c92918634c859d6a54dcf68559594850ca40b5501de95a9d4ca53c7"

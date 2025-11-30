@@ -180,6 +180,7 @@ lint: ## Check code with ruff
 	@echo "Checking code with ruff..."
 	@poetry run ruff check .
 
+
 .PHONY: format
 format: ## Format code with ruff
 	@test -d $(VENV_PATH) || { echo "ERROR: Virtual environment not found. Run 'make setup' first."; exit 1; }

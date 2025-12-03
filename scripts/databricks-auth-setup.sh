@@ -58,6 +58,16 @@ echo "export DATABRICKS_WAREHOUSE_ID=\"${DATABRICKS_WAREHOUSE_ID}\"" >> ~/.bashr
 echo "✓ Environment variables set"
 echo ""
 
+
+
+
+# Step 3: Verify configuration
+echo "=========================================="
+echo "Source ~/.bashrc"
+echo "=========================================="
+source ~/.bashrc
+echo ""
+
 # Step 3: Verify configuration
 echo "=========================================="
 echo "Configuration Verification"

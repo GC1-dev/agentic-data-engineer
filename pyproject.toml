@@ -11,11 +11,10 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.10"
 pyspark = "^3.4.0"
-pydantic = "^2.0.0"
+pydantic = ">=2.0.0"  # JSON Schema generation from type hints
 pyyaml = "^6.0"
 scipy = "^1.11.0"
 numpy = "^1.24.0"
-mcp = "^1.2.1"
 reportlab = "^4.0.0"
 
 # Git dependencies pinned to dev branch across all packages
@@ -28,10 +27,36 @@ data-quality-utils = { git = "https://github.com/Skyscanner/data-quality-utils.g
 skyscanner-databricks-utils = { git = "https://github.com/Skyscanner/databricks-utils.git", branch = "main" }
 
 
+[tool.poetry.group.cli.dependencies]
+databricks-sdk = ">=0.18.0"
+databricks-cli = ">=0.18.0"
+click = ">=8.1.0"
+rich = ">=13.0.0"
+pandas = ">=2.0.0"
+
+
+[tool.poetry.group.mcp.dependencies]
+mcp = {version = ">=1.2.1", python = ">=3.10"}  # Official MCP SDK for protocol implementation (requires Python 3.10+)
+httpx = ">=0.24.0"  # HTTP client for async requests
+anyio = ">=3.0.0"  # Async compatibility layer
+
+
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.0.0"
-ruff = "^0.11.13"
-pre-commit = "^4.0.1"
+black = ">=23.0.0"
+ruff = "^0.14.7"
+flake8 = ">=6.0.0"
+flake8-pyproject = ">=1.2.0"
+pre-commit = ">=4.0.1"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = ">=7.0.0"
+pytest-cov = ">=4.0.0"
+pytest-asyncio = ">=0.21.0,<0.23.0"  # Async test support for MCP integration tests (0.23.x has backports issues)
+pyyaml = ">=6.0"
+jsonschema = ">=4.20.0"  # JSON Schema validation for contract tests
+delta-spark = "==3.2.0"  # Delta Lake support for local integration testing
+
 
 [build-system]
 requires = ["poetry-core"]

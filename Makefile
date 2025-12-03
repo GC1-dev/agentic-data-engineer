@@ -16,7 +16,7 @@ VENV_PATH := .venv
 # Targets
 
 # Declare all targets as phony to prevent conflicts with files
-.PHONY: help activate-pyenv check-pyenv install-databricks-cli install-poetry install-deps install-hooks setup-mcp setup validate lint format lint-fix test test-cov build clean
+.PHONY: help activate-pyenv check-pyenv project_pyenv_init project_init install-databricks-cli install-poetry install-deps install-hooks setup-mcp setup validate lint format lint-fix test test-cov build clean
 
 .PHONY: help
 help: ## Show this help message
@@ -25,6 +25,22 @@ help: ## Show this help message
 	@echo "Available targets:"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
+
+.PHONY: project_pyenv_init
+project_pyenv_init: build-pyenv activate-pyenv check-pyenv check-python
+	@echo "✓ Project initialization complete"
+	@echo ""
+	@echo "========================================"
+	@echo "IMPORTANT: To use pyenv in this terminal, run:"
+	@echo "  source scripts/activate-pyenv.sh"
+	@echo "========================================"
+
+
+.PHONY: project_init
+project_init: install-databricks-cli install-poetry install-deps install-hooks setup-mcp ## Initialize project end-to-end
+	@echo ""
+	@echo "✓ Project initialization complete"
+	@echo ""
 
 .PHONY: activate-pyenv
 activate-pyenv: ## Activate pyenv and set Python version

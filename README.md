@@ -8,7 +8,7 @@ This repository uses git submodules for package management. After cloning, initi
 
 ```bash
 # Clone the repository with submodules
-git clone --recurse-submodules https://github.com/your-org/agentic-data-engineer.git
+git clone --recurse-submodules https://github.com/Skyscanner/agentic-data-engineer.git
 
 # Or if already cloned, initialize submodules
 git submodule update --init --recursive

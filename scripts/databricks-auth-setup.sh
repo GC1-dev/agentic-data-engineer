@@ -13,7 +13,11 @@ echo ""
 # Get input parameters or use defaults
 DATABRICKS_ENV_NAME="${1:-dev}"
 DATABRICKS_CONFIG_PROFILE="${2:-skyscanner-dev}"
-DATABRICKS_WAREHOUSE_ID="${3:-1204fc84c047ff08}"
+DATABRICKS_WAREHOUSE_ID="${3:-5e9d5752a01c048a}"
+
+# Cluster used:
+# SQL Warehouse: data-discovery-claude-sqlwh (ID: 5e9d5752a01c048a)
+# https://skyscanner-dev.cloud.databricks.com/sql/warehouses/5e9d5752a01c048a?o=3699024101661884
 
 # Derive host from profile
 DATABRICKS_HOST="https://skyscanner-${DATABRICKS_ENV_NAME}.cloud.databricks.com"
@@ -22,14 +26,14 @@ DATABRICKS_HOST="https://skyscanner-${DATABRICKS_ENV_NAME}.cloud.databricks.com"
 if [ -z "$DATABRICKS_CONFIG_PROFILE" ]; then
     echo "Error: Profile name is required"
     echo "Usage: source scripts/databricks-auth-setup.sh [env_name] [profile] [warehouse_id]"
-    echo "Example: source scripts/databricks-auth-setup.sh dev skyscanner-dev 1204fc84c047ff08"
+    echo "Example: source scripts/databricks-auth-setup.sh dev skyscanner-dev 5e9d5752a01c048a"
     return 1 2>/dev/null || exit 1
 fi
 
 if [ -z "$DATABRICKS_WAREHOUSE_ID" ]; then
     echo "Error: Warehouse ID is required"
     echo "Usage: source scripts/databricks-auth-setup.sh [env_name] [profile] [warehouse_id]"
-    echo "Example: source scripts/databricks-auth-setup.sh dev skyscanner-dev 1204fc84c047ff08"
+    echo "Example: source scripts/databricks-auth-setup.sh dev skyscanner-dev 5e9d5752a01c048a"
     return 1 2>/dev/null || exit 1
 fi
 

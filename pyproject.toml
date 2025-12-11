@@ -24,11 +24,11 @@ numpy = "^1.24.0"
 reportlab = "^4.0.0"
 
 # Git dependencies pinned to dev branch across all packages
-skyscanner-spark-session-utils = { git = "https://github.com/Skyscanner/spark-session-utils.git", branch = "dev" }
-data-catalog-utils = { git = "https://github.com/Skyscanner/data-catalog-utils.git", branch = "dev" }
-skyscanner-data-shared-utils = { git = "https://github.com/Skyscanner/data-shared-utils.git", branch = "dev" }
-data-observability-utils = { git = "https://github.com/Skyscanner/data-observability-utils.git", branch = "dev" }
-data-quality-utils = { git = "https://github.com/Skyscanner/data-quality-utils.git", branch = "dev" }
+skyscanner-spark-session-utils = { git = "https://github.com/Skyscanner/spark-session-utils.git", branch = "main" }
+skyscanner-data-shared-utils = { git = "https://github.com/Skyscanner/data-shared-utils.git", branch = "main" }
+data-catalog-utils = { git = "https://github.com/Skyscanner/data-catalog-utils.git", branch = "main" }
+data-observability-utils = { git = "https://github.com/Skyscanner/data-observability-utils.git", branch = "main" }
+data-quality-utils = { git = "https://github.com/Skyscanner/data-quality-utils.git", branch = "main" }
 
 skyscanner-databricks-utils = { git = "https://github.com/Skyscanner/databricks-utils.git", branch = "main" }
 

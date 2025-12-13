@@ -24,6 +24,7 @@ priority = "supplemental"
 python = ">=3.10,<4.0" # Databricks Runtime 12.2 LTS compatible, allows modern Python versions
 sqlglot = ">=27.0.0"  # SQL parsing and modification for query rewriting
 databricks-cli = ">=0.18.0"  # Databricks CLI tool
+pycarlo = ">=0.12.28" # for data observability
 
 # Note: Internal dependencies
 # Git dependencies pinned to main branch across all packages

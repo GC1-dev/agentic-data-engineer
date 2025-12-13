@@ -48,7 +48,7 @@ jobs:
         java-version: '11'
 
     - name: Cache pip packages
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-shared-${{ hashFiles('data-shared-utils/pyproject.toml') }}

@@ -1,8 +1,8 @@
 #!/bin/bash
-# Script to set up Databricks authentication and configuration for bash
-# For zsh users, use: scripts/databricks-auth-setup-zsh.sh (recommended default)
-# Usage: source scripts/databricks-auth-setup.sh [env_name] [profile] [warehouse_id]
-# Example: source scripts/databricks-auth-setup.sh dev skyscanner-dev 1204fc84c047ff08
+# Script to set up Databricks authentication and configuration for zsh (recommended default)
+# For bash users, use: scripts/databricks-auth-setup.sh
+# Usage: source scripts/databricks-auth-setup-zsh.sh [env_name] [profile] [warehouse_id]
+# Example: source scripts/databricks-auth-setup-zsh.sh dev skyscanner-dev 1204fc84c047ff08
 
 set -e
 
@@ -22,19 +22,19 @@ DATABRICKS_HOST="https://skyscanner-${DATABRICKS_ENV_NAME}.cloud.databricks.com"
 # Validate inputs
 if [ -z "$DATABRICKS_CONFIG_PROFILE" ]; then
     echo "Error: Profile name is required"
-    echo "Usage: source scripts/databricks-auth-setup.sh [env_name] [profile] [warehouse_id]"
-    echo "Example: source scripts/databricks-auth-setup.sh dev skyscanner-dev 1204fc84c047ff08"
+    echo "Usage: source scripts/databricks-auth-setup-zsh.sh [env_name] [profile] [warehouse_id]"
+    echo "Example: source scripts/databricks-auth-setup-zsh.sh dev skyscanner-dev 1204fc84c047ff08"
     echo ""
-    echo "Note: For zsh users, use scripts/databricks-auth-setup-zsh.sh (recommended default)"
+    echo "Note: For bash users, use scripts/databricks-auth-setup.sh"
     return 1 2>/dev/null || exit 1
 fi
 
 if [ -z "$DATABRICKS_WAREHOUSE_ID" ]; then
     echo "Error: Warehouse ID is required"
-    echo "Usage: source scripts/databricks-auth-setup.sh [env_name] [profile] [warehouse_id]"
-    echo "Example: source scripts/databricks-auth-setup.sh dev skyscanner-dev 1204fc84c047ff08"
+    echo "Usage: source scripts/databricks-auth-setup-zsh.sh [env_name] [profile] [warehouse_id]"
+    echo "Example: source scripts/databricks-auth-setup-zsh.sh dev skyscanner-dev 1204fc84c047ff08"
     echo ""
-    echo "Note: For zsh users, use scripts/databricks-auth-setup-zsh.sh (recommended default)"
+    echo "Note: For bash users, use scripts/databricks-auth-setup.sh"
     return 1 2>/dev/null || exit 1
 fi
 
@@ -53,16 +53,16 @@ echo ""
 # Step 2: Export environment variables
 echo "Step 2: Setting environment variables..."
 
-BASHRC="$HOME/.bashrc"
+ZSHRC="$HOME/.zshrc"
 DATABRICKS_BLOCK_START="# >>> databricks-auth-setup >>>"
 DATABRICKS_BLOCK_END="# <<< databricks-auth-setup <<<"
 DATABRICKS_EXPORTS="export DATABRICKS_HOST=\"${DATABRICKS_HOST}\"\nexport DATABRICKS_CONFIG_PROFILE=\"${DATABRICKS_CONFIG_PROFILE}\"\nexport DATABRICKS_WAREHOUSE_ID=\"${DATABRICKS_WAREHOUSE_ID}\""
 
 # Remove existing block if present
-if grep -q "$DATABRICKS_BLOCK_START" "$BASHRC" 2>/dev/null; then
+if grep -q "$DATABRICKS_BLOCK_START" "$ZSHRC" 2>/dev/null; then
     # Use awk to remove the old block and write to a temp file
-    awk "/$DATABRICKS_BLOCK_START/{flag=1;next}/$DATABRICKS_BLOCK_END/{flag=0;next}!flag" "$BASHRC" > "${BASHRC}.tmp"
-    mv "${BASHRC}.tmp" "$BASHRC"
+    awk "/$DATABRICKS_BLOCK_START/{flag=1;next}/$DATABRICKS_BLOCK_END/{flag=0;next}!flag" "$ZSHRC" > "${ZSHRC}.tmp"
+    mv "${ZSHRC}.tmp" "$ZSHRC"
 fi
 
 # Append new block
@@ -70,7 +70,7 @@ fi
     echo "$DATABRICKS_BLOCK_START"
     echo -e "$DATABRICKS_EXPORTS"
     echo "$DATABRICKS_BLOCK_END"
-} >> "$BASHRC"
+} >> "$ZSHRC"
 
 echo "✓ Environment variables set"
 echo ""
@@ -104,12 +104,12 @@ echo "Setup Complete!"
 echo "=========================================="
 echo ""
 echo "To use these settings in your current shell, run:"
-echo "  source scripts/databricks-auth-setup.sh"
+echo "  source scripts/databricks-auth-setup-zsh.sh"
 echo ""
-echo "Or add these to your ~/.bashrc:"
+echo "Or add these to your ~/.zshrc:"
 echo "  export DATABRICKS_HOST=\"$DATABRICKS_HOST\""
 echo "  export DATABRICKS_CONFIG_PROFILE=\"$DATABRICKS_CONFIG_PROFILE\""
 echo "  export DATABRICKS_WAREHOUSE_ID=\"$DATABRICKS_WAREHOUSE_ID\""
 echo ""
-echo "Note: For zsh users, use scripts/databricks-auth-setup-zsh.sh (recommended default)"
+echo "Note: For bash users, use scripts/databricks-auth-setup.sh (recommended default for bash)"
 echo ""

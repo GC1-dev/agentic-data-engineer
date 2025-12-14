@@ -184,7 +184,7 @@ cd projects_tmp/customer-analytics-pipeline
 mv projects_tmp/customer-analytics-pipeline ../my-projects/
 ```
 
-[→ Agent Documentation](./.claude/agents/data-project-generator-agent.md)
+[→ Agent Documentation](./.claude/agents/shared/data-project-generator-agent.md)
 
 #### Option 2: Using Cookiecutter (Manual)
 

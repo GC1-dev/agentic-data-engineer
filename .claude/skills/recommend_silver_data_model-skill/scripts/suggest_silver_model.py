@@ -1,5 +1,4 @@
-"""
-Silver Data Model Suggestion Script
+"""Silver Data Model Suggestion Script.
 
 Given business entities and their attributes, this script suggests a normalized
 Silver-layer Entity-Centric data model following Medallion Architecture principles.
@@ -14,8 +13,7 @@ from typing import Any
 
 
 def suggest_silver_data_model(entities: list[dict[str, Any]]) -> dict[str, Any]:
-    """
-    Suggest a Silver-layer Entity-Centric target data model.
+    """Suggest a Silver-layer Entity-Centric target data model.
 
     Returns a dictionary containing:
         - silver_entities: Normalized entities with keys and attributes
@@ -24,7 +22,6 @@ def suggest_silver_data_model(entities: list[dict[str, Any]]) -> dict[str, Any]:
         - entity_quality_rules: Data quality rules per entity
         - scd_recommendations: SCD type recommendations per entity
     """
-
     suggestions = {
         "silver_entities": [],
         "relationships": [],

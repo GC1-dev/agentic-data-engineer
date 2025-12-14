@@ -23,10 +23,10 @@ project/
 ├── .env                        # Local environment variables (not committed)
 ├── databricks.yml              # Databricks Asset Bundle config
 ├── config/
-│   ├── spark/
-│   │   ├── dev.yaml           # Dev Spark configs
-│   │   ├── staging.yaml       # Staging Spark configs
-│   │   └── prod.yaml          # Production Spark configs
+│   ├── env_config/
+│   │   ├── dev.yaml           # Dev environment configs
+│   │   ├── staging.yaml       # Staging environment configs
+│   │   └── prod.yaml          # Production environment configs
 │   ├── catalog/
 │   │   ├── dev.yaml           # Dev catalog/schema/table configs
 │   │   ├── staging.yaml
@@ -228,9 +228,9 @@ class Settings(BaseSettings):
 
         config_dir = Path("config")
 
-        # Load Spark config
+        # Load environment config
         spark_config = {}
-        spark_file = config_dir / "spark" / f"{env}.yaml"
+        spark_file = config_dir / "env_config" / f"{env}.yaml"
         if spark_file.exists():
             with open(spark_file) as f:
                 spark_config = yaml.safe_load(f) or {}
@@ -300,8 +300,8 @@ MYPROJECT_DATABRICKS__TOKEN=dapi_your_token_here
 
 ### Spark Configuration
 
-**config/spark/dev.yaml:**
-> **Status**: Version-controlled in repository at `./config/spark/dev.yaml`
+**config/env_config/dev.yaml:**
+> **Status**: Version-controlled in repository at `./config/env_config/dev.yaml`
 ```yaml
 spark:
   app_name: myproject_dev
@@ -316,8 +316,8 @@ spark:
   adaptive_enabled: true
 ```
 
-**config/spark/prod.yaml:**
-> **Status**: Version-controlled in repository at `./config/spark/prod.yaml`
+**config/env_config/prod.yaml:**
+> **Status**: Version-controlled in repository at `./config/env_config/prod.yaml`
 ```yaml
 spark:
   app_name: myproject_prod
@@ -834,11 +834,11 @@ class CatalogConfig(BaseSettings):
 All configuration files referenced in this document are committed to the repository and available at the repository root under the `config/` directory:
 
 ```
-./config/spark/
-├── dev.yaml        # Development environment Spark configuration
-├── prod.yaml       # Production environment Spark configuration
-├── lab.yaml        # Lab/testing environment Spark configuration
-└── local.yaml      # Local development Spark configuration
+./config/env_config/
+├── dev.yaml        # Development environment configuration
+├── prod.yaml       # Production environment configuration
+├── lab.yaml        # Lab/testing environment configuration
+└── local.yaml      # Local development configuration
 ```
 
 ### Using Configuration Files
@@ -847,8 +847,8 @@ All configuration files referenced in this document are committed to the reposit
 ```python
 from myproject.config import get_settings
 
-# Automatically loads from config/spark/{ENVIRONMENT}.yaml
-settings = get_settings(env="dev")  # Loads config/spark/dev.yaml
+# Automatically loads from config/env_config/{ENVIRONMENT}.yaml
+settings = get_settings(env="dev")  # Loads config/env_config/dev.yaml
 ```
 
 **At runtime:**

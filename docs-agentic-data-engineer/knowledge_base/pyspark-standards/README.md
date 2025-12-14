@@ -28,7 +28,7 @@ poetry add pyspark pydantic pydantic-settings python-dotenv pyyaml
 4. **Environment Isolation**: Separate Databricks workspaces per environment
 
 ### Project Structure Extensions
-- `config/spark/` - Spark-specific configs per environment
+- `config/env_config/` - Environment-specific configs (Spark, catalog, etc.)
 - `config/catalog/` - Unity Catalog configurations
 - `config/job/` - Job-specific configurations
 - `notebooks/` - Databricks notebooks
@@ -52,12 +52,12 @@ cd myproject
 poetry add pyspark pydantic-settings python-dotenv pyyaml
 
 # Create configuration structure
-mkdir -p config/{spark,catalog,job}
+mkdir -p config/{env_config,catalog,job}
 mkdir -p src/myproject/{jobs,transforms}
 mkdir -p notebooks/{dev,staging,prod}
 
 # Create base config files
-touch config/spark/{dev,staging,prod}.yaml
+touch config/env_config/{dev,staging,prod}.yaml
 touch config/catalog/{dev,staging,prod}.yaml
 touch databricks.yml
 

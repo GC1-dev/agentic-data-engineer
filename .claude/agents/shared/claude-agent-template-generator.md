@@ -14,7 +14,7 @@ description: |
   Use this agent whenever you need to generate a new agent for a project, ensure formatting correctness,
   or scaffold new multi-agent system components.
 
-  The agent ensures every output is Claude-compatible, minimal, clean, and ready to drop into `.claude/agents/`.
+  The agent ensures every output is Claude-compatible, minimal, clean, and ready to drop into `.claude/agents/shared/`.
 
 model: haiku
 ---
@@ -38,4 +38,4 @@ Ask it things like:
 - "Create a data-quality agent with examples for profiling, schema checks, and anomaly detection."
 - "Generate an analytics agent for building dashboards and SQL queries."
 
-The output will always be a complete, copy-paste-ready agent file that can be saved to: .claude/agents/<your-agent>.md
+The output will always be a complete, copy-paste-ready agent file that can be saved to: .claude/agents/shared/<your-agent>.md

@@ -16,7 +16,7 @@ VENV_PATH := .venv
 # Targets
 
 # Declare all targets as phony to prevent conflicts with files
-.PHONY: help activate-pyenv check-pyenv project_pyenv_init project_init install-databricks-cli install-poetry install-deps install-hooks setup-mcp setup validate lint format lint-fix test test-cov build clean
+.PHONY: help build-pyenv activate-pyenv check-pyenv check-python project_pyenv_init project_init install-databricks-cli install-poetry install-deps install-hooks setup-mcp setup validate lint format lint-fix test test-cov build clean
 
 .PHONY: help
 help: ## Show this help message
@@ -41,6 +41,20 @@ project_init: install-databricks-cli install-poetry install-deps install-hooks s
 	@echo ""
 	@echo "✓ Project initialization complete"
 	@echo ""
+
+.PHONY: build-pyenv
+build-pyenv: ## Install Python version via pyenv if not present
+	@echo "Installing Python $(PYTHON_VERSION) via pyenv..."
+	@command -v pyenv >/dev/null 2>&1 || { \
+		echo "ERROR: pyenv not found"; \
+		echo ""; \
+		echo "Install pyenv first:"; \
+		echo "  macOS: brew install pyenv"; \
+		echo "  Linux: curl https://pyenv.run | bash"; \
+		exit 1; \
+	}
+	@pyenv install -s $(PYTHON_VERSION)
+	@echo "✓ Python $(PYTHON_VERSION) installed"
 
 .PHONY: activate-pyenv
 activate-pyenv: ## Activate pyenv and set Python version
@@ -104,6 +118,19 @@ check-pyenv: ## Verify pyenv installation and Python version
 		echo "Warning: Active Python version ($$(python --version 2>&1)) doesn't match $(PYTHON_VERSION)"; \
 		echo "Run: pyenv local $(PYTHON_VERSION)"; \
 	fi
+
+.PHONY: check-python
+check-python: ## Verify Python executable is accessible and working
+	@echo "Checking Python executable..."
+	@command -v python >/dev/null 2>&1 || { \
+		echo "ERROR: python command not found"; \
+		echo ""; \
+		echo "Ensure Python is installed and in your PATH."; \
+		echo "If using pyenv, run: pyenv local $(PYTHON_VERSION)"; \
+		exit 1; \
+	}
+	@echo "✓ python found (version $$(python --version 2>&1))"
+	@echo "✓ python path: $$(which python)"
 
 
 .PHONY: install-databricks-cli

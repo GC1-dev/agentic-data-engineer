@@ -8,6 +8,11 @@ packages = [
     { include = "src/agentic_data_engineer" }
 ]
 
+[[tool.poetry.source]]
+name = "skyscanner-artifactory"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple/"
+priority = "supplemental"
+
 
 [tool.poetry.dependencies]
 python = "^3.10"

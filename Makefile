@@ -5,6 +5,7 @@
 SHELL := /bin/bash
 .ONESHELL:
 .DEFAULT_GOAL := help
+SHELL_INIT := export PATH="$$HOME/.pyenv/bin:$$PATH"; eval "$$(pyenv init --path)"; eval "$$(pyenv init -)"
 
 # Variables
 PYTHON_VERSION := $(shell cat .python-version 2>/dev/null || echo "3.12.12")
@@ -41,6 +42,10 @@ project_init: install-databricks-cli install-poetry install-deps install-hooks s
 	@echo ""
 	@echo "✓ Project initialization complete"
 	@echo ""
+
+.PHONY: build-pyenv
+build-pyenv: ## Build Python version with pyenv
+	@$(SHELL_INIT); pyenv install -s $(PY_VERSION)
 
 .PHONY: activate-pyenv
 activate-pyenv: ## Activate pyenv and set Python version
@@ -121,6 +126,22 @@ install-databricks-cli: ## Install Databricks CLI if not present
 		fi; \
 		echo "✓ databricks CLI installed"; \
 	fi
+
+.PHONY: check-python
+check-python: ## Check which Python version is active in terminal
+	@echo "=== Python Environment Check ==="
+	@echo ""
+	@echo "Python version:"
+	@python --version
+	@echo ""
+	@echo "Python path:"
+	@which python
+	@echo ""
+	@echo "Pyenv version:"
+	@$(SHELL_INIT); pyenv version 2>/dev/null || echo "pyenv not initialized in this shell"
+	@echo ""
+	@echo "Local .python-version file:"
+	@cat .python-version 2>/dev/null || echo "No .python-version file found"
 
 
 .PHONY: install-poetry

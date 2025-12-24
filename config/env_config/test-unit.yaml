@@ -1,0 +1,23 @@
+environment_type: test_unit
+
+spark:
+  app_name: "test_unit_transformations"
+  master: local[2]  # 2 threads for complex transformations
+  config:
+    # Session timezone
+    spark.sql.session.timeZone: UTC
+
+    # Performance Tuning (minimize resources)
+    spark.sql.shuffle.partitions: "2"  # Reduce shuffle overhead
+    spark.default.parallelism: "2"     # Match local[2] thread count
+
+    # Storage
+    spark.sql.warehouse.dir: spark-warehouse-unit
+
+    # Optimization (disable expensive features for deterministic tests)
+    spark.sql.adaptive.enabled: "false"  # Disable AQE for deterministic behavior
+    spark.sql.autoBroadcastJoinThreshold: "-1"  # Disable auto broadcast joins
+
+
+logging:
+  level: "info"

@@ -1,0 +1,30 @@
+environment_type: test_data_quality
+
+spark:
+  app_name: "test_data_quality_checks"
+  master: local[4] # 4 threads for data quality operations
+  config:
+    # Session timezone
+    spark.sql.session.timeZone: "UTC"
+
+    # Performance Tuning (handle larger datasets)
+    spark.sql.shuffle.partitions: "8"  # More partitions for aggregation-heavy validation
+    spark.default.parallelism: "4"
+
+    # Memory Management (increased for data quality checks)
+    spark.driver.memory: "2g"
+    spark.executor.memory: "2g"
+
+    # Storage
+    spark.sql.warehouse.dir: "spark-warehouse-data-quality"
+
+    # Delta Lake Support (required for validation checks)
+    spark.sql.extensions: "io.delta.sql.DeltaSparkSessionExtension"
+    spark.sql.catalog.spark_catalog: "org.apache.spark.sql.delta.catalog.DeltaCatalog"
+
+    # Optimization
+    spark.sql.adaptive.enabled: "true"
+
+
+logging:
+  level: "info"

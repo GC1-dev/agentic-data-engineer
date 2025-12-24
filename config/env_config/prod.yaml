@@ -4,3 +4,8 @@ spark:
   app_name: "my-domain-silver-job-prod"
   config:
     spark.sql.session.timeZone: "UTC"
+
+
+
+logging:
+  level: "info"

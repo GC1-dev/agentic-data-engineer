@@ -71,7 +71,7 @@ fi
 {
     echo "$DATABRICKS_BLOCK_START"
     echo -e "$DATABRICKS_EXPORTS"
-    echo "$DATABRICKS_BLOCK_END"
+    echo "$DATABRICKS_BLOCK_END" co
 } >> "$ZSHRC"
 
 echo "✓ Environment variables set"

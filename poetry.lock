@@ -12,6 +12,11 @@ files = [
     {file = "annotated_types-0.7.0.tar.gz", hash = "sha256:aff07c09a53a08bc8cfccb9c85b05f1aa9a2a6f23728d790723543408344ce89"},
 ]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "anyio"
 version = "4.12.0"
@@ -32,6 +37,11 @@ typing_extensions = {version = ">=4.5", markers = "python_version < \"3.13\""}
 [package.extras]
 trio = ["trio (>=0.31.0) ; python_version < \"3.10\"", "trio (>=0.32.0) ; python_version >= \"3.10\""]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "attrs"
 version = "25.4.0"
@@ -43,6 +53,11 @@ files = [
     {file = "attrs-25.4.0-py3-none-any.whl", hash = "sha256:adcf7e2a1fb3b36ac48d97835bb6d8ade15b8dcce26aba8bf1d14847b57a3373"},
     {file = "attrs-25.4.0.tar.gz", hash = "sha256:16d5969b87f0859ef33a48b35d55ac1be6e42ae49d5e853b597db70c35c57e11"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "black"
@@ -97,17 +112,27 @@ d = ["aiohttp (>=3.10)"]
 jupyter = ["ipython (>=7.8.0)", "tokenize-rt (>=3.2.0)"]
 uvloop = ["uvloop (>=0.15.2)"]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "cachetools"
 version = "6.2.4"
 description = "Extensible memoizing collections and decorators"
 optional = false
 python-versions = ">=3.9"
-groups = ["main", "cli"]
+groups = ["cli"]
 files = [
     {file = "cachetools-6.2.4-py3-none-any.whl", hash = "sha256:69a7a52634fed8b8bf6e24a050fb60bff1c9bd8f6d24572b99c32d4e71e62a51"},
     {file = "cachetools-6.2.4.tar.gz", hash = "sha256:82c5c05585e70b6ba2d3ae09ea60b79548872185d2f24ae1f2709d37299fd607"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "certifi"
@@ -115,11 +140,16 @@ version = "2025.11.12"
 description = "Python package for providing Mozilla's CA Bundle."
 optional = false
 python-versions = ">=3.7"
-groups = ["main", "cli", "mcp"]
+groups = ["cli", "mcp"]
 files = [
     {file = "certifi-2025.11.12-py3-none-any.whl", hash = "sha256:97de8790030bbd5c2d96b7ec782fc2f7820ef8dba6db909ccf95449f2d062d4b"},
     {file = "certifi-2025.11.12.tar.gz", hash = "sha256:d8ab5478f2ecd78af242878415affce761ca6bc54a22a27e026d7c25357c3316"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "cffi"
@@ -219,6 +249,11 @@ files = [
 [package.dependencies]
 pycparser = {version = "*", markers = "implementation_name != \"PyPy\""}
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "cfgv"
 version = "3.5.0"
@@ -230,6 +265,11 @@ files = [
     {file = "cfgv-3.5.0-py2.py3-none-any.whl", hash = "sha256:a8dc6b26ad22ff227d2634a65cb388215ce6cc96bbcc5cfde7641ae87e8dacc0"},
     {file = "cfgv-3.5.0.tar.gz", hash = "sha256:d5b1034354820651caa73ede66a6294d6e95c1b00acc5e9b098e917404669132"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "charset-normalizer"
@@ -354,6 +394,11 @@ files = [
     {file = "charset_normalizer-3.4.4.tar.gz", hash = "sha256:94537985111c35f28720e43603b8e7b43a6ecfb2ce1d3058bbe955b73404e21a"},
 ]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "click"
 version = "8.3.1"
@@ -369,6 +414,11 @@ files = [
 [package.dependencies]
 colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "colorama"
 version = "0.4.6"
@@ -381,6 +431,11 @@ files = [
     {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
 ]
 markers = {cli = "platform_system == \"Windows\"", dev = "platform_system == \"Windows\"", mcp = "platform_system == \"Windows\"", test = "sys_platform == \"win32\""}
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "coverage"
@@ -490,12 +545,17 @@ tomli = {version = "*", optional = true, markers = "python_full_version <= \"3.1
 [package.extras]
 toml = ["tomli ; python_full_version <= \"3.11.0a6\""]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "cryptography"
 version = "46.0.3"
 description = "cryptography is a package which provides cryptographic recipes and primitives to Python developers."
 optional = false
-python-versions = "!=3.9.0,!=3.9.1,>=3.8"
+python-versions = ">=3.8, !=3.9.0, !=3.9.1"
 groups = ["mcp"]
 files = [
     {file = "cryptography-46.0.3-cp311-abi3-macosx_10_9_universal2.whl", hash = "sha256:109d4ddfadf17e8e7779c39f9b18111a09efb969a301a31e987416a0191ed93a"},
@@ -568,76 +628,10 @@ ssh = ["bcrypt (>=3.1.5)"]
 test = ["certifi (>=2024)", "cryptography-vectors (==46.0.3)", "pretend (>=0.7)", "pytest (>=7.4.0)", "pytest-benchmark (>=4.0)", "pytest-cov (>=2.10.1)", "pytest-xdist (>=3.5.0)"]
 test-randomorder = ["pytest-randomly"]
 
-[[package]]
-name = "data-catalog-utils"
-version = "0.2.0"
-description = "Unity Catalog operations independent of Spark"
-optional = false
-python-versions = ">=3.10"
-groups = ["main"]
-files = []
-develop = false
-
-[package.dependencies]
-databricks-sdk = ">=0.12.0"
-pydantic = ">=2.0.0"
-
-[package.extras]
-dev = ["black (>=23.0.0)", "mypy (>=1.0.0)", "pytest (>=7.0.0)", "pytest-cov (>=4.0.0)", "ruff (>=0.1.0)"]
-
 [package.source]
-type = "git"
-url = "ssh://git@github.com/Skyscanner/data-catalog-utils.git"
-reference = "main"
-resolved_reference = "363240c77b9e333913ade98130cb2860ae97d6ab"
-
-[[package]]
-name = "data-observability-utils"
-version = "1.0.0"
-description = "Standalone Monte Carlo observability integration utilities for data monitoring"
-optional = false
-python-versions = ">=3.10,<4.0"
-groups = ["main"]
-files = []
-develop = false
-
-[package.dependencies]
-pycarlo = ">=0.12.28"
-pyspark = ">=3.0.0"
-
-[package.extras]
-dev = ["black (>=23.0.0)", "mypy (>=1.0.0)", "pytest (>=7.0.0)", "pytest-cov (>=4.0.0)", "ruff (>=0.1.0)"]
-
-[package.source]
-type = "git"
-url = "ssh://git@github.com/Skyscanner/data-observability-utils.git"
-reference = "main"
-resolved_reference = "92aa1659338de8ae5fe195675c717c3a6e7b243d"
-
-[[package]]
-name = "data-quality-utils"
-version = "1.0.0"
-description = "Standalone data quality validation and profiling utilities for PySpark DataFrames"
-optional = false
-python-versions = ">=3.10"
-groups = ["main"]
-files = []
-develop = false
-
-[package.dependencies]
-numpy = ">=1.20.0"
-pydantic = ">=2.0.0"
-pyspark = ">=3.0.0"
-scipy = ">=1.9.0"
-
-[package.extras]
-dev = ["black (>=23.0.0)", "mypy (>=1.0.0)", "pytest (>=7.0.0)", "pytest-cov (>=4.0.0)", "ruff (>=0.1.0)"]
-
-[package.source]
-type = "git"
-url = "ssh://git@github.com/Skyscanner/data-quality-utils.git"
-reference = "main"
-resolved_reference = "027b5082307f4f5626bd211db49d88479d06bdf1"
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "databricks-cli"
@@ -660,13 +654,18 @@ six = ">=1.10.0"
 tabulate = ">=0.7.7"
 urllib3 = ">=1.26.7,<3"
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "databricks-sdk"
 version = "0.76.0"
 description = "Databricks SDK for Python (Beta)"
 optional = false
 python-versions = ">=3.7"
-groups = ["main", "cli"]
+groups = ["cli"]
 files = [
     {file = "databricks_sdk-0.76.0-py3-none-any.whl", hash = "sha256:6696dda22bc52c8f50a50d24e6ccd1c855f92c0f68f5afe4eb2e77d5b1b1a65f"},
     {file = "databricks_sdk-0.76.0.tar.gz", hash = "sha256:fcfce4561b090b3c8e9cac2101f549766d9fb3bece31bb5720571919fa37d210"},
@@ -682,21 +681,10 @@ dev = ["autoflake", "black", "build", "databricks-connect", "httpx", "ipython", 
 notebook = ["ipython (>=8,<10)", "ipywidgets (>=8,<9)"]
 openai = ["httpx", "langchain-openai ; python_version > \"3.7\"", "openai"]
 
-[[package]]
-name = "dataclasses-json"
-version = "0.6.7"
-description = "Easily serialize dataclasses to and from JSON."
-optional = false
-python-versions = "<4.0,>=3.7"
-groups = ["main"]
-files = [
-    {file = "dataclasses_json-0.6.7-py3-none-any.whl", hash = "sha256:0dbf33f26c8d5305befd61b39d2b3414e8a407bedc2834dea9b8d642666fb40a"},
-    {file = "dataclasses_json-0.6.7.tar.gz", hash = "sha256:b6b3e528266ea45b9535223bc53ca645f5208833c29229e847b3f26a1cc55fc0"},
-]
-
-[package.dependencies]
-marshmallow = ">=3.18.0,<4.0.0"
-typing-inspect = ">=0.4.0,<1"
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "delta-spark"
@@ -714,6 +702,11 @@ files = [
 importlib-metadata = ">=1.0.0"
 pyspark = ">=3.5.0,<3.6.0"
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "distlib"
 version = "0.4.0"
@@ -725,6 +718,11 @@ files = [
     {file = "distlib-0.4.0-py2.py3-none-any.whl", hash = "sha256:9659f7d87e46584a30b5780e43ac7a2143098441670ff0a49d5f9034c54a6c16"},
     {file = "distlib-0.4.0.tar.gz", hash = "sha256:feec40075be03a04501a973d81f633735b4b69f98b05450592310c0f401a4e0d"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "exceptiongroup"
@@ -745,6 +743,11 @@ typing-extensions = {version = ">=4.6.0", markers = "python_version < \"3.13\""}
 [package.extras]
 test = ["pytest (>=6)"]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "filelock"
 version = "3.20.1"
@@ -756,6 +759,11 @@ files = [
     {file = "filelock-3.20.1-py3-none-any.whl", hash = "sha256:15d9e9a67306188a44baa72f569d2bfd803076269365fdea0934385da4dc361a"},
     {file = "filelock-3.20.1.tar.gz", hash = "sha256:b8360948b351b80f420878d8516519a2204b07aefcdcfd24912a5d33127f188c"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "flake8"
@@ -774,12 +782,17 @@ mccabe = ">=0.7.0,<0.8.0"
 pycodestyle = ">=2.14.0,<2.15.0"
 pyflakes = ">=3.4.0,<3.5.0"
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "flake8-pyproject"
 version = "1.2.4"
 description = "Flake8 plug-in loading the configuration from pyproject.toml"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">= 3.6"
 groups = ["dev"]
 files = [
     {file = "flake8_pyproject-1.2.4-py3-none-any.whl", hash = "sha256:ea34c057f9a9329c76d98723bb2bb498cc6ba8ff9872c4d19932d48c91249a77"},
@@ -792,13 +805,18 @@ TOMLi = {version = "*", markers = "python_version < \"3.11\""}
 [package.extras]
 dev = ["Flit (>=3.4)", "pyTest (>=7)", "pyTest-cov (>=7) ; python_version >= \"3.10\""]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "google-auth"
 version = "2.45.0"
 description = "Google Authentication Library"
 optional = false
 python-versions = ">=3.7"
-groups = ["main", "cli"]
+groups = ["cli"]
 files = [
     {file = "google_auth-2.45.0-py2.py3-none-any.whl", hash = "sha256:82344e86dc00410ef5382d99be677c6043d72e502b625aa4f4afa0bdacca0f36"},
     {file = "google_auth-2.45.0.tar.gz", hash = "sha256:90d3f41b6b72ea72dd9811e765699ee491ab24139f34ebf1ca2b9cc0c38708f3"},
@@ -820,17 +838,10 @@ requests = ["requests (>=2.20.0,<3.0.0)"]
 testing = ["aiohttp (<3.10.0)", "aiohttp (>=3.6.2,<4.0.0)", "aioresponses", "cryptography (<39.0.0) ; python_version < \"3.8\"", "cryptography (<39.0.0) ; python_version < \"3.8\"", "cryptography (>=38.0.3)", "cryptography (>=38.0.3)", "flask", "freezegun", "grpcio", "mock", "oauth2client", "packaging", "pyjwt (>=2.0)", "pyopenssl (<24.3.0)", "pyopenssl (>=20.0.0)", "pytest", "pytest-asyncio", "pytest-cov", "pytest-localserver", "pyu2f (>=0.1.5)", "requests (>=2.20.0,<3.0.0)", "responses", "urllib3"]
 urllib3 = ["packaging", "urllib3"]
 
-[[package]]
-name = "graphql-core"
-version = "3.2.7"
-description = "GraphQL implementation for Python, a port of GraphQL.js, the JavaScript reference implementation for GraphQL."
-optional = false
-python-versions = "<4,>=3.7"
-groups = ["main"]
-files = [
-    {file = "graphql_core-3.2.7-py3-none-any.whl", hash = "sha256:17fc8f3ca4a42913d8e24d9ac9f08deddf0a0b2483076575757f6c412ead2ec0"},
-    {file = "graphql_core-3.2.7.tar.gz", hash = "sha256:27b6904bdd3b43f2a0556dad5d579bdfdeab1f38e8e8788e555bdcb586a6f62c"},
-]
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "h11"
@@ -843,6 +854,11 @@ files = [
     {file = "h11-0.16.0-py3-none-any.whl", hash = "sha256:63cf8bbe7522de3bf65932fda1d9c2772064ffb3dae62d55932da54b31cb6c86"},
     {file = "h11-0.16.0.tar.gz", hash = "sha256:4e35b956cf45792e4caa5885e69fba00bdbc6ffafbfa020300e549b208ee5ff1"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "httpcore"
@@ -865,6 +881,11 @@ asyncio = ["anyio (>=4.0,<5.0)"]
 http2 = ["h2 (>=3,<5)"]
 socks = ["socksio (==1.*)"]
 trio = ["trio (>=0.22.0,<1.0)"]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "httpx"
@@ -891,6 +912,11 @@ http2 = ["h2 (>=3,<5)"]
 socks = ["socksio (==1.*)"]
 zstd = ["zstandard (>=0.18.0)"]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "httpx-sse"
 version = "0.4.3"
@@ -902,6 +928,11 @@ files = [
     {file = "httpx_sse-0.4.3-py3-none-any.whl", hash = "sha256:0ac1c9fe3c0afad2e0ebb25a934a59f4c7823b60792691f779fad2c5568830fc"},
     {file = "httpx_sse-0.4.3.tar.gz", hash = "sha256:9b1ed0127459a66014aec3c56bebd93da3c1bc8bb6618c8082039a44889a755d"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "identify"
@@ -918,13 +949,18 @@ files = [
 [package.extras]
 license = ["ukkonen"]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "idna"
 version = "3.11"
 description = "Internationalized Domain Names in Applications (IDNA)"
 optional = false
 python-versions = ">=3.8"
-groups = ["main", "cli", "mcp"]
+groups = ["cli", "mcp"]
 files = [
     {file = "idna-3.11-py3-none-any.whl", hash = "sha256:771a87f49d9defaf64091e6e6fe9c18d4833f140bd19464795bc32d966ca37ea"},
     {file = "idna-3.11.tar.gz", hash = "sha256:795dafcc9c04ed0c1fb032c2aa73654d8e8c5023a7df64a53f39190ada629902"},
@@ -932,6 +968,11 @@ files = [
 
 [package.extras]
 all = ["flake8 (>=7.1.1)", "mypy (>=1.11.2)", "pytest (>=8.3.2)", "ruff (>=0.6.2)"]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "importlib-metadata"
@@ -957,6 +998,11 @@ perf = ["ipython"]
 test = ["flufl.flake8", "jaraco.test (>=5.4)", "packaging", "pyfakefs", "pytest (>=6,!=8.1.*)", "pytest-perf (>=0.9.2)"]
 type = ["mypy (<1.19) ; platform_python_implementation == \"PyPy\"", "pytest-mypy (>=1.0.1)"]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "iniconfig"
 version = "2.3.0"
@@ -968,6 +1014,11 @@ files = [
     {file = "iniconfig-2.3.0-py3-none-any.whl", hash = "sha256:f631c04d2c48c52b84d0d0549c99ff3859c98df65b3101406327ecc7d53fbf12"},
     {file = "iniconfig-2.3.0.tar.gz", hash = "sha256:c76315c77db068650d49c5b56314774a7804df16fee4402c1f19d6d15d8c4730"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "jsonschema"
@@ -991,6 +1042,11 @@ rpds-py = ">=0.7.1"
 format = ["fqdn", "idna", "isoduration", "jsonpointer (>1.13)", "rfc3339-validator", "rfc3987", "uri-template", "webcolors (>=1.11)"]
 format-nongpl = ["fqdn", "idna", "isoduration", "jsonpointer (>1.13)", "rfc3339-validator", "rfc3986-validator (>0.1.0)", "rfc3987-syntax (>=1.1.0)", "uri-template", "webcolors (>=24.6.0)"]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "jsonschema-specifications"
 version = "2025.9.1"
@@ -1005,6 +1061,11 @@ files = [
 
 [package.dependencies]
 referencing = ">=0.31.0"
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "markdown-it-py"
@@ -1030,25 +1091,10 @@ profiling = ["gprof2dot"]
 rtd = ["ipykernel", "jupyter_sphinx", "mdit-py-plugins (>=0.5.0)", "myst-parser", "pyyaml", "sphinx", "sphinx-book-theme (>=1.0,<2.0)", "sphinx-copybutton", "sphinx-design"]
 testing = ["coverage", "pytest", "pytest-cov", "pytest-regressions", "requests"]
 
-[[package]]
-name = "marshmallow"
-version = "3.26.1"
-description = "A lightweight library for converting complex datatypes to and from native Python datatypes."
-optional = false
-python-versions = ">=3.9"
-groups = ["main"]
-files = [
-    {file = "marshmallow-3.26.1-py3-none-any.whl", hash = "sha256:3350409f20a70a7e4e11a27661187b77cdcaeb20abca41c1454fe33636bea09c"},
-    {file = "marshmallow-3.26.1.tar.gz", hash = "sha256:e6d8affb6cb61d39d26402096dc0aee12d5a26d490a121f118d2e81dc0719dc6"},
-]
-
-[package.dependencies]
-packaging = ">=17.0"
-
-[package.extras]
-dev = ["marshmallow[tests]", "pre-commit (>=3.5,<5.0)", "tox"]
-docs = ["autodocsumm (==0.2.14)", "furo (==2024.8.6)", "sphinx (==8.1.3)", "sphinx-copybutton (==0.5.2)", "sphinx-issues (==5.0.0)", "sphinxext-opengraph (==0.9.1)"]
-tests = ["pytest", "simplejson"]
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "mccabe"
@@ -1061,6 +1107,11 @@ files = [
     {file = "mccabe-0.7.0-py2.py3-none-any.whl", hash = "sha256:6c2d30ab6be0e4a46919781807b4f0d834ebdd6c6e3dca0bda5a15f863427b6e"},
     {file = "mccabe-0.7.0.tar.gz", hash = "sha256:348e0240c33b60bbdf4e523192ef919f28cb2c3d7d5c7794f74009290f236325"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "mcp"
@@ -1095,6 +1146,11 @@ cli = ["python-dotenv (>=1.0.0)", "typer (>=0.16.0)"]
 rich = ["rich (>=13.9.4)"]
 ws = ["websockets (>=15.0.1)"]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "mdurl"
 version = "0.1.2"
@@ -1107,29 +1163,44 @@ files = [
     {file = "mdurl-0.1.2.tar.gz", hash = "sha256:bb413d29f5eea38f31dd4754dd7377d4465116fb207585f97bf925588687c1ba"},
 ]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "mypy-extensions"
 version = "1.1.0"
 description = "Type system extensions for programs checked with the mypy type checker."
 optional = false
 python-versions = ">=3.8"
-groups = ["main", "dev"]
+groups = ["dev"]
 files = [
     {file = "mypy_extensions-1.1.0-py3-none-any.whl", hash = "sha256:1be4cccdb0f2482337c4743e60421de3a356cd97508abadd57d47403e94f5505"},
     {file = "mypy_extensions-1.1.0.tar.gz", hash = "sha256:52e68efc3284861e772bbcd66823fde5ae21fd2fdb51c62a211403730b916558"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "nodeenv"
 version = "1.10.0"
 description = "Node.js virtual environment builder"
 optional = false
-python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
+python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*"
 groups = ["dev"]
 files = [
     {file = "nodeenv-1.10.0-py2.py3-none-any.whl", hash = "sha256:5bb13e3eed2923615535339b3c620e76779af4cb4c6a90deccc9e36b274d3827"},
     {file = "nodeenv-1.10.0.tar.gz", hash = "sha256:996c191ad80897d076bdfba80a41994c2b47c68e224c542b48feba42ba00f8bb"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "numpy"
@@ -1177,6 +1248,11 @@ files = [
     {file = "numpy-1.26.4.tar.gz", hash = "sha256:2a02aba9ed12e4ac4eb3ea9421c420301a0c6460d9830d74a9df87efa4912010"},
 ]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "oauthlib"
 version = "3.3.1"
@@ -1194,17 +1270,27 @@ rsa = ["cryptography (>=3.0.0)"]
 signals = ["blinker (>=1.4.0)"]
 signedtoken = ["cryptography (>=3.0.0)", "pyjwt (>=2.0.0,<3)"]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "packaging"
 version = "25.0"
 description = "Core utilities for Python packages"
 optional = false
 python-versions = ">=3.8"
-groups = ["main", "dev", "test"]
+groups = ["dev", "test"]
 files = [
     {file = "packaging-25.0-py3-none-any.whl", hash = "sha256:29572ef2b1f17581046b3a2227d5c611fb25ec70ca1ba8554b24b0e69331a484"},
     {file = "packaging-25.0.tar.gz", hash = "sha256:d443872c98d677bf60f6a1f2f8c1cb748e8fe762d2bf9d3148b5599295b0fc4f"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "pandas"
@@ -1306,6 +1392,11 @@ sql-other = ["SQLAlchemy (>=2.0.0)", "adbc-driver-postgresql (>=0.8.0)", "adbc-d
 test = ["hypothesis (>=6.46.1)", "pytest (>=7.3.2)", "pytest-xdist (>=2.2.0)"]
 xml = ["lxml (>=4.9.2)"]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "pathspec"
 version = "0.12.1"
@@ -1317,6 +1408,11 @@ files = [
     {file = "pathspec-0.12.1-py3-none-any.whl", hash = "sha256:a0d503e138a4c123b27490a4f7beda6a01c6f288df0e4a8b79c7eb0dc7b4cc08"},
     {file = "pathspec-0.12.1.tar.gz", hash = "sha256:a482d51503a1ab33b1c67a6c3813a26953dbdc71c31dacaef9a838c4e29f5712"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "pillow"
@@ -1427,6 +1523,11 @@ test-arrow = ["arro3-compute", "arro3-core", "nanoarrow", "pyarrow"]
 tests = ["check-manifest", "coverage (>=7.4.2)", "defusedxml", "markdown2", "olefile", "packaging", "pyroma (>=5)", "pytest", "pytest-cov", "pytest-timeout", "pytest-xdist", "trove-classifiers (>=2024.10.12)"]
 xmp = ["defusedxml"]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "platformdirs"
 version = "4.5.1"
@@ -1444,6 +1545,11 @@ docs = ["furo (>=2025.9.25)", "proselint (>=0.14)", "sphinx (>=8.2.3)", "sphinx-
 test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=8.4.2)", "pytest-cov (>=7)", "pytest-mock (>=3.15.1)"]
 type = ["mypy (>=1.18.2)"]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "pluggy"
 version = "1.6.0"
@@ -1459,6 +1565,11 @@ files = [
 [package.extras]
 dev = ["pre-commit", "tox"]
 testing = ["coverage", "pytest", "pytest-benchmark"]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "pre-commit"
@@ -1479,13 +1590,18 @@ nodeenv = ">=0.11.1"
 pyyaml = ">=5.1"
 virtualenv = ">=20.10.0"
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "protobuf"
 version = "6.33.2"
 description = ""
 optional = false
 python-versions = ">=3.9"
-groups = ["main", "cli"]
+groups = ["cli"]
 files = [
     {file = "protobuf-6.33.2-cp310-abi3-win32.whl", hash = "sha256:87eb388bd2d0f78febd8f4c8779c79247b26a5befad525008e49a6955787ff3d"},
     {file = "protobuf-6.33.2-cp310-abi3-win_amd64.whl", hash = "sha256:fc2a0e8b05b180e5fc0dd1559fe8ebdae21a27e81ac77728fb6c42b12c7419b4"},
@@ -1499,6 +1615,11 @@ files = [
     {file = "protobuf-6.33.2.tar.gz", hash = "sha256:56dc370c91fbb8ac85bc13582c9e373569668a290aa2e66a590c2a0d35ddb9e4"},
 ]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "py4j"
 version = "0.10.9.7"
@@ -1511,17 +1632,27 @@ files = [
     {file = "py4j-0.10.9.7.tar.gz", hash = "sha256:0b6e5315bb3ada5cf62ac651d107bb2ebc02def3dee9d9548e3baac644ea8dbb"},
 ]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "pyasn1"
 version = "0.6.1"
 description = "Pure-Python implementation of ASN.1 types and DER/BER/CER codecs (X.208)"
 optional = false
 python-versions = ">=3.8"
-groups = ["main", "cli"]
+groups = ["cli"]
 files = [
     {file = "pyasn1-0.6.1-py3-none-any.whl", hash = "sha256:0d632f46f2ba09143da3a8afe9e33fb6f92fa2320ab7e886e2d0f7672af84629"},
     {file = "pyasn1-0.6.1.tar.gz", hash = "sha256:6f580d2bdd84365380830acf45550f2511469f673cb4a5ae3857a3170128b034"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "pyasn1-modules"
@@ -1529,7 +1660,7 @@ version = "0.4.2"
 description = "A collection of ASN.1-based protocols modules"
 optional = false
 python-versions = ">=3.8"
-groups = ["main", "cli"]
+groups = ["cli"]
 files = [
     {file = "pyasn1_modules-0.4.2-py3-none-any.whl", hash = "sha256:29253a9207ce32b64c3ac6600edc75368f98473906e8fd1043bd6b5b1de2c14a"},
     {file = "pyasn1_modules-0.4.2.tar.gz", hash = "sha256:677091de870a80aae844b1ca6134f54652fa2c8c5a52aa396440ac3106e941e6"},
@@ -1538,24 +1669,10 @@ files = [
 [package.dependencies]
 pyasn1 = ">=0.6.1,<0.7.0"
 
-[[package]]
-name = "pycarlo"
-version = "0.12.41"
-description = "Monte Carlo's Python SDK"
-optional = false
-python-versions = ">=3.8"
-groups = ["main"]
-files = [
-    {file = "pycarlo-0.12.41-py3-none-any.whl", hash = "sha256:78654570f818f18a1424549851b1aba0b91ffd857612961b877c686acea8cef2"},
-    {file = "pycarlo-0.12.41.tar.gz", hash = "sha256:270a5e6d8382c3c56c38f8b7054fa5d66fe8fa809aa696b9a0e77f5f6d52bb42"},
-]
-
-[package.dependencies]
-dataclasses-json = ">=0.5.7,<6.0.0"
-python-box = ">=5.0.0"
-requests = ">=2.0.0,<3.0.0"
-responses = ">=0.20.0"
-sgqlc = ">=14.1,<17.0"
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "pycodestyle"
@@ -1569,6 +1686,11 @@ files = [
     {file = "pycodestyle-2.14.0.tar.gz", hash = "sha256:c4b5b517d278089ff9d0abdec919cd97262a3367449ea1c8b49b91529167b783"},
 ]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "pycparser"
 version = "2.23"
@@ -1581,6 +1703,11 @@ files = [
     {file = "pycparser-2.23-py3-none-any.whl", hash = "sha256:e5c6e8d3fbad53479cab09ac03729e0a9faf2bee3db8208a550daf5af81a5934"},
     {file = "pycparser-2.23.tar.gz", hash = "sha256:78816d4f24add8f10a06d6f05b4d424ad9e96cfebf68a4ddc99c65c0720d00c2"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "pydantic"
@@ -1603,6 +1730,11 @@ typing-inspection = ">=0.4.2"
 [package.extras]
 email = ["email-validator (>=2.0.0)"]
 timezone = ["tzdata ; python_version >= \"3.9\" and platform_system == \"Windows\""]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "pydantic-core"
@@ -1738,13 +1870,18 @@ files = [
 [package.dependencies]
 typing-extensions = ">=4.14.1"
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "pydantic-settings"
 version = "2.12.0"
 description = "Settings management using Pydantic"
 optional = false
 python-versions = ">=3.10"
-groups = ["mcp"]
+groups = ["main", "mcp"]
 files = [
     {file = "pydantic_settings-2.12.0-py3-none-any.whl", hash = "sha256:fddb9fd99a5b18da837b29710391e945b1e30c135477f484084ee513adb93809"},
     {file = "pydantic_settings-2.12.0.tar.gz", hash = "sha256:005538ef951e3c2a68e1c08b292b5f2e71490def8589d4221b95dab00dafcfd0"},
@@ -1762,6 +1899,11 @@ gcp-secret-manager = ["google-cloud-secret-manager (>=2.23.1)"]
 toml = ["tomli (>=2.0.1)"]
 yaml = ["pyyaml (>=6.0.1)"]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "pyflakes"
 version = "3.4.0"
@@ -1773,6 +1915,11 @@ files = [
     {file = "pyflakes-3.4.0-py2.py3-none-any.whl", hash = "sha256:f742a7dbd0d9cb9ea41e9a24a918996e8170c799fa528688d40dd582c8265f4f"},
     {file = "pyflakes-3.4.0.tar.gz", hash = "sha256:b24f96fafb7d2ab0ec5075b7350b3d2d2218eab42003821c06344973d3ea2f58"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "pygments"
@@ -1788,6 +1935,11 @@ files = [
 
 [package.extras]
 windows-terminal = ["colorama (>=0.4.6)"]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "pyjwt"
@@ -1810,6 +1962,11 @@ dev = ["coverage[toml] (==5.0.4)", "cryptography (>=3.4.0)", "pre-commit", "pyte
 docs = ["sphinx", "sphinx-rtd-theme", "zope.interface"]
 tests = ["coverage[toml] (==5.0.4)", "pytest (>=6.0.0,<7.0.0)"]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "pyspark"
 version = "3.5.7"
@@ -1830,6 +1987,11 @@ ml = ["numpy (>=1.15,<2)"]
 mllib = ["numpy (>=1.15,<2)"]
 pandas-on-spark = ["numpy (>=1.15,<2)", "pandas (>=1.0.5)", "pyarrow (>=4.0.0)"]
 sql = ["numpy (>=1.15,<2)", "pandas (>=1.0.5)", "pyarrow (>=4.0.0)"]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "pytest"
@@ -1855,6 +2017,11 @@ tomli = {version = ">=1", markers = "python_version < \"3.11\""}
 [package.extras]
 dev = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "requests", "setuptools", "xmlschema"]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "pytest-asyncio"
 version = "0.21.2"
@@ -1873,6 +2040,11 @@ pytest = ">=7.0.0"
 [package.extras]
 docs = ["sphinx (>=5.3)", "sphinx-rtd-theme (>=1.0)"]
 testing = ["coverage (>=6.2)", "flaky (>=3.5.0)", "hypothesis (>=5.7.1)", "mypy (>=0.931)", "pytest-trio (>=0.7.0)"]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "pytest-cov"
@@ -1894,41 +2066,10 @@ pytest = ">=7"
 [package.extras]
 testing = ["process-tests", "pytest-xdist", "virtualenv"]
 
-[[package]]
-name = "python-box"
-version = "7.3.2"
-description = "Advanced Python dictionaries with dot notation access"
-optional = false
-python-versions = ">=3.9"
-groups = ["main"]
-files = [
-    {file = "python_box-7.3.2-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:d136163294fd61a1554db7dd203f2e3035064798d30c17d67d948f0de5c572de"},
-    {file = "python_box-7.3.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:47d72e96547d8e2c2c333909826e9fae338d9a7e4cde07d5c6058cdd468432c0"},
-    {file = "python_box-7.3.2-cp310-cp310-win_amd64.whl", hash = "sha256:3aa52e3b5cc50c80bb7ef4be3e41e81d095310f619454a7ffd61eef3209a6225"},
-    {file = "python_box-7.3.2-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:32163b1cb151883de0da62b0cd3572610dc72ccf0762f2447baf1d2562e25bea"},
-    {file = "python_box-7.3.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:064cb59b41e25aaf7dbd39efe53151a5f6797cc1cb3c68610f0f21a9d406d67e"},
-    {file = "python_box-7.3.2-cp311-cp311-win_amd64.whl", hash = "sha256:488f0fba9a6416c3334b602366dcd92825adb0811e07e03753dfcf0ed79cd6f7"},
-    {file = "python_box-7.3.2-cp312-cp312-macosx_10_13_universal2.whl", hash = "sha256:39009a2da5c20133718b24891a206592adbe09169856aedc450ad1600fc2e511"},
-    {file = "python_box-7.3.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:2e2a72e2f6fb97c7e472ff3272da207ecc615aa222e52e98352391428527c469"},
-    {file = "python_box-7.3.2-cp312-cp312-win_amd64.whl", hash = "sha256:9eead914b9fb7d98a1473f5027dcfe27d26b3a10ffa33b9ba22cf948a23cd280"},
-    {file = "python_box-7.3.2-cp313-cp313-macosx_10_13_universal2.whl", hash = "sha256:1dfc3b9b073f3d7cad1fa90de98eaaa684a494d0574bbc0666f74fa8307fd6b6"},
-    {file = "python_box-7.3.2-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:3ca4685a7f764b5a71b6e08535ce2a96b7964bb63d8cb4df10f6bb7147b6c54b"},
-    {file = "python_box-7.3.2-cp313-cp313-win_amd64.whl", hash = "sha256:e143295f74d47a9ab24562ead2375c9be10629599b57f2e86717d3fff60f82a9"},
-    {file = "python_box-7.3.2-cp39-cp39-macosx_10_9_universal2.whl", hash = "sha256:f3118ab3076b645c76133b8fac51deee30237cecdcafc3af664c4b9000f04db9"},
-    {file = "python_box-7.3.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:42a760074ba12ccc247796f43b6c61f686ada4b8349ab59e2a6303b27f3ae082"},
-    {file = "python_box-7.3.2-cp39-cp39-win_amd64.whl", hash = "sha256:ea436e7ff5f87bd728472f1e31a9e6e95572c81028c44a8e00097e0968955638"},
-    {file = "python_box-7.3.2-py3-none-any.whl", hash = "sha256:fd7d74d5a848623f93b5221fd9fb00b8c00ff0e130fa87f396277aa188659c92"},
-    {file = "python_box-7.3.2.tar.gz", hash = "sha256:028b9917129e67f311932d93347b8a4f1b500d7a5a2870ee3c035f4e7b19403b"},
-]
-
-[package.extras]
-all = ["msgpack", "ruamel.yaml (>=0.17)", "toml"]
-msgpack = ["msgpack"]
-pyyaml = ["PyYAML"]
-ruamel-yaml = ["ruamel.yaml (>=0.17)"]
-toml = ["toml"]
-tomli = ["tomli ; python_version < \"3.11\"", "tomli-w"]
-yaml = ["ruamel.yaml (>=0.17)"]
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "python-dateutil"
@@ -1945,13 +2086,18 @@ files = [
 [package.dependencies]
 six = ">=1.5"
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "python-dotenv"
 version = "1.2.1"
 description = "Read key-value pairs from a .env file and set them as environment variables"
 optional = false
 python-versions = ">=3.9"
-groups = ["mcp"]
+groups = ["main", "mcp"]
 files = [
     {file = "python_dotenv-1.2.1-py3-none-any.whl", hash = "sha256:b81ee9561e9ca4004139c6cbba3a238c32b03e4894671e181b671e8cb8425d61"},
     {file = "python_dotenv-1.2.1.tar.gz", hash = "sha256:42667e897e16ab0d66954af0e60a9caa94f0fd4ecf3aaf6d2d260eec1aa36ad6"},
@@ -1959,6 +2105,11 @@ files = [
 
 [package.extras]
 cli = ["click (>=5.0)"]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "python-multipart"
@@ -1971,6 +2122,11 @@ files = [
     {file = "python_multipart-0.0.21-py3-none-any.whl", hash = "sha256:cf7a6713e01c87aa35387f4774e812c4361150938d20d232800f75ffcf266090"},
     {file = "python_multipart-0.0.21.tar.gz", hash = "sha256:7137ebd4d3bbf70ea1622998f902b97a29434a9e8dc40eb203bbcf7c2a2cba92"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "pytokens"
@@ -1987,6 +2143,11 @@ files = [
 [package.extras]
 dev = ["black", "build", "mypy", "pytest", "pytest-cov", "setuptools", "tox", "twine", "wheel"]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "pytz"
 version = "2025.2"
@@ -1998,6 +2159,11 @@ files = [
     {file = "pytz-2025.2-py2.py3-none-any.whl", hash = "sha256:5ddf76296dd8c44c26eb8f4b6f35488f3ccbf6fbbd7adee0b7262d43f0ec2f00"},
     {file = "pytz-2025.2.tar.gz", hash = "sha256:360b9e3dbb49a209c21ad61809c7fb453643e048b38924c765813546746e81c3"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "pywin32"
@@ -2029,6 +2195,11 @@ files = [
     {file = "pywin32-311-cp39-cp39-win_amd64.whl", hash = "sha256:e0c4cfb0621281fe40387df582097fd796e80430597cb9944f0ae70447bacd91"},
     {file = "pywin32-311-cp39-cp39-win_arm64.whl", hash = "sha256:62ea666235135fee79bb154e695f3ff67370afefd71bd7fea7512fc70ef31e3d"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "pyyaml"
@@ -2113,6 +2284,11 @@ files = [
     {file = "pyyaml-6.0.3.tar.gz", hash = "sha256:d76623373421df22fb4cf8817020cbb7ef15c725b9d5e45f17e189bfc384190f"},
 ]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "referencing"
 version = "0.37.0"
@@ -2130,12 +2306,17 @@ attrs = ">=22.2.0"
 rpds-py = ">=0.7.0"
 typing-extensions = {version = ">=4.4.0", markers = "python_version < \"3.13\""}
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "reportlab"
 version = "4.4.7"
 description = "The Reportlab Toolkit"
 optional = false
-python-versions = "<4,>=3.9"
+python-versions = ">=3.9,<4"
 groups = ["main"]
 files = [
     {file = "reportlab-4.4.7-py3-none-any.whl", hash = "sha256:8fa05cbf468e0e76745caf2029a4770276edb3c8e86a0b71e0398926baf50673"},
@@ -2153,13 +2334,18 @@ pycairo = ["freetype-py (>=2.3.0,<2.4)", "rlPyCairo (>=0.2.0,<1)"]
 renderpm = ["rl_renderPM (>=4.0.3,<4.1)"]
 shaping = ["uharfbuzz"]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "requests"
 version = "2.32.5"
 description = "Python HTTP for Humans."
 optional = false
 python-versions = ">=3.9"
-groups = ["main", "cli"]
+groups = ["cli"]
 files = [
     {file = "requests-2.32.5-py3-none-any.whl", hash = "sha256:2462f94637a34fd532264295e186976db0f5d453d1cdd31473c85a6a161affb6"},
     {file = "requests-2.32.5.tar.gz", hash = "sha256:dbba0bac56e100853db0ea71b82b4dfd5fe2bf6d3754a8893c3af500cec7d7cf"},
@@ -2175,25 +2361,10 @@ urllib3 = ">=1.21.1,<3"
 socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
-[[package]]
-name = "responses"
-version = "0.25.8"
-description = "A utility library for mocking out the `requests` Python library."
-optional = false
-python-versions = ">=3.8"
-groups = ["main"]
-files = [
-    {file = "responses-0.25.8-py3-none-any.whl", hash = "sha256:0c710af92def29c8352ceadff0c3fe340ace27cf5af1bbe46fb71275bcd2831c"},
-    {file = "responses-0.25.8.tar.gz", hash = "sha256:9374d047a575c8f781b94454db5cab590b6029505f488d12899ddb10a4af1cf4"},
-]
-
-[package.dependencies]
-pyyaml = "*"
-requests = ">=2.30.0,<3.0"
-urllib3 = ">=1.25.10,<3.0"
-
-[package.extras]
-tests = ["coverage (>=6.0.0)", "flake8", "mypy", "pytest (>=7.0.0)", "pytest-asyncio", "pytest-cov", "pytest-httpserver", "tomli ; python_version < \"3.11\"", "tomli-w", "types-PyYAML", "types-requests"]
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "rich"
@@ -2213,6 +2384,11 @@ pygments = ">=2.13.0,<3.0.0"
 
 [package.extras]
 jupyter = ["ipywidgets (>=7.5.1,<9)"]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "rpds-py"
@@ -2339,13 +2515,18 @@ files = [
     {file = "rpds_py-0.30.0.tar.gz", hash = "sha256:dd8ff7cf90014af0c0f787eea34794ebf6415242ee1d6fa91eaba725cc441e84"},
 ]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "rsa"
 version = "4.9.1"
 description = "Pure-Python RSA implementation"
 optional = false
-python-versions = "<4,>=3.6"
-groups = ["main", "cli"]
+python-versions = ">=3.6,<4"
+groups = ["cli"]
 files = [
     {file = "rsa-4.9.1-py3-none-any.whl", hash = "sha256:68635866661c6836b8d39430f97a996acbd61bfa49406748ea243539fe239762"},
     {file = "rsa-4.9.1.tar.gz", hash = "sha256:e7bdbfdb5497da4c07dfd35530e1a902659db6ff241e39d9953cad06ebd0ae75"},
@@ -2353,6 +2534,11 @@ files = [
 
 [package.dependencies]
 pyasn1 = ">=0.1.3"
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "ruff"
@@ -2382,6 +2568,11 @@ files = [
     {file = "ruff-0.14.10-py3-none-win_arm64.whl", hash = "sha256:e51d046cf6dda98a4633b8a8a771451107413b0f07183b2bef03f075599e44e6"},
     {file = "ruff-0.14.10.tar.gz", hash = "sha256:9a2e830f075d1a42cd28420d7809ace390832a490ed0966fe373ba288e77aaf4"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "scipy"
@@ -2447,6 +2638,11 @@ numpy = ">=1.23.5,<2.5"
 dev = ["cython-lint (>=0.12.2)", "doit (>=0.36.0)", "mypy (==1.10.0)", "pycodestyle", "pydevtool", "rich-click", "ruff (>=0.0.292)", "types-psutil", "typing_extensions"]
 doc = ["intersphinx_registry", "jupyterlite-pyodide-kernel", "jupyterlite-sphinx (>=0.19.1)", "jupytext", "matplotlib (>=3.5)", "myst-nb", "numpydoc", "pooch", "pydata-sphinx-theme (>=0.15.2)", "sphinx (>=5.0.0,<8.0.0)", "sphinx-copybutton", "sphinx-design (>=0.4.0)"]
 test = ["Cython", "array-api-strict (>=2.0,<2.1.1)", "asv", "gmpy2", "hypothesis (>=6.30)", "meson", "mpmath", "ninja ; sys_platform != \"emscripten\"", "pooch", "pytest", "pytest-cov", "pytest-timeout", "pytest-xdist", "scikit-umfpack", "threadpoolctl"]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "scipy"
@@ -2528,75 +2724,96 @@ dev = ["cython-lint (>=0.12.2)", "doit (>=0.36.0)", "mypy (==1.10.0)", "pycodest
 doc = ["intersphinx_registry", "jupyterlite-pyodide-kernel", "jupyterlite-sphinx (>=0.19.1)", "jupytext", "linkify-it-py", "matplotlib (>=3.5)", "myst-nb (>=1.2.0)", "numpydoc", "pooch", "pydata-sphinx-theme (>=0.15.2)", "sphinx (>=5.0.0,<8.2.0)", "sphinx-copybutton", "sphinx-design (>=0.4.0)"]
 test = ["Cython", "array-api-strict (>=2.3.1)", "asv", "gmpy2", "hypothesis (>=6.30)", "meson", "mpmath", "ninja ; sys_platform != \"emscripten\"", "pooch", "pytest (>=8.0.0)", "pytest-cov", "pytest-timeout", "pytest-xdist", "scikit-umfpack", "threadpoolctl"]
 
-[[package]]
-name = "sgqlc"
-version = "16.5"
-description = "Simple GraphQL Client"
-optional = false
-python-versions = "<4,>=3.8"
-groups = ["main"]
-files = [
-    {file = "sgqlc-16.5-py3-none-any.whl", hash = "sha256:56952622e3fcd771e079de290cf8a244dc014cbd9b65059d04f262ec8d8f0f44"},
-    {file = "sgqlc-16.5.tar.gz", hash = "sha256:93edcd29ee138f5305d13f211a2b2091bd77873c404c87b87ae16a4023c62d4a"},
-]
-
-[package.dependencies]
-graphql-core = ">=3.2.4,<4.0.0"
-
-[package.extras]
-requests = ["requests"]
-websocket = ["websocket-client"]
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "six"
 version = "1.17.0"
 description = "Python 2 and 3 compatibility utilities"
 optional = false
-python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 groups = ["cli"]
 files = [
     {file = "six-1.17.0-py2.py3-none-any.whl", hash = "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274"},
     {file = "six-1.17.0.tar.gz", hash = "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81"},
 ]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
-name = "skyscanner-data-shared-utils"
-version = "0.3.0"
-description = "Core utilities for Databricks with Spark integration, and testing support"
+name = "skyscanner-data-knowledge-base-mcp"
+version = "1.0.3"
+description = "MCP server for Data Engineering Knowledge Base - provides access to medallion architecture, dimensional modeling, PySpark standards, and pipeline best practices"
 optional = false
-python-versions = "^3.10"
+python-versions = ">=3.10,<4.0"
 groups = ["main"]
-files = []
-develop = false
+files = [
+    {file = "skyscanner_data_knowledge_base_mcp-1.0.3-py3-none-any.whl", hash = "sha256:329296a95b9e1b8301c590d481ea3bd96d84e7eb52735cae4b55d1d18cf1dca0"},
+    {file = "skyscanner_data_knowledge_base_mcp-1.0.3.tar.gz", hash = "sha256:a417dc289b7be79ebb21cf1356282dc6db27a76566665f44198acc7a59e81072"},
+]
 
 [package.dependencies]
-pyspark = "^3.2"
-skyscanner-ip-ranges = "0.0.34"
+pydantic-settings = ">=2.0.0"
+pyyaml = ">=6.0,<7.0"
 
 [package.source]
-type = "git"
-url = "ssh://git@github.com/Skyscanner/data-shared-utils.git"
-reference = "010-quality-gates-tests"
-resolved_reference = "5ab4469311e3d997c346358dd9a85bf3754e0db1"
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
+[[package]]
+name = "skyscanner-data-shared-utils"
+version = "1.0.2"
+description = "Core utilities for Databricks with Spark integration, and testing support"
+optional = false
+python-versions = ">=3.10,<4.0"
+groups = ["main"]
+files = [
+    {file = "skyscanner_data_shared_utils-1.0.2-py3-none-any.whl", hash = "sha256:8dcd621a18798e3644fe3fd7879f3e30b34d5079a3ab69d8e06ad26f2b7da324"},
+    {file = "skyscanner_data_shared_utils-1.0.2.tar.gz", hash = "sha256:f4c3bc9e9965ab31083384241d2e91515da61f244f66556911bb37e6439fe5e7"},
+]
+
+[package.dependencies]
+pyspark = ">=3.2,<4.0"
+skyscanner-ip-ranges = "0.0.34"
+skyscanner-spark-session-utils = "1.0.1"
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "skyscanner-databricks-utils"
-version = "0.1.0"
-description = "Databricks utilities repository containing Python CLI tools for Unity Catalog and data quality validation"
+version = "0.2.2"
+description = "Databricks utilities for Unity Catalog and data quality validation"
 optional = false
 python-versions = ">=3.9,<4.0"
 groups = ["main"]
-files = []
-develop = false
+files = [
+    {file = "skyscanner_databricks_utils-0.2.2-py3-none-any.whl", hash = "sha256:244886d7f1f5248cc4017ca95e55bbbaccce956a1c142fc9b35fc621509380dd"},
+    {file = "skyscanner_databricks_utils-0.2.2.tar.gz", hash = "sha256:04c5ed7b4026345a65d707e2d852a60f66affa2f18b52f2ead0ec60a4fc7e7be"},
+]
 
 [package.dependencies]
 sqlglot = ">=27.0.0"
 
+[package.extras]
+all = ["click (>=8.1.0)", "databricks-sdk (>=0.18.0)", "mcp (>=1.2.1)", "pandas (>=2.0.0)", "pydantic (>=2.0.0)", "rich (>=13.0.0)"]
+cli = ["click (>=8.1.0)", "databricks-sdk (>=0.18.0)", "pandas (>=2.0.0)", "rich (>=13.0.0)"]
+dev = ["black (>=23.0.0)", "flake8 (>=6.0.0)", "flake8-pyproject (>=1.2.0)", "jsonschema (>=4.20.0)", "pytest (>=7.0.0)", "pytest-asyncio (>=0.21.0,<0.23.0)", "pytest-cov (>=4.0.0)", "pyyaml (>=6.0)"]
+mcp = ["mcp (>=1.2.1)", "pydantic (>=2.0.0)"]
+
 [package.source]
-type = "git"
-url = "ssh://git@github.com/Skyscanner/databricks-utils.git"
-reference = "main"
-resolved_reference = "3eabfe6bf6a797e718f46de249e41a145a1425d0"
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "skyscanner-ip-ranges"
@@ -2616,27 +2833,25 @@ reference = "skyscanner-artifactory"
 
 [[package]]
 name = "skyscanner-spark-session-utils"
-version = "0.2.0"
+version = "1.0.1"
 description = "Minimal Spark session management with configuration and testing support"
 optional = false
 python-versions = ">=3.10,<4.0"
 groups = ["main"]
-files = []
-develop = false
+files = [
+    {file = "skyscanner_spark_session_utils-1.0.1-py3-none-any.whl", hash = "sha256:253a47d3a3c7434f4197abb64dcaa615cfcb42d92b3d2f9f7936aca9e6294b33"},
+    {file = "skyscanner_spark_session_utils-1.0.1.tar.gz", hash = "sha256:cfcb2b536dd452bf0257c8895e0c9e7c31181c003c40d2a4212c7741a2f8c177"},
+]
 
 [package.dependencies]
-pydantic = ">=2.0.0"
-pyspark = ">=3.0.0"
-pyyaml = ">=6.0.0"
-
-[package.extras]
-dev = ["black (>=23.0.0)", "chispa (>=0.9.0)", "mypy (>=1.0.0)", "pre-commit (>=4.0.1)", "pytest (>=7.0.0)", "pytest-cov (>=4.0.0)", "ruff (>=0.1.0)"]
+pydantic = ">=2.0,<3.0"
+pyspark = ">=3.0,<4.0"
+pyyaml = ">=6.0,<7.0"
 
 [package.source]
-type = "git"
-url = "ssh://git@github.com/Skyscanner/spark-session-utils.git"
-reference = "main"
-resolved_reference = "c8407c853fad0e3e25217b674cbf55ba57484b3d"
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "sqlglot"
@@ -2653,6 +2868,11 @@ files = [
 [package.extras]
 dev = ["duckdb (>=0.6)", "maturin (>=1.4,<2.0)", "mypy", "pandas", "pandas-stubs", "pdoc", "pre-commit", "pyperf", "python-dateutil", "pytz", "ruff (==0.7.2)", "types-python-dateutil", "types-pytz", "typing_extensions"]
 rs = ["sqlglotrs (==0.10.0)"]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "sse-starlette"
@@ -2676,6 +2896,11 @@ examples = ["aiosqlite (>=0.21.0)", "fastapi (>=0.115.12)", "sqlalchemy[asyncio]
 granian = ["granian (>=2.3.1)"]
 uvicorn = ["uvicorn (>=0.34.0)"]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "starlette"
 version = "0.50.0"
@@ -2695,6 +2920,11 @@ typing-extensions = {version = ">=4.10.0", markers = "python_version < \"3.13\""
 [package.extras]
 full = ["httpx (>=0.27.0,<0.29.0)", "itsdangerous", "jinja2", "python-multipart (>=0.0.18)", "pyyaml"]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "tabulate"
 version = "0.9.0"
@@ -2709,6 +2939,11 @@ files = [
 
 [package.extras]
 widechars = ["wcwidth"]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "tomli"
@@ -2763,6 +2998,11 @@ files = [
     {file = "tomli-2.3.0.tar.gz", hash = "sha256:64be704a875d2a59753d80ee8a533c3fe183e3f06807ff7dc2232938ccb01549"},
 ]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "typing-extensions"
 version = "4.15.0"
@@ -2776,21 +3016,10 @@ files = [
 ]
 markers = {dev = "python_version == \"3.10\"", test = "python_version <= \"3.12\""}
 
-[[package]]
-name = "typing-inspect"
-version = "0.9.0"
-description = "Runtime inspection utilities for typing module."
-optional = false
-python-versions = "*"
-groups = ["main"]
-files = [
-    {file = "typing_inspect-0.9.0-py3-none-any.whl", hash = "sha256:9ee6fc59062311ef8547596ab6b955e1b8aa46242d854bfc78f4f6b0eff35f9f"},
-    {file = "typing_inspect-0.9.0.tar.gz", hash = "sha256:b23fc42ff6f6ef6954e4852c1fb512cdd18dbea03134f91f856a95ccc9461f78"},
-]
-
-[package.dependencies]
-mypy-extensions = ">=0.3.0"
-typing-extensions = ">=3.7.4"
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "typing-inspection"
@@ -2807,6 +3036,11 @@ files = [
 [package.dependencies]
 typing-extensions = ">=4.12.0"
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "tzdata"
 version = "2025.3"
@@ -2819,13 +3053,18 @@ files = [
     {file = "tzdata-2025.3.tar.gz", hash = "sha256:de39c2ca5dc7b0344f2eba86f49d614019d29f060fc4ebc8a417896a620b56a7"},
 ]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "urllib3"
 version = "2.6.2"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 optional = false
 python-versions = ">=3.9"
-groups = ["main", "cli"]
+groups = ["cli"]
 files = [
     {file = "urllib3-2.6.2-py3-none-any.whl", hash = "sha256:ec21cddfe7724fc7cb4ba4bea7aa8e2ef36f607a4bab81aa6ce42a13dc3f03dd"},
     {file = "urllib3-2.6.2.tar.gz", hash = "sha256:016f9c98bb7e98085cb2b4b17b87d2c702975664e4f060c6532e64d1c1a5e797"},
@@ -2836,6 +3075,11 @@ brotli = ["brotli (>=1.2.0) ; platform_python_implementation == \"CPython\"", "b
 h2 = ["h2 (>=4,<5)"]
 socks = ["pysocks (>=1.5.6,!=1.5.7,<2.0)"]
 zstd = ["backports-zstd (>=1.0.0) ; python_version < \"3.14\""]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "uvicorn"
@@ -2857,6 +3101,11 @@ typing-extensions = {version = ">=4.0", markers = "python_version < \"3.11\""}
 
 [package.extras]
 standard = ["colorama (>=0.4) ; sys_platform == \"win32\"", "httptools (>=0.6.3)", "python-dotenv (>=0.13)", "pyyaml (>=5.1)", "uvloop (>=0.15.1) ; sys_platform != \"win32\" and sys_platform != \"cygwin\" and platform_python_implementation != \"PyPy\"", "watchfiles (>=0.13)", "websockets (>=10.4)"]
+
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
 
 [[package]]
 name = "virtualenv"
@@ -2880,6 +3129,11 @@ typing-extensions = {version = ">=4.13.2", markers = "python_version < \"3.11\""
 docs = ["furo (>=2023.7.26)", "proselint (>=0.13)", "sphinx (>=7.1.2,!=7.3)", "sphinx-argparse (>=0.4)", "sphinxcontrib-towncrier (>=0.2.1a0)", "towncrier (>=23.6)"]
 test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess (>=1)", "flaky (>=3.7)", "packaging (>=23.1)", "pytest (>=7.4)", "pytest-env (>=0.8.2)", "pytest-freezer (>=0.4.8) ; platform_python_implementation == \"PyPy\" or platform_python_implementation == \"GraalVM\" or platform_python_implementation == \"CPython\" and sys_platform == \"win32\" and python_version >= \"3.13\"", "pytest-mock (>=3.11.1)", "pytest-randomly (>=3.12)", "pytest-timeout (>=2.1)", "setuptools (>=68)", "time-machine (>=2.10) ; platform_python_implementation == \"CPython\""]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [[package]]
 name = "zipp"
 version = "3.23.0"
@@ -2900,7 +3154,12 @@ enabler = ["pytest-enabler (>=2.2)"]
 test = ["big-O", "jaraco.functools", "jaraco.itertools", "jaraco.test", "more_itertools", "pytest (>=6,!=8.1.*)", "pytest-ignore-flaky"]
 type = ["pytest-mypy"]
 
+[package.source]
+type = "legacy"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
+reference = "skyscanner-artifactory"
+
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "e593ab816cda7ba3aeec21caa6072f3f407ed84e6efdb752ffaea06b9a0ca728"
+content-hash = "c7864c8b91a7aad8daec6dfddb2065d85ebe0170888854bcaa3f34178d5a2104"

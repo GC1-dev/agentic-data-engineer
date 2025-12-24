@@ -1,17 +1,17 @@
 [tool.poetry]
 name = "agentic-data-engineer"
-version = "0.1.0"
-description = "AI-native data engineering utilities and tools"
-authors = ["Your Name <your.email@example.com>"]
+version = "1.0.0"
+description = "All-in-one data engineering platform with Claude AI integration"
+authors = ["Skyscanner Data Engineering <data-engineering@skyscanner.net>"]
 readme = "README.md"
 packages = [
-    { include = "src/agentic_data_engineer" }
+    { include = "agentic_data_engineer", from = "src" }
 ]
 
 [[tool.poetry.source]]
 name = "skyscanner-artifactory"
 url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple/"
-priority = "supplemental"
+priority = "primary"
 
 
 [tool.poetry.dependencies]
@@ -23,14 +23,11 @@ scipy = "^1.11.0"
 numpy = "^1.24.0"
 reportlab = "^4.0.0"
 
-# Git dependencies pinned to dev branch across all packages
-skyscanner-spark-session-utils = { git = "git@github.com:Skyscanner/spark-session-utils.git", branch = "main" }
-skyscanner-data-shared-utils = { git = "git@github.com:Skyscanner/data-shared-utils.git", branch = "010-quality-gates-tests" }
-data-catalog-utils = { git = "git@github.com:Skyscanner/data-catalog-utils.git", branch = "main" }
-data-observability-utils = { git = "git@github.com:Skyscanner/data-observability-utils.git", branch = "main" }
-data-quality-utils = { git = "git@github.com:Skyscanner/data-quality-utils.git", branch = "main" }
-
-skyscanner-databricks-utils = { git = "git@github.com:Skyscanner/databricks-utils.git", branch = "main" }
+# agentic data engineer repos
+skyscanner-databricks-utils = ">=0.2.2"
+skyscanner-data-knowledge-base-mcp = ">=1.0.3"
+skyscanner-spark-session-utils = "1.0.1"
+skyscanner-data-shared-utils = "1.0.2"
 
 
 [tool.poetry.group.cli.dependencies]

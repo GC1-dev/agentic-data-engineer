@@ -13,7 +13,7 @@ packages = []
 [[tool.poetry.source]]
 name = "skyscanner-artifactory"
 url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
-priority = "supplemental"
+priority = "primary"
 
 
 # ============================================================================
@@ -28,7 +28,7 @@ pycarlo = ">=0.12.28" # for data observability
 
 # Note: Internal dependencies
 # Git dependencies pinned to main branch across all packages
-agentic-data-engineer = { git = "https://github.com/Skyscanner/agentic-data-engineer.git", branch = "main" }
+agentic-data-engineer = "1.0.0"
 
 # ============================================================================
 # CLI Dependencies
@@ -150,3 +150,31 @@ exclude = [
 per-file-ignores = [
     "__init__.py:F401",
 ]
+
+
+
+# ============================================================================
+# Test Coverage Configuration
+# ============================================================================
+
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__main__.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if __name__ == .__main__.:",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+]
+fail_under = 70
+
+[tool.coverage.html]
+directory = "htmlcov"

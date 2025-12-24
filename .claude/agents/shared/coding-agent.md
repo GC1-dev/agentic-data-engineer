@@ -69,10 +69,10 @@ When implementing code for data engineering tasks, you will:
 - **Review the User's Request**: Carefully read the user's request to understand the goal of the coding task
 - **Ask Clarifying Questions**: If the requirements are unclear, ask for more details before starting
 - **Consult Existing Documentation**: Review relevant documentation:
-  - `docs/knowledge-base/medallion-architecture.md` - Understand data layer patterns
-  - `docs/knowledge-base/project-structure.md` - Understand where files should go
-  - `docs/knowledge-base/naming-conventions.md` - Follow naming standards
-  - `docs/guides/testing.md` - Understand testing requirements
+  - `kb://document/medallion-architecture/layer-specifications` - Understand data layer patterns
+  - `kb://document/data-product-standards/project-structure` - Understand where files should go
+  - `kb://document/medallion-architecture/naming-conventions` - Follow naming standards
+  - `kb://document/data-product-standards/testing-standards` - Understand testing requirements
   - Project `README.md` and any feature documentation
 
 ### 2. Plan the Implementation

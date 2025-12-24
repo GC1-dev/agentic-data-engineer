@@ -384,39 +384,60 @@ All contributions must meet these criteria:
 
 ## Reference Documentation
 
-### Knowledge Base Structure
-```
-docs-agentic-data-engineer/
-├── constitution.md                     # This file
-├── knowledge_base/
-│   ├── python-standards/
-│   │   ├── coding.md                  # Python/Poetry/Pydantic standards
-│   │   └── testing_structure.md       # Test directory structure requirements
-│   ├── pyspark-standards/
-│   │   ├── README.md                  # PySpark overview
-│   │   └── configuration.md           # Spark/Databricks config
-│   ├── medallion-architecture/
-│   │   ├── layer-specifications.md    # Bronze/Silver/Gold specs
-│   │   ├── naming-conventions.md      # Naming standards
-│   │   ├── technical-standards.md     # Tech stack decisions
-│   │   └── design-rationale.md        # Architectural rationale
-│   ├── dimensional-modeling/
-│   │   ├── dimensions.md              # Dimension design
-│   │   └── facts.md                   # Fact table design
-│   └── data-platform/
-│       ├── catalog-structure.md       # Unity Catalog structure
-│       └── databricks-system-tables.md
-└── adr/                                # Architecture Decision Records
-```
+### Knowledge Base (MCP Server)
+
+Access knowledge base documents via the `kb://` URI scheme:
+
+**Data Platform**
+- `kb://document/data-platform/catalog-structure` - Unity Catalog structure
+- `kb://document/data-platform/databricks-system-tables` - System tables reference
+
+**Data Product Standards**
+- `kb://document/data-product-standards/data-contracts` - Data contracts
+- `kb://document/data-product-standards/data-quality` - Data quality rules
+- `kb://document/data-product-standards/documentation` - Documentation standards
+- `kb://document/data-product-standards/project-structure` - Project structure
+- `kb://document/data-product-standards/testing-standards` - Testing standards
+- `kb://document/data-product-standards/transformation-requirements` - Transformation requirements
+
+**Dimensional Modeling**
+- `kb://document/dimensional-modeling/dimensions` - Dimension design
+- `kb://document/dimensional-modeling/facts` - Fact table design
+- `kb://document/dimensional-modeling/naming-conventions` - Naming conventions
+
+**Medallion Architecture**
+- `kb://document/medallion-architecture/data-domains` - Data domains
+- `kb://document/medallion-architecture/data-flows` - Data flows
+- `kb://document/medallion-architecture/design-rationale` - Architectural rationale
+- `kb://document/medallion-architecture/kimball-modeling` - Kimball modeling
+- `kb://document/medallion-architecture/layer-specifications` - Bronze/Silver/Gold specs
+- `kb://document/medallion-architecture/naming-conventions` - Naming standards
+- `kb://document/medallion-architecture/table-categories` - Table categories
+- `kb://document/medallion-architecture/technical-standards` - Tech stack decisions
+
+**Pipeline**
+- `kb://document/pipeline/lakeflow-pipelines` - Lakeflow pipelines
+- `kb://document/pipeline/materialized-views` - Materialized views
+- `kb://document/pipeline/streaming-tables` - Streaming tables
+
+**PySpark Standards**
+- `kb://document/pyspark-standards/README` - PySpark overview
+- `kb://document/pyspark-standards/configuration` - Spark/Databricks config
+- `kb://document/pyspark-standards/data_coverage_instructions` - Data coverage dimensions
+- `kb://document/pyspark-standards/import-organization-rule` - Import organization
+
+**Python Standards**
+- `kb://document/python-standards/coding` - Python/Poetry/Pydantic standards
+- `kb://document/python-standards/testing_structure` - Test directory structure
 
 ### Key Standards Documents
-1. **[Python Project Structure Standards](./knowledge_base/python-standards/coding.md)** - Src layout, Poetry, Google docstrings, Pydantic Settings
-2. **[Test Directory Structure](./knowledge_base/python-standards/testing_structure.md)** - Mandatory tests/ mirroring of src/ structure, test file naming, enforcement rules
-3. **[Testing Patterns & Best Practices](#v-test-first-development-non-negotiable)** - 4 core patterns for PySpark tests, structure requirements, coverage checklist
-4. **[Data Coverage Dimensions](./knowledge_base/pyspark-standards/data_coverage_instructions.md)** - 10 dimensions for comprehensive test data coverage (schema, distribution, logic, edges, temporal, cross-field, negative, volume, environment, pipeline)
-5. **[PySpark Configuration Standards](./knowledge_base/pyspark-standards/configuration.md)** - Spark session, configs, Unity Catalog, Asset Bundles
-6. **[Medallion Architecture](./knowledge_base/medallion-architecture/)** - Layer specs, naming, technical standards, design rationale
-7. **[Dimensional Modeling](./knowledge_base/dimensional-modeling/)** - Dimension/fact table design, SCD patterns
+1. **Python Project Structure Standards** (`kb://document/python-standards/coding`) - Src layout, Poetry, Google docstrings, Pydantic Settings
+2. **Test Directory Structure** (`kb://document/python-standards/testing_structure`) - Mandatory tests/ mirroring of src/ structure, test file naming, enforcement rules
+3. **Testing Patterns & Best Practices** (Section V above) - 4 core patterns for PySpark tests, structure requirements, coverage checklist
+4. **Data Coverage Dimensions** (`kb://document/pyspark-standards/data_coverage_instructions`) - 10 dimensions for comprehensive test data coverage (schema, distribution, logic, edges, temporal, cross-field, negative, volume, environment, pipeline)
+5. **PySpark Configuration Standards** (`kb://document/pyspark-standards/configuration`) - Spark session, configs, Unity Catalog, Asset Bundles
+6. **Medallion Architecture** (`kb://document/medallion-architecture/layer-specifications`) - Layer specs, naming, technical standards, design rationale
+7. **Dimensional Modeling** (`kb://document/dimensional-modeling/dimensions`, `kb://document/dimensional-modeling/facts`) - Dimension/fact table design, SCD patterns
 
 ## Governance
 

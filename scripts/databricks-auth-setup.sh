@@ -14,7 +14,7 @@ echo ""
 # Get input parameters or use defaults
 DATABRICKS_ENV_NAME="${1:-dev}"
 DATABRICKS_CONFIG_PROFILE="${2:-skyscanner-dev}"
-DATABRICKS_WAREHOUSE_ID="${3:-1204fc84c047ff08}"
+DATABRICKS_WAREHOUSE_ID="${3:-c45e9cf2e10e61e}"
 
 # Derive host from profile
 DATABRICKS_HOST="https://skyscanner-${DATABRICKS_ENV_NAME}.cloud.databricks.com"
@@ -56,7 +56,9 @@ echo "Step 2: Setting environment variables..."
 BASHRC="$HOME/.bashrc"
 DATABRICKS_BLOCK_START="# >>> databricks-auth-setup >>>"
 DATABRICKS_BLOCK_END="# <<< databricks-auth-setup <<<"
-DATABRICKS_EXPORTS="export DATABRICKS_HOST=\"${DATABRICKS_HOST}\"\nexport DATABRICKS_CONFIG_PROFILE=\"${DATABRICKS_CONFIG_PROFILE}\"\nexport DATABRICKS_WAREHOUSE_ID=\"${DATABRICKS_WAREHOUSE_ID}\""
+# Library expects this keyword, we dont need to get a token. Keep it as dummy
+DATABRICKS_TOKEN="dummy"
+DATABRICKS_EXPORTS="export DATABRICKS_HOST=\"${DATABRICKS_HOST}\"\nexport DATABRICKS_CONFIG_PROFILE=\"${DATABRICKS_CONFIG_PROFILE}\"\nexport DATABRICKS_WAREHOUSE_ID=\"${DATABRICKS_WAREHOUSE_ID}\"\nexport DATABRICKS_TOKEN=\"${DATABRICKS_TOKEN}\""
 
 # Remove existing block if present
 if grep -q "$DATABRICKS_BLOCK_START" "$BASHRC" 2>/dev/null; then
@@ -82,6 +84,7 @@ echo "=========================================="
 echo "DATABRICKS_HOST: $DATABRICKS_HOST"
 echo "DATABRICKS_CONFIG_PROFILE: $DATABRICKS_CONFIG_PROFILE"
 echo "DATABRICKS_WAREHOUSE_ID: $DATABRICKS_WAREHOUSE_ID"
+echo "DATABRICKS_TOKEN: $DATABRICKS_TOKEN"
 echo ""
 
 # Step 4: Test connection
@@ -110,6 +113,7 @@ echo "Or add these to your ~/.bashrc:"
 echo "  export DATABRICKS_HOST=\"$DATABRICKS_HOST\""
 echo "  export DATABRICKS_CONFIG_PROFILE=\"$DATABRICKS_CONFIG_PROFILE\""
 echo "  export DATABRICKS_WAREHOUSE_ID=\"$DATABRICKS_WAREHOUSE_ID\""
+echo "  export DATABRICKS_TOKEN=\"$DATABRICKS_TOKEN\""
 echo ""
 echo "Note: For zsh users, use scripts/databricks-auth-setup-zsh.sh (recommended default)"
 echo ""

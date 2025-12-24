@@ -60,18 +60,18 @@ jobs:
 
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --no-interaction --with cli,mcp,dev,test
+        run: poetry install --no-interaction --with dev,test
 
       - name: Install project
         run: poetry install --no-interaction
 
-      # - name: Run tests with coverage
-      #   run: |
-      #     poetry run pytest tests/ -v --tb=short \
-      #       --cov=src/agentic_data_engineer \
-      #       --cov-report=xml:coverage.xml \
-      #       --cov-report=html:htmlcov \
-      #       --cov-report=term-missing
+      - name: Run tests with coverage
+        run: |
+          poetry run pytest tests/ -v --tb=short \
+            --cov=src \
+            --cov-report=xml:coverage.xml \
+            --cov-report=html:htmlcov \
+            --cov-report=term-missing
 
       # Extract coverage percentage and add to job summary
       - name: Coverage Summary

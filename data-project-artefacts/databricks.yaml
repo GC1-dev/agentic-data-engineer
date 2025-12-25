@@ -21,7 +21,7 @@ variables:
     default: "dev"
   squad:
     description: This is the squad name
-    default: "viserion"
+    default:  {{owner_team}}
   project:
     description: This is the AWS project name.
     default: "meta-search-dp"

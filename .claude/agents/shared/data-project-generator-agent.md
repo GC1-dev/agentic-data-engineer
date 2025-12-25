@@ -52,7 +52,8 @@ Greet the user and conversationally gather these required variables:
 - `owner_team` - Team responsible for the project (e.g., "my-team-name")
 - `python_version` - Choice of "3.11" or "3.12" (recommend 3.12)
 - `databricks_runtime` - Default is "16.4 LTS"
-- `env_name` - Default: local (Enum: ["local", "lab", "dev", "prod"])
+- `dev_sp` - Dev Service principal ID
+- `prod_sp` - Prod Service principal ID
 - `medallion_layer` - Default: silver (Enum: ["silver", "gold", "silicon", "bronze"])
 - `schema_name` - Schema/Data Domain name for both dev/prod environment (e.g., "meta_search")
 - `package_name` - snakcase names (e.g., "search_request")

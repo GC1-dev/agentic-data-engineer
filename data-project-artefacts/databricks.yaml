@@ -1,0 +1,101 @@
+# Databricks Asset Bundle configuration for databricks-meta-search-silver-domain
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+
+bundle:
+  name: {{repo_name}}
+
+artifacts:
+  my-artifact:
+    type: whl
+    path: ../../..
+    build: |
+      cd ../../.. && \
+        poetry build -f wheel && \
+        poetry export -f requirements.txt --without-hashes -o requirements.txt && \
+        pip wheel -r requirements.txt -w ./dependency_wheels --no-deps && \
+        find dist dependency_wheels -type f -name "*.whl" | sed "s|^|${workspace.file_path}/|" > requirements-dabs.txt;
+
+variables:
+  env:
+    description: This is the environment variable for tasks
+    default: "dev"
+  squad:
+    description: This is the squad name
+    default: "viserion"
+  project:
+    description: This is the AWS project name.
+    default: "meta-search-dp"
+  service_principal_application_id:
+    description: The application ID of the service principal used to deploy the DAB. Passed in by the spark reusable workflow.
+    default: {{dev_sp}}
+
+
+  workflow_trigger_status:
+    description: This is the status of the workflow trigger
+    default: "PAUSED"
+  schedule_pause_status:
+    description: This is the status of the workflow schedule
+    default: "PAUSED"
+  github_branch_name:
+    description: The github branch name used to deploy the bundle
+    default: "dev"
+
+# Sync configuration - only sync src, notebooks, and pipelines
+sync:
+  include:
+    - "../../../src/"
+    - "../../../config/"
+    - "../../../pipelines/"
+    - "../../../notebooks/"
+    - "../../../dashboards/"
+    - "../../../data_contracts/"
+    - "../../../data_monitoring/"
+    - "../../../scripts/"
+    - "../../../docs/"
+    - "../../../reports/"
+    - "../../../drivers/"
+    - "../../../examples/"
+    - "../../../schema/"
+    - "../../../Makefile"
+    - ".catalog.yml"
+
+  exclude:
+    - "*.cfg"
+    - "*.ipynb"
+    - "*.pre-commit-config.yaml"
+    - "../../../tests/"
+    - "*venv"
+    - "*.md"
+    - "*.toml"
+    - "*.gitignore"
+    - "../../../.github"
+    - "*.databricksignore"
+
+targets:
+  # Development target
+  dev:
+    # Note: No mode set - allows custom workspace paths
+    # mode: development enforces paths under /Workspace/Users/<service-principal-id>/
+    default: true
+    # mode: production
+
+    workspace:
+      root_path: "/Workspace/Users/{{dev_sp}}/.bundle/${bundle.name}"
+
+    permissions:
+      - level: CAN_MANAGE
+        group_name: {{owner_team}}
+
+    variables:
+      env: dev
+      workflow_trigger_status: "PAUSED"
+      schedule_pause_status: "PAUSED"
+
+    presets:
+      tags:
+        squad: "${var.squad}"
+        project: "${var.project}"
+        target: "${bundle.target}"
+
+    run_as:
+      service_principal_name: {{dev_sp}} # dev-meta-search-domain

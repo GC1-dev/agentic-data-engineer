@@ -39,7 +39,7 @@ poetry run ade setup
 **That's it!** You now have:
 - All utility packages available for import
 - Claude agents, commands, and skills in `.claude/`
-- Knowledge base documentation in `docs-agentic-data-engineer/`
+- Knowledge base accessible via MCP server (`kb://document/...`)
 - Speckit workflow templates in `.specify/`
 
 ### Using the Utilities
@@ -132,11 +132,12 @@ your-project/
 │       ├── dbdiagram-skill/
 │       ├── pdf-creator-skill/
 │       └── recommend_silver_data_model-skill/
-├── docs-agentic-data-engineer/  # Knowledge base
-│   └── knowledge_base/
+├── docs-agentic-data-engineer/  # Knowledge base (served via MCP)
+│   └── knowledge_base/          # Access via kb://document/<domain>/<doc>
 │       ├── medallion-architecture/
 │       ├── dimensional-modeling/
 │       ├── data-platform/
+│       ├── data-product-standards/
 │       ├── pipeline/
 │       ├── pyspark-standards/
 │       └── python-standards/
@@ -191,6 +192,31 @@ platform-status:
 | `silver-data-modeling` | Entity-Centric Modeling for Silver layer |
 | `testing-agent` | Test development and QA |
 | `claude-agent-template-generator` | Create new agent templates |
+
+## Knowledge Base
+
+The knowledge base is accessible via MCP server using `kb://` URIs. Agents and commands reference these documents for context.
+
+### Available Domains
+
+| Domain | Documents | Description |
+|--------|-----------|-------------|
+| `data-platform` | `catalog-structure`, `databricks-system-tables` | Unity Catalog and system tables |
+| `data-product-standards` | `data-contracts`, `data-quality`, `documentation`, `project-structure`, `testing-standards`, `transformation-requirements` | Development standards |
+| `dimensional-modeling` | `dimensions`, `facts`, `naming-conventions` | Kimball dimensional modeling |
+| `medallion-architecture` | `data-domains`, `data-flows`, `design-rationale`, `kimball-modeling`, `layer-specifications`, `naming-conventions`, `table-categories`, `technical-standards` | Bronze/Silver/Gold architecture |
+| `pipeline` | `lakeflow-pipelines`, `materialized-views`, `streaming-tables` | Pipeline patterns |
+| `pyspark-standards` | `README`, `configuration`, `data_coverage_instructions`, `import-organization-rule` | PySpark development |
+| `python-standards` | `coding`, `testing_structure` | Python development |
+
+### Example URIs
+
+```
+kb://document/medallion-architecture/layer-specifications
+kb://document/dimensional-modeling/dimensions
+kb://document/data-product-standards/testing-standards
+kb://document/pipeline/streaming-tables
+```
 
 ## Speckit Workflow
 

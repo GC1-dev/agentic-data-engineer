@@ -25,7 +25,7 @@ reportlab = "^4.0.0"
 
 # agentic data engineer repos
 skyscanner-databricks-utils = ">=0.2.2"
-skyscanner-data-knowledge-base-mcp = ">=1.0.3"
+skyscanner-data-knowledge-base-mcp = ">=1.0.5"
 skyscanner-spark-session-utils = "1.0.1"
 skyscanner-data-shared-utils = "1.0.2"
 

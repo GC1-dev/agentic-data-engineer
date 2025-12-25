@@ -2748,14 +2748,14 @@ reference = "skyscanner-artifactory"
 
 [[package]]
 name = "skyscanner-data-knowledge-base-mcp"
-version = "1.0.3"
+version = "1.0.5"
 description = "MCP server for Data Engineering Knowledge Base - provides access to medallion architecture, dimensional modeling, PySpark standards, and pipeline best practices"
 optional = false
 python-versions = ">=3.10,<4.0"
 groups = ["main"]
 files = [
-    {file = "skyscanner_data_knowledge_base_mcp-1.0.3-py3-none-any.whl", hash = "sha256:329296a95b9e1b8301c590d481ea3bd96d84e7eb52735cae4b55d1d18cf1dca0"},
-    {file = "skyscanner_data_knowledge_base_mcp-1.0.3.tar.gz", hash = "sha256:a417dc289b7be79ebb21cf1356282dc6db27a76566665f44198acc7a59e81072"},
+    {file = "skyscanner_data_knowledge_base_mcp-1.0.5-py3-none-any.whl", hash = "sha256:acfbbd873ba50f7749a3a4b4bf599ba8c973b08ed334be6264e4792661683067"},
+    {file = "skyscanner_data_knowledge_base_mcp-1.0.5.tar.gz", hash = "sha256:786dd23aede7a103094db85fe4a0e93389bd83c56cf2caeb4b1828308e8a3735"},
 ]
 
 [package.dependencies]
@@ -3162,4 +3162,4 @@ reference = "skyscanner-artifactory"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "c7864c8b91a7aad8daec6dfddb2065d85ebe0170888854bcaa3f34178d5a2104"
+content-hash = "ea61c1550af3b5562416bf050d29db748ca72dae92b51f9a5512d4c76dc846e6"

@@ -4,48 +4,228 @@ All-in-one data engineering platform with Claude AI integration.
 
 ## Overview
 
-`agentic-data-engineer` is an all-in-one Python package that bundles:
+`skyscanner-agentic-data-engineer` is an all-in-one Python package that bundles:
 
-- **20 Claude AI Agents** - Specialized agents for data engineering tasks
+- **21 Claude AI Agents** - Specialized agents for data engineering tasks
 - **9 Speckit Commands** - AI-powered development workflow
 - **5 Reusable Skills** - JSON, Mermaid diagrams, PDF generation, and more
 - **Schema Definitions** - ODCS/ODPS data contract and product schemas
 - **Shared Scripts** - Databricks authentication, environment setup utilities
 
-## Quick Start
+## Setup Instructions
 
-### For Consumer Repos (Recommended)
+### Prerequisites
 
-**Step 1: Add dependency**
+Before installing, ensure you have:
+
+- **Python 3.10+** (3.12 recommended for best compatibility)
+- **Poetry 2.2+** for dependency management
+- **Claude Code CLI** (optional, for AI agents)
+- **Databricks CLI** (optional, for MCP integration)
+
+### Quick Start (Consumer Repos)
+
+#### Step 1: Add Dependency
+
+Add to your `pyproject.toml`:
 
 ```toml
-# pyproject.toml
 [tool.poetry.dependencies]
-agentic-data-engineer = "1.0.0"
+skyscanner-agentic-data-engineer = "1.0.0"
 ```
 
-**Step 2: Install**
+#### Step 2: Install Package
 
 ```bash
+# Install with Poetry
+poetry install
+
+# Or update existing installation
+poetry update skyscanner-agentic-data-engineer
+```
+
+#### Step 3: Verify Installation
+
+```bash
+# Check installed version
+poetry show skyscanner-agentic-data-engineer
+
+# Expected output:
+# name         : skyscanner-agentic-data-engineer
+# version      : 1.0.0
+# description  : All-in-one data engineering platform with Claude AI integration
+```
+
+#### What Gets Installed
+
+After installation, all assets are automatically available:
+
+✅ **Claude AI Assets** - 21 agents, 9 commands, 5 skills in `.claude/`
+✅ **Schema Definitions** - ODCS/ODPS schemas in `schema/`
+✅ **Utility Scripts** - Databricks auth and environment setup in `shared_scripts/`
+✅ **Documentation** - Agent usage guides in `shared_agents_usage_docs/`
+✅ **Constitution Template** - Speckit workflow configuration in `.specify/`
+✅ **Python Utilities** - Spark session, data utils, MCP servers
+
+### Using the Package
+
+#### 1. Import Python Utilities
+
+```python
+# Spark session management
+from spark_session_utils import SparkSessionManager
+
+# Core data utilities
+from data_shared_utils.dataframe_utils import DataFrameUtils
+```
+
+#### 2. Use Claude AI Agents
+
+Agents are automatically available in Claude Code:
+
+```bash
+# Example: Use the bronze-table-finder agent
+# In Claude Code, reference the agent
+"Use bronze-table-finder-agent to find source tables for my Silver user_session"
+```
+
+#### 3. Run Speckit Commands
+
+```bash
+# Create feature specification
+/speckit.specify "Add user authentication"
+
+# Generate implementation plan
+/speckit.plan
+
+# Generate tasks
+/speckit.tasks
+
+# Execute implementation
+/speckit.implement
+```
+
+#### 4. Use Shared Scripts
+
+```bash
+# Setup Databricks authentication
+source shared_scripts/databricks-auth-setup.sh
+
+# Activate pyenv environment
+source shared_scripts/activate-pyenv.sh
+
+# Fix Databricks cache issues
+./shared_scripts/fix-databricks-cache.sh
+```
+
+### MCP Server Setup (Optional)
+
+For Claude Code + Databricks integration:
+
+#### Step 1: Install MCP Dependencies
+
+```bash
+# In your consumer repo
+poetry install --with mcp
+```
+
+#### Step 2: Configure Databricks
+
+```bash
+# Set environment variables
+export DATABRICKS_HOST="https://skyscanner-dev.cloud.databricks.com"
+export DATABRICKS_CONFIG_PROFILE="skyscanner-dev"
+export DATABRICKS_WAREHOUSE_ID="your-warehouse-id"
+
+# Authenticate with Databricks
+databricks auth login --host $DATABRICKS_HOST
+```
+
+#### Step 3: Configure Claude Code MCP
+
+Add to your `.claude/settings.local.json`:
+
+```json
+{
+  "mcpServers": {
+    "databricks": {
+      "command": "poetry",
+      "args": ["run", "python", "-m", "databricks_utils.mcp.server"],
+      "env": {
+        "DATABRICKS_HOST": "https://skyscanner-dev.cloud.databricks.com",
+        "DATABRICKS_CONFIG_PROFILE": "skyscanner-dev",
+        "DATABRICKS_WAREHOUSE_ID": "your-warehouse-id"
+      }
+    },
+    "data-knowledge-base": {
+      "command": "poetry",
+      "args": ["run", "python", "-m", "data_knowledge_base_mcp.server"]
+    }
+  }
+}
+```
+
+#### Step 4: Test MCP Connection
+
+```bash
+# In Claude Code, test MCP tools
+# Use databricks__execute_query to run a simple query
+```
+
+### Troubleshooting
+
+#### Issue: Package Not Found
+
+```bash
+# Clear Poetry cache and reinstall
+poetry cache clear pypi --all
 poetry install
 ```
 
-**That's it!** All assets are automatically available:
-- Utility packages ready to import in your code
-- Claude agents, commands, and skills accessible in `.claude/`
-- Schema definitions for data contracts/products in `schema/`
-- Shared scripts available in `shared_scripts/`
-- Agent documentation in `shared_agents_usage_docs/`
-- Speckit constitution template in `.specify`
+#### Issue: MCP Server Not Starting
 
-Everything is packaged and available immediately after installation.
+```bash
+# Check Poetry environment
+poetry env info
 
-### Using the Utilities
+# Verify MCP dependencies installed
+poetry show mcp httpx anyio
 
-```python
-# Core Skyscanner utilities available
-from spark_session_utils import SparkSessionManager
-from data_shared_utils.dataframe_utils import DataFrameUtils
+# Check logs
+tail -f ~/.local/state/claude/logs/mcp*.log
+```
+
+#### Issue: Databricks Authentication Failing
+
+```bash
+# Re-authenticate
+databricks auth login --host $DATABRICKS_HOST
+
+# Verify credentials
+databricks auth profiles
+
+# Test connection
+databricks warehouses list
+```
+
+#### Issue: Agents Not Available in Claude Code
+
+1. Check `.claude/` directory exists in your project
+2. Restart Claude Code
+3. Verify package installed: `poetry show skyscanner-agentic-data-engineer`
+4. Check Claude Code logs for errors
+
+### Updating to New Versions
+
+```bash
+# Update to latest version
+poetry update skyscanner-agentic-data-engineer
+
+# Or specify version
+poetry add skyscanner-agentic-data-engineer@1.1.0
+
+# Verify update
+poetry show skyscanner-agentic-data-engineer
 ```
 
 ## Package Contents
@@ -64,13 +244,14 @@ from data_shared_utils.dataframe_utils import DataFrameUtils
 ```
 your-project/
 ├── .claude/
-│   ├── agents/shared/           # 20 specialized agents
+│   ├── agents/shared/           # 21 specialized agents
 │   │   ├── bronze-table-finder-agent.md
 │   │   ├── claude-agent-template-generator.md
 │   │   ├── coding-agent.md
 │   │   ├── data-contract-agent.md
 │   │   ├── data-naming-agent.md
 │   │   ├── data-profiler-agent.md
+│   │   ├── data-project-generator-agent.md
 │   │   ├── decision-documenter-agent.md
 │   │   ├── dimensional-modeling-agent.md
 │   │   ├── documentation-agent.md
@@ -115,15 +296,6 @@ your-project/
     └── README-*.md              # Usage guides for each agent
 ```
 
-## Updating to New Versions
-
-Since this package is installed directly (not from a registry), update by pulling latest changes:
-
-```bash
-# In consumer repo - poetry will pick up the latest from source
-poetry install
-```
-
 ## Makefile Integration
 
 Add these targets to your project's Makefile:
@@ -131,10 +303,10 @@ Add these targets to your project's Makefile:
 ```makefile
 # Check installed version
 platform-info:
-	poetry show agentic-data-engineer
+	poetry show skyscanner-agentic-data-engineer
 ```
 
-## Included Agents
+## Included Agents (21 Total)
 
 | Agent | Purpose |
 |-------|---------|
@@ -144,6 +316,7 @@ platform-info:
 | `data-contract-agent` | Generate and validate ODCS data contracts |
 | `data-naming-agent` | Naming conventions and consistency |
 | `data-profiler` | Data analysis and statistical profiling |
+| `data-project-generator` | Scaffold new data engineering projects |
 | `decision-documenter` | Document architectural decisions |
 | `dimensional-modeling` | Design fact and dimension tables |
 | `documentation-agent` | Generate technical documentation |
@@ -206,56 +379,207 @@ For developing on `agentic-data-engineer` itself:
 
 ### Prerequisites
 
-- Python 3.10+ (via pyenv, 3.12 recommended)
-- Poetry 2.2+
-- Make 3.81+
+- **Python 3.10+** (3.12 recommended, managed via pyenv)
+- **Poetry 2.2+** for dependency management
+- **Make 3.81+** for build automation
+- **Databricks CLI** for Databricks integration
 
-### Setup
+### Setup Steps
+
+Follow these steps in order:
+
+#### Step 1: Clone Repository
 
 ```bash
-# Clone repository
 git clone git@github.com:Skyscanner/agentic-data-engineer.git
 cd agentic-data-engineer
-
-# Setup environment
-make setup
-
-# Or manually:
-pyenv install 3.12.12
-pyenv local 3.12.12
-poetry install
 ```
 
-### MCP Server Setup
-
-For Claude Code integration with Databricks:
+#### Step 2: Install pyenv and Python
 
 ```bash
-# Install MCP dependencies
-make setup-mcp
+# Install pyenv and configure Python version
+make project-pyenv-init
+```
 
-# Configure environment
-export DATABRICKS_HOST="https://your-workspace.cloud.databricks.com"
-export DATABRICKS_WAREHOUSE_ID="your-warehouse-id"
+This will:
+- Install Python version from `.python-version` file
+- Configure pyenv for the project
+- Set up local Python environment
 
-# Authenticate
+#### Step 3: Activate pyenv
+
+```bash
+# Activate pyenv in your current shell
+source shared_scripts/activate-pyenv.sh
+```
+
+**Important**: You need to run this in every new terminal session, or add it to your shell profile.
+
+#### Step 4: Initialize Project
+
+```bash
+# Install all dependencies and set up project
+make project-init
+```
+
+This command will:
+- Install Databricks CLI
+- Install Poetry
+- Install all Python dependencies (including MCP servers)
+- Set up pre-commit hooks
+
+#### Step 5: Configure Databricks Authentication
+
+```bash
+# Set up Databricks authentication
+source shared_scripts/databricks-auth-setup.sh
+```
+
+This will:
+- Prompt for your Databricks host and warehouse ID
+- Configure authentication via OAuth or token
+- Set up environment variables
+
+### Validation
+
+After setup, validate your installation:
+
+#### Check `/agents` Command
+
+```bash
+# In Claude Code, run:
+/agents
+
+# Expected output: List of 21 available agents
+# - bronze-table-finder-agent
+# - claude-agent-template-generator
+# - coding-agent
+# - data-contract-agent
+# ... (21 total)
+```
+
+#### Check `/mcp` Command
+
+```bash
+# In Claude Code, run:
+/mcp
+
+# Expected output: List of MCP servers
+# - databricks (skyscanner-databricks-utils)
+# - data-knowledge-base (skyscanner-data-knowledge-base-mcp)
+```
+
+#### Verify MCP Server Status
+
+```bash
+# Check MCP server health
+poetry run python -m databricks_utils.mcp.server --help
+poetry run python -m data_knowledge_base_mcp.server --help
+
+# Both should show help output without errors
+```
+
+#### Test Databricks Connection
+
+```bash
+# List Databricks warehouses (should succeed if auth is correct)
+databricks warehouses list
+
+# Test query via MCP (in Claude Code)
+# Use: databricks__execute_query("SELECT 1 as test")
+```
+
+### Common Issues
+
+#### pyenv not activated
+**Symptom**: Command not found, wrong Python version
+**Fix**:
+```bash
+source shared_scripts/activate-pyenv.sh
+```
+
+#### MCP servers not starting
+**Symptom**: `/mcp` shows errors or no servers
+**Fix**:
+```bash
+# Reinstall MCP dependencies
+poetry install --with mcp
+
+# Check environment
+poetry env info
+```
+
+#### Databricks auth failing
+**Symptom**: Authentication errors when running queries
+**Fix**:
+```bash
+# Re-run auth setup
+source shared_scripts/databricks-auth-setup.sh
+
+# Or manually authenticate
 databricks auth login --host $DATABRICKS_HOST
 ```
 
-### Testing
+### Testing & Validation
 
 ```bash
-make test          # Run tests
-make test-cov      # Run with coverage
-make lint          # Check code style
-make lint-fix      # Fix code style
+# Run all tests
+make test
+
+# Run tests with coverage
+make test-cov
+
+# Check code style
+make lint
+
+# Auto-fix code style issues
+make lint-fix
+
+# Validate package structure
+make validate
 ```
 
 ### Building & Packaging
 
 ```bash
-make build         # Build distribution
-make validate      # Validate package structure
+# Build distribution package
+make build
+
+# Build and verify contents
+make build-verify
+
+# Clean build artifacts
+make clean
+```
+
+### Daily Development Workflow
+
+```bash
+# 1. Activate pyenv (once per terminal session)
+source shared_scripts/activate-pyenv.sh
+
+# 2. Pull latest changes
+git pull
+
+# 3. Update dependencies if needed
+poetry install
+
+# 4. Make your changes
+# ... edit files ...
+
+# 5. Run tests
+make test
+
+# 6. Fix linting
+make lint-fix
+
+# 7. Commit changes
+git add .
+git commit -m "Your change description"
+
+# 8. Push changes
+git push
 ```
 
 ## Repository Structure
@@ -263,7 +587,7 @@ make validate      # Validate package structure
 ```
 agentic-data-engineer/
 ├── .claude/                     # Claude Code assets
-│   ├── agents/shared/           # 20 AI agents
+│   ├── agents/shared/           # 21 AI agents
 │   ├── commands/                # 9 Speckit commands
 │   └── skills/                  # 5 reusable skills
 ├── .github/

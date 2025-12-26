@@ -21,7 +21,7 @@ All-in-one data engineering platform with Claude AI integration.
 ```toml
 # pyproject.toml
 [tool.poetry.dependencies]
-agentic-data-engineer = "1.0.0"
+skyscanner-agentic-data-engineer = "1.0.0"
 ```
 
 **Step 2: Install**
@@ -131,7 +131,7 @@ Add these targets to your project's Makefile:
 ```makefile
 # Check installed version
 platform-info:
-	poetry show agentic-data-engineer
+	poetry show skyscanner-agentic-data-engineer
 ```
 
 ## Included Agents

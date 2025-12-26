@@ -379,57 +379,207 @@ For developing on `agentic-data-engineer` itself:
 
 ### Prerequisites
 
-- Python 3.10+ (via pyenv, 3.12 recommended)
-- Poetry 2.2+
-- Make 3.81+
+- **Python 3.10+** (3.12 recommended, managed via pyenv)
+- **Poetry 2.2+** for dependency management
+- **Make 3.81+** for build automation
+- **Databricks CLI** for Databricks integration
 
-### Setup
+### Setup Steps
+
+Follow these steps in order:
+
+#### Step 1: Clone Repository
 
 ```bash
-# Clone repository
 git clone git@github.com:Skyscanner/agentic-data-engineer.git
 cd agentic-data-engineer
-
-# Setup environment
-make setup
-
-# Or manually:
-pyenv install 3.12.12
-pyenv local 3.12.12
-poetry install
 ```
 
-### MCP Server Setup
-
-For Claude Code integration with Databricks:
+#### Step 2: Install pyenv and Python
 
 ```bash
-# Install MCP dependencies
-make setup-mcp
+# Install pyenv and configure Python version
+make project-pyenv-init
+```
 
-# Configure environment
-export DATABRICKS_HOST="https://skyscanner-dev.cloud.databricks.com"
-export DATABRICKS_CONFIG_PROFILE="skyscanner-dev"
-export DATABRICKS_WAREHOUSE_ID="your-warehouse-id"
+This will:
+- Install Python version from `.python-version` file
+- Configure pyenv for the project
+- Set up local Python environment
 
-# Authenticate
+#### Step 3: Activate pyenv
+
+```bash
+# Activate pyenv in your current shell
+source shared_scripts/activate-pyenv.sh
+```
+
+**Important**: You need to run this in every new terminal session, or add it to your shell profile.
+
+#### Step 4: Initialize Project
+
+```bash
+# Install all dependencies and set up project
+make project-init
+```
+
+This command will:
+- Install Databricks CLI
+- Install Poetry
+- Install all Python dependencies (including MCP servers)
+- Set up pre-commit hooks
+
+#### Step 5: Configure Databricks Authentication
+
+```bash
+# Set up Databricks authentication
+source shared_scripts/databricks-auth-setup.sh
+```
+
+This will:
+- Prompt for your Databricks host and warehouse ID
+- Configure authentication via OAuth or token
+- Set up environment variables
+
+### Validation
+
+After setup, validate your installation:
+
+#### Check `/agents` Command
+
+```bash
+# In Claude Code, run:
+/agents
+
+# Expected output: List of 21 available agents
+# - bronze-table-finder-agent
+# - claude-agent-template-generator
+# - coding-agent
+# - data-contract-agent
+# ... (21 total)
+```
+
+#### Check `/mcp` Command
+
+```bash
+# In Claude Code, run:
+/mcp
+
+# Expected output: List of MCP servers
+# - databricks (skyscanner-databricks-utils)
+# - data-knowledge-base (skyscanner-data-knowledge-base-mcp)
+```
+
+#### Verify MCP Server Status
+
+```bash
+# Check MCP server health
+poetry run python -m databricks_utils.mcp.server --help
+poetry run python -m data_knowledge_base_mcp.server --help
+
+# Both should show help output without errors
+```
+
+#### Test Databricks Connection
+
+```bash
+# List Databricks warehouses (should succeed if auth is correct)
+databricks warehouses list
+
+# Test query via MCP (in Claude Code)
+# Use: databricks__execute_query("SELECT 1 as test")
+```
+
+### Common Issues
+
+#### pyenv not activated
+**Symptom**: Command not found, wrong Python version
+**Fix**:
+```bash
+source shared_scripts/activate-pyenv.sh
+```
+
+#### MCP servers not starting
+**Symptom**: `/mcp` shows errors or no servers
+**Fix**:
+```bash
+# Reinstall MCP dependencies
+poetry install --with mcp
+
+# Check environment
+poetry env info
+```
+
+#### Databricks auth failing
+**Symptom**: Authentication errors when running queries
+**Fix**:
+```bash
+# Re-run auth setup
+source shared_scripts/databricks-auth-setup.sh
+
+# Or manually authenticate
 databricks auth login --host $DATABRICKS_HOST
 ```
 
-### Testing
+### Testing & Validation
 
 ```bash
-make test          # Run tests
-make test-cov      # Run with coverage
-make lint          # Check code style
-make lint-fix      # Fix code style
+# Run all tests
+make test
+
+# Run tests with coverage
+make test-cov
+
+# Check code style
+make lint
+
+# Auto-fix code style issues
+make lint-fix
+
+# Validate package structure
+make validate
 ```
 
 ### Building & Packaging
 
 ```bash
-make build         # Build distribution
-make validate      # Validate package structure
+# Build distribution package
+make build
+
+# Build and verify contents
+make build-verify
+
+# Clean build artifacts
+make clean
+```
+
+### Daily Development Workflow
+
+```bash
+# 1. Activate pyenv (once per terminal session)
+source shared_scripts/activate-pyenv.sh
+
+# 2. Pull latest changes
+git pull
+
+# 3. Update dependencies if needed
+poetry install
+
+# 4. Make your changes
+# ... edit files ...
+
+# 5. Run tests
+make test
+
+# 6. Fix linting
+make lint-fix
+
+# 7. Commit changes
+git add .
+git commit -m "Your change description"
+
+# 8. Push changes
+git push
 ```
 
 ## Repository Structure

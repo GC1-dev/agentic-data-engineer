@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "agentic-data-engineer"
+name = "skyscanner-agentic-data-engineer"
 version = "1.0.0"
 description = "All-in-one data engineering platform with Claude AI integration"
 authors = ["Skyscanner Data Engineering <data-engineering@skyscanner.net>"]

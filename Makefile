@@ -57,7 +57,7 @@ project-pyenv-init: build-pyenv activate-pyenv check-pyenv check-python ## Initi
 	@echo ""
 	@echo "========================================"
 	@echo "IMPORTANT: To use pyenv in this terminal, run:"
-	@echo "  source scripts/activate-pyenv.sh"
+	@echo "  source scripts_shared/activate-pyenv.sh"
 	@echo "========================================"
 
 project-init: install-databricks-cli install-poetry install-deps install-hooks ## Initialize project end-to-end
@@ -93,7 +93,7 @@ activate-pyenv: ## Activate pyenv and set Python version
 	@echo ""
 	@echo "========================================"
 	@echo "To activate pyenv NOW in your terminal:"
-	@echo "  source scripts/activate-pyenv.sh"
+	@echo "  source scripts_shared/activate-pyenv.sh"
 	@echo "========================================"
 
 check-pyenv: ## Verify pyenv installation and Python version
@@ -152,7 +152,7 @@ check-python: ## Check which Python version is active in terminal
 		echo "✓ Terminal is using virtual environment Python"; \
 	else \
 		echo "✗ Terminal is NOT using pyenv (using system Python)"; \
-		echo "  Run: source scripts/activate-pyenv.sh"; \
+		echo "  Run: source scripts_shared/activate-pyenv.sh"; \
 	fi
 
 # ==============================================================================

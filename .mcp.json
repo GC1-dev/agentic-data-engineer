@@ -9,7 +9,18 @@
       "env": {
         "DATABRICKS_HOST": "${DATABRICKS_HOST}",
         "DATABRICKS_CONFIG_PROFILE": "${DATABRICKS_CONFIG_PROFILE}",
-        "DATABRICKS_WAREHOUSE_ID": "${DATABRICKS_WAREHOUSE_ID}"
+        "DATABRICKS_WAREHOUSE_ID": "${DATABRICKS_WAREHOUSE_ID}",
+        "DATABRICKS_TOKEN": "dummy"
+      }
+    },
+    "data-knowledge-base": {
+      "command": ".venv/bin/python",
+      "args": [
+        "-m",
+        "data_knowledge_base"
+      ],
+      "env": {
+        "LOG_LEVEL": "INFO"
       }
     }
   }

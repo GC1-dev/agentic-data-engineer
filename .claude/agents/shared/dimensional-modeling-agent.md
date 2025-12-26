@@ -81,9 +81,9 @@ This agent provides complete guidance for designing star schema data warehouses 
 
 ## Using the References
 
-This agent includes three comprehensive reference files located in `docs/knowledge_base/dimensional-modeling/`:
+This agent includes three comprehensive reference documents accessible via the knowledge base:
 
-### docs/knowledge_base/dimensional-modeling/dimensions.md
+### kb://document/dimensional-modeling/dimensions
 Read this for:
 - Dimension table design patterns
 - SCD Types 0-6 implementation
@@ -92,7 +92,7 @@ Read this for:
 - Standard dimension patterns (customer, product, geography, employee, date)
 - Spark SQL data types and CREATE TABLE syntax
 
-### docs/knowledge_base/dimensional-modeling/facts.md
+### kb://document/dimensional-modeling/facts
 Read this for:
 - Fact table types (transaction, periodic snapshot, accumulating snapshot, factless)
 - Measure types (additive, semi-additive, non-additive)
@@ -101,7 +101,7 @@ Read this for:
 - Standard fact patterns (sales, inventory, customer activity, financial)
 - Foreign key relationships and null handling
 
-### docs/knowledge_base/dimensional-modeling/naming_conventions.md
+### kb://document/dimensional-modeling/naming-conventions
 Read this for:
 - Skyscanner Medallion Architecture gold layer naming standards
 - Catalog and schema (domain) naming patterns
@@ -146,7 +146,7 @@ Determine "who, what, where, when, why, how" context for facts.
 - Employee
 - Store/Location
 
-**Read docs/knowledge_base/dimensional-modeling/dimensions.md for:** Dimension types, SCD patterns, and design best practices
+**Read `kb://document/dimensional-modeling/dimensions` for:** Dimension types, SCD patterns, and design best practices
 
 ### Step 4: Identify Facts
 
@@ -158,11 +158,11 @@ Determine numeric measures that answer "how many" or "how much."
 - Counts (number of transactions, page views)
 - Durations (time to delivery, session length)
 
-**Read docs/knowledge_base/dimensional-modeling/facts.md for:** Fact table types, measure types, and design patterns
+**Read `kb://document/dimensional-modeling/facts` for:** Fact table types, measure types, and design patterns
 
 ## Naming Conventions
 
-Follow Skyscanner's Medallion Architecture standards. See **docs/knowledge_base/dimensional-modeling/naming_conventions.md** for complete details.
+Follow Skyscanner's Medallion Architecture standards. See **`kb://document/dimensional-modeling/naming-conventions`** for complete details.
 
 ### Quick Reference
 
@@ -192,7 +192,7 @@ Follow Skyscanner's Medallion Architecture standards. See **docs/knowledge_base/
 - Avoid squad/team names
 - Be descriptive and clear
 
-**Read docs/knowledge_base/dimensional-modeling/naming_conventions.md for:** Complete catalog/schema/table/column naming standards, domain organization patterns, and anti-patterns to avoid.
+**Read `kb://document/dimensional-modeling/naming-conventions` for:** Complete catalog/schema/table/column naming standards, domain organization patterns, and anti-patterns to avoid.
 
 ## Standard Spark SQL Patterns
 
@@ -321,19 +321,19 @@ When reviewing or enhancing existing dimensional models:
 
 ## Additional Resources
 
-**Read docs/knowledge_base/dimensional-modeling/dimensions.md for:**
+**Read `kb://document/dimensional-modeling/dimensions` for:**
 - Complete SCD Type 0-6 implementation details
 - Dimension type examples (conformed, junk, degenerate, role-playing, outrigger)
 - Spark SQL CREATE TABLE templates
 - Common dimension patterns
 
-**Read docs/knowledge_base/dimensional-modeling/facts.md for:**
+**Read `kb://document/dimensional-modeling/facts` for:**
 - Fact table type details (transaction, periodic, accumulating, factless)
 - Measure type handling (additive, semi-additive, non-additive)
 - Partitioning strategies
 - Common fact patterns
 
-**Read docs/knowledge_base/dimensional-modeling/naming_conventions.md for:**
+**Read `kb://document/dimensional-modeling/naming-conventions` for:**
 - Skyscanner Medallion Architecture gold layer standards
 - Catalog, schema (domain), table, and column naming rules
 - Domain organization patterns (business concept, BAR, metrics)

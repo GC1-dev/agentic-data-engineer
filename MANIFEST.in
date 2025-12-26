@@ -1,0 +1,33 @@
+# MANIFEST.in for agentic-data-engineer
+# Include additional data files in the distribution
+
+# Include README and license
+include README.md
+include LICENSE
+
+# Include Claude Code configurations
+recursive-include .claude *.md *.json *.py *.sh
+exclude .claude/settings.local.json
+
+# Include Specify constitution
+recursive-include .specify
+
+# Include shared scripts
+recursive-include shared_scripts *
+prune shared_scripts/__pycache__
+
+# Include shared agent usage documentation
+recursive-include shared_agents_usage_docs *.md
+prune shared_agents_usage_docs/__pycache__
+
+# Exclude Python bytecode
+global-exclude *.py[cod]
+global-exclude __pycache__
+global-exclude *.so
+global-exclude .DS_Store
+
+# Exclude development files
+exclude .python-version
+exclude Makefile
+exclude .pre-commit-config.yaml
+exclude .gitignore

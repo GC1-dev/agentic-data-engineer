@@ -1,72 +1,135 @@
 [tool.poetry]
 name = "agentic-data-engineer"
-version = "0.1.0"
-description = "AI-native data engineering utilities and tools"
-authors = ["Your Name <your.email@example.com>"]
+version = "1.0.0"
+description = "All-in-one data engineering platform with Claude AI integration"
+authors = ["Skyscanner Data Engineering <data-engineering@skyscanner.net>"]
 readme = "README.md"
+license = "MIT"
+repository = "https://github.com/Skyscanner/agentic-data-engineer"
+homepage = "https://github.com/Skyscanner/agentic-data-engineer"
 packages = [
-    { include = "src/agentic_data_engineer" }
+    { include = ".claude" }
 ]
 
+# Include data files in the package
+include = [
+    ".claude/**/*.md",
+    ".claude/**/*.py",
+    ".claude/**/*.json",
+    ".specify/**/*",
+    "schema/**/*.json",
+    "shared_scripts/**/*",
+    "shared_agents_usage_docs/**/*.md"
+]
+
+# Exclude local configuration files
+exclude = [
+    ".claude/settings.local.json",
+    ".claude/**/.DS_Store"
+]
+
+# Optional dependency groups available:
+# - cli: Command-line interface tools (install with: poetry install --with cli)
+# - mcp: Model Context Protocol support (install with: poetry install --with mcp)
+# - dev: Development tools (install with: poetry install --with dev)
+# - test: Testing tools (install with: poetry install --with test)
+
+# ============================================================================
+# Package Sources
+# ============================================================================
 
 [[tool.poetry.source]]
 name = "skyscanner-artifactory"
-url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple"
-priority = "supplemental"
+url = "https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple/"
+priority = "primary"
+
+# ============================================================================
+# Dependencies
+# ============================================================================
 
 [tool.poetry.dependencies]
-python = "^3.10"
-pyspark = "^3.4.0"
+python = ">=3.10,<4.0"  # Databricks Runtime 12.2 LTS compatible, allows modern Python versions
+pyspark = ">=3.4.0"  # Apache Spark for distributed data processing
 pydantic = ">=2.0.0"  # JSON Schema generation from type hints
-pyyaml = "^6.0"
-scipy = "^1.11.0"
-numpy = "^1.24.0"
-reportlab = "^4.0.0"
+pyyaml = ">=6.0.0"  # YAML parser for configuration files
+scipy = ">=1.11.0"  # Scientific computing library for statistical operations
+numpy = ">=1.24.0"  # Numerical computing library
+reportlab = ">=4.0.0"  # PDF generation library
+python-json-logger = ">=4.0.0"  # Structured JSON logging - https://nhairs.github.io/python-json-logger
 
-# Git dependencies pinned to dev branch across all packages
-skyscanner-spark-session-utils = { git = "https://github.com/Skyscanner/spark-session-utils.git", branch = "main" }
-skyscanner-data-shared-utils = { git = "https://github.com/Skyscanner/data-shared-utils.git", branch = "main" }
-data-catalog-utils = { git = "https://github.com/Skyscanner/data-catalog-utils.git", branch = "main" }
-data-observability-utils = { git = "https://github.com/Skyscanner/data-observability-utils.git", branch = "main" }
-data-quality-utils = { git = "https://github.com/Skyscanner/data-quality-utils.git", branch = "main" }
+# Internal dependencies - Skyscanner data engineering utilities
+skyscanner-databricks-utils = ">=0.2.2"  # Databricks utilities and helpers MCP integration
+skyscanner-data-knowledge-base-mcp = ">=1.0.5"  # Data knowledge base MCP integration
+skyscanner-spark-session-utils = ">=1.0.1"  # Spark session management utilities
+skyscanner-data-shared-utils = ">=1.0.2"  # Shared data engineering utilities
 
-skyscanner-databricks-utils = { git = "https://github.com/Skyscanner/databricks-utils.git", branch = "main" }
+# ============================================================================
+# CLI Dependencies
+# ============================================================================
 
+[tool.poetry.group.cli]
+optional = true
 
 [tool.poetry.group.cli.dependencies]
-databricks-sdk = ">=0.18.0"
-databricks-cli = ">=0.18.0"
-click = ">=8.1.0"
-rich = ">=13.0.0"
-pandas = ">=2.0.0"
+databricks-sdk = ">=0.18.0"  # Databricks SDK for Python
+databricks-cli = ">=0.18.0"  # Databricks CLI tool
+databricks-sql-connector = ">=4.2.2"  # SQL connector for Databricks
+click = ">=8.1.0"  # CLI framework
+rich = ">=13.0.0"  # Rich terminal formatting
+pandas = ">=2.0.0"  # Data manipulation and analysis
 
+# ============================================================================
+# MCP Dependencies
+# ============================================================================
+
+[tool.poetry.group.mcp]
+optional = true
 
 [tool.poetry.group.mcp.dependencies]
 mcp = {version = ">=1.2.1", python = ">=3.10"}  # Official MCP SDK for protocol implementation (requires Python 3.10+)
 httpx = ">=0.24.0"  # HTTP client for async requests
 anyio = ">=3.0.0"  # Async compatibility layer
 
+# ============================================================================
+# Dev Dependencies
+# ============================================================================
+
+[tool.poetry.group.dev]
+optional = false
 
 [tool.poetry.group.dev.dependencies]
-black = ">=23.0.0"
-ruff = "^0.14.7"
-flake8 = ">=6.0.0"
-flake8-pyproject = ">=1.2.0"
-pre-commit = ">=4.0.1"
+ruff = ">=0.14.7"  # Fast Python linter and formatter
+pre-commit = ">=4.0.1"  # Git pre-commit hooks framework
+black = ">=23.0.0"  # Code formatter (legacy, prefer ruff format)
+flake8 = ">=6.0.0"  # Python linter (legacy, prefer ruff)
+flake8-pyproject = ">=1.2.0"  # Flake8 configuration via pyproject.toml
 
+# ============================================================================
+# Test Dependencies
+# ============================================================================
+
+[tool.poetry.group.test]
+optional = false
 
 [tool.poetry.group.test.dependencies]
-pytest = ">=7.0.0"
-pytest-cov = ">=4.0.0"
-pytest-asyncio = ">=0.21.0,<0.23.0"  # Async test support for MCP integration tests (0.23.x has backports issues)
-pyyaml = ">=6.0"
+pytest = ">=7.0.0"  # Testing framework
+pytest-cov = ">=4.0.0"  # Coverage plugin for pytest
+pytest-asyncio = ">=0.21.0,<0.23.0"  # Async test support (0.23.x has compatibility issues)
+pyyaml = ">=6.0.0"  # YAML parser for config tests
 jsonschema = ">=4.20.0"  # JSON Schema validation for contract tests
-delta-spark = "==3.2.0"  # Delta Lake support for local integration testing
+delta-spark = "3.2.0"  # Delta Lake support - pinned for Databricks compatibility
 
+# ============================================================================
+# Build System
+# ============================================================================
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+# ============================================================================
+# Tool Configuration
+# ============================================================================
 
 [tool.ruff]
 line-length = 120

@@ -5,7 +5,7 @@ type: "etl"
 component:
   name: agentic-data-engineer
   owner: zurg
-  description: Agentic Data Engineering
+  description: Agentic Data Engineer
   personalDataHandling: none
   soxScope: False
   paymentProcessing: False
@@ -14,5 +14,5 @@ component:
   serviceClass: economy-class # leave this as economy-class
   securityChecklistID: 4b5f83a4-2a39-4864-b40f-eaa28afde2ac
   supportOverride:
-    slackChannel: "#tmp-meta-search-dp"
-    slackAlertsChannel: "#tmp-meta-search-dp"
+    slackChannel: "#tmp-meta-silver-dp-alerts"
+    slackAlertsChannel: "#tmp-meta-silver-dp-alerts"

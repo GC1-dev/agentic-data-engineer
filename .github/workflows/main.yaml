@@ -1,0 +1,58 @@
+name: Main
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest-small
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry
+        run: |
+          pip install poetry==2.2.1
+          poetry config virtualenvs.in-project true
+
+      - name: Configure Artifactory for Poetry
+        run: |
+          poetry config repositories.skyscanner-artifactory https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple/
+          poetry config http-basic.skyscanner-artifactory ${{ secrets.ARTIFACTORY_USERNAME }} ${{ secrets.ARTIFACTORY_PASSWORD }}
+
+      - name: Install dependencies
+        run: poetry install --no-interaction --no-root --with dev,test
+
+      - name: Set version from tag
+        run: poetry version ${{ github.ref_name }}
+
+      - name: Build package
+        run: poetry build
+
+      - name: Publish to Artifactory
+        run: |
+          poetry config repositories.artifactory-publish https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi
+          poetry publish -r artifactory-publish -u ${{ secrets.ARTIFACTORY_USERNAME }} -p ${{ secrets.ARTIFACTORY_PASSWORD }}

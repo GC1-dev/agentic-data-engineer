@@ -1,6 +1,0 @@
-environment_type: dev
-
-spark:
-  app_name: "my-domain-silver-job-dev"
-  config:
-    spark.sql.session.timeZone: "UTC"

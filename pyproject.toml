@@ -8,11 +8,7 @@ license = "MIT"
 repository = "https://github.com/Skyscanner/agentic-data-engineer"
 homepage = "https://github.com/Skyscanner/agentic-data-engineer"
 packages = [
-    { include = ".claude" },
-    { include = ".specify" },
-    { include = "schema" },
-    { include = "shared_scripts" },
-    { include = "shared_agents_usage_docs" }   
+    { include = ".claude" }
 ]
 
 # Include data files in the package

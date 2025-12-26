@@ -3,16 +3,16 @@ version: "1"
 type: "etl"
 
 component:
-  name: {{repo_nane}}
-  owner: {{owner_team}}
-  description: {{git repo description}}
+  name: agentic-data-engineer
+  owner: zurg
+  description: Agentic Data Engineer
   personalDataHandling: none
   soxScope: False
   paymentProcessing: False
   outOfHoursSupportRequired: False
-  awsProjectTag: {{aws project tag}}
+  awsProjectTag: meta-search-dp
   serviceClass: economy-class # leave this as economy-class
   securityChecklistID: 4b5f83a4-2a39-4864-b40f-eaa28afde2ac
   supportOverride:
-    slackChannel: {{slackChannel}}
-    slackAlertsChannel: {{slackChannel}}
+    slackChannel: "#tmp-meta-silver-dp-alerts"
+    slackAlertsChannel: "#tmp-meta-silver-dp-alerts"

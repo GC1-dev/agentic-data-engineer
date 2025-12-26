@@ -409,6 +409,7 @@ make setup-mcp
 
 # Configure environment
 export DATABRICKS_HOST="https://skyscanner-dev.cloud.databricks.com"
+export DATABRICKS_CONFIG_PROFILE="skyscanner-dev"
 export DATABRICKS_WAREHOUSE_ID="your-warehouse-id"
 
 # Authenticate

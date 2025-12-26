@@ -4,9 +4,9 @@ All-in-one data engineering platform with Claude AI integration.
 
 ## Overview
 
-`agentic-data-engineer` is an all-in-one Python package that bundles:
+`skyscanner-agentic-data-engineer` is an all-in-one Python package that bundles:
 
-- **20 Claude AI Agents** - Specialized agents for data engineering tasks
+- **21 Claude AI Agents** - Specialized agents for data engineering tasks
 - **9 Speckit Commands** - AI-powered development workflow
 - **5 Reusable Skills** - JSON, Mermaid diagrams, PDF generation, and more
 - **Schema Definitions** - ODCS/ODPS data contract and product schemas
@@ -64,13 +64,14 @@ from data_shared_utils.dataframe_utils import DataFrameUtils
 ```
 your-project/
 ├── .claude/
-│   ├── agents/shared/           # 20 specialized agents
+│   ├── agents/shared/           # 21 specialized agents
 │   │   ├── bronze-table-finder-agent.md
 │   │   ├── claude-agent-template-generator.md
 │   │   ├── coding-agent.md
 │   │   ├── data-contract-agent.md
 │   │   ├── data-naming-agent.md
 │   │   ├── data-profiler-agent.md
+│   │   ├── data-project-generator-agent.md
 │   │   ├── decision-documenter-agent.md
 │   │   ├── dimensional-modeling-agent.md
 │   │   ├── documentation-agent.md
@@ -134,7 +135,7 @@ platform-info:
 	poetry show skyscanner-agentic-data-engineer
 ```
 
-## Included Agents
+## Included Agents (21 Total)
 
 | Agent | Purpose |
 |-------|---------|
@@ -144,6 +145,7 @@ platform-info:
 | `data-contract-agent` | Generate and validate ODCS data contracts |
 | `data-naming-agent` | Naming conventions and consistency |
 | `data-profiler` | Data analysis and statistical profiling |
+| `data-project-generator` | Scaffold new data engineering projects |
 | `decision-documenter` | Document architectural decisions |
 | `dimensional-modeling` | Design fact and dimension tables |
 | `documentation-agent` | Generate technical documentation |
@@ -263,7 +265,7 @@ make validate      # Validate package structure
 ```
 agentic-data-engineer/
 ├── .claude/                     # Claude Code assets
-│   ├── agents/shared/           # 20 AI agents
+│   ├── agents/shared/           # 21 AI agents
 │   ├── commands/                # 9 Speckit commands
 │   └── skills/                  # 5 reusable skills
 ├── .github/

@@ -4,13 +4,13 @@ All-in-one data engineering platform with Claude AI integration.
 
 ## Overview
 
-`agentic-data-engineer` is an installable Python package that bundles:
+`agentic-data-engineer` is an all-in-one Python package that bundles:
 
-- **6 Utility Packages** - Spark, data quality, observability, catalog management
-- **12 Claude AI Agents** - Specialized agents for data engineering tasks
+- **20 Claude AI Agents** - Specialized agents for data engineering tasks
 - **9 Speckit Commands** - AI-powered development workflow
 - **5 Reusable Skills** - JSON, Mermaid diagrams, PDF generation, and more
-- **Knowledge Base** - Documentation for agent context
+- **Schema Definitions** - ODCS/ODPS data contract and product schemas
+- **Shared Scripts** - Databricks authentication, environment setup utilities
 
 ## Quick Start
 
@@ -21,7 +21,7 @@ All-in-one data engineering platform with Claude AI integration.
 ```toml
 # pyproject.toml
 [tool.poetry.dependencies]
-agentic-data-engineer = { git = "git@github.com:Skyscanner/agentic-data-engineer.git", tag = "v1.0.0" }
+agentic-data-engineer = "1.0.0"
 ```
 
 **Step 2: Install**
@@ -30,131 +30,98 @@ agentic-data-engineer = { git = "git@github.com:Skyscanner/agentic-data-engineer
 poetry install
 ```
 
-**Step 3: Setup Claude assets**
+**That's it!** All assets are automatically available:
+- Utility packages ready to import in your code
+- Claude agents, commands, and skills accessible in `.claude/`
+- Schema definitions for data contracts/products in `schema/`
+- Shared scripts available in `shared_scripts/`
+- Agent documentation in `shared_agents_usage_docs/`
+- Speckit constitution template in `.specify`
 
-```bash
-poetry run ade setup
-```
-
-**That's it!** You now have:
-- All utility packages available for import
-- Claude agents, commands, and skills in `.claude/`
-- Knowledge base accessible via MCP server (`kb://document/...`)
-- Speckit workflow templates in `.specify/`
+Everything is packaged and available immediately after installation.
 
 ### Using the Utilities
 
 ```python
-# All packages available via single install
+# Core Skyscanner utilities available
 from spark_session_utils import SparkSessionManager
 from data_shared_utils.dataframe_utils import DataFrameUtils
-from data_quality_utils import ValidationRule, ValidationRuleset
-from data_catalog_utils import CatalogManager
-from data_observability_utils import MonteCarloClient
 ```
 
-## CLI Reference
+## Package Contents
 
-The `ade` CLI manages Claude assets in your project:
-
-```bash
-# Install all Claude assets to current project
-ade setup
-
-# Force overwrite existing assets
-ade setup --force
-
-# Install only specific components
-ade setup --claude-only      # Only .claude/ directory
-ade setup --docs-only        # Only docs-agentic-data-engineer/
-ade setup --specify-only     # Only .specify/ directory
-
-# Install to a different directory
-ade setup --target /path/to/project
-
-# Update assets after upgrading package
-ade update
-
-# Show bundled assets info
-ade info
-
-# Check installation status
-ade status
-
-# Show version
-ade --version
-```
-
-## What Gets Installed
-
-### Utility Packages (via Poetry dependencies)
+### Core Dependencies (via Poetry)
 
 | Package | Version | Description |
 |---------|---------|-------------|
-| `skyscanner-spark-session-utils` | 0.2.0 | Spark session lifecycle, configuration presets, logging |
-| `skyscanner-data-shared-utils` | 0.3.0 | Core Databricks utilities, Unity Catalog ops, testing |
-| `data-catalog-utils` | 1.0.0 | Unity Catalog management, metadata operations |
-| `data-quality-utils` | 1.0.0 | Validation rules, profiling, quality gates |
-| `data-observability-utils` | 1.0.0 | Monte Carlo integration, monitoring |
-| `skyscanner-databricks-utils` | 0.1.0 | MCP server for Claude Code |
+| `skyscanner-spark-session-utils` | >=1.0.1 | Spark session lifecycle, configuration presets, logging |
+| `skyscanner-data-shared-utils` | >=1.0.2 | Core Databricks utilities, Unity Catalog ops, testing |
+| `skyscanner-databricks-utils` | >=0.2.2 | MCP server for Claude Code + Databricks integration |
+| `skyscanner-data-knowledge-base-mcp` | >=1.0.5 | Data knowledge base MCP integration |
 
-### Claude Assets (via `ade setup`)
+### Bundled Assets (Automatically Included)
 
 ```
 your-project/
 ├── .claude/
-│   ├── agents/shared/           # 12 specialized agents
+│   ├── agents/shared/           # 20 specialized agents
 │   │   ├── bronze-table-finder-agent.md
+│   │   ├── claude-agent-template-generator.md
 │   │   ├── coding-agent.md
+│   │   ├── data-contract-agent.md
 │   │   ├── data-naming-agent.md
 │   │   ├── data-profiler-agent.md
-│   │   ├── data-project-generator-agent.md
 │   │   ├── decision-documenter-agent.md
 │   │   ├── dimensional-modeling-agent.md
 │   │   ├── documentation-agent.md
+│   │   ├── makefile-formatter-agent.md
+│   │   ├── materialized-view-agent.md
 │   │   ├── medallion-architecture-agent.md
+│   │   ├── project-structure-agent.md
+│   │   ├── pyproject-formatter-agent.md
+│   │   ├── pyspark-standards-agent.md
 │   │   ├── silver-data-modeling-agent.md
+│   │   ├── streaming-tables-agent.md
 │   │   ├── testing-agent.md
-│   │   └── claude-agent-template-generator.md
+│   │   ├── transformation-validation-agent.md
+│   │   └── unity-catalog-agent.md
 │   ├── commands/                # 9 speckit workflow commands
-│   │   ├── speckit.specify.md
-│   │   ├── speckit.plan.md
-│   │   ├── speckit.clarify.md
-│   │   ├── speckit.tasks.md
-│   │   ├── speckit.checklist.md
-│   │   ├── speckit.implement.md
 │   │   ├── speckit.analyze.md
+│   │   ├── speckit.checklist.md
+│   │   ├── speckit.clarify.md
 │   │   ├── speckit.constitution.md
+│   │   ├── speckit.implement.md
+│   │   ├── speckit.plan.md
+│   │   ├── speckit.specify.md
+│   │   ├── speckit.tasks.md
 │   │   └── speckit.taskstoissues.md
 │   └── skills/                  # 5 reusable skills
+│       ├── dbdiagram-skill/
 │       ├── json-formatter-skill/
 │       ├── mermaid-diagrams-skill/
-│       ├── dbdiagram-skill/
 │       ├── pdf-creator-skill/
 │       └── recommend_silver_data_model-skill/
-├── docs-agentic-data-engineer/  # Knowledge base (served via MCP)
-│   └── knowledge_base/          # Access via kb://document/<domain>/<doc>
-│       ├── medallion-architecture/
-│       ├── dimensional-modeling/
-│       ├── data-platform/
-│       ├── data-product-standards/
-│       ├── pipeline/
-│       ├── pyspark-standards/
-│       └── python-standards/
-└── .specify/                    # Workflow templates
-    ├── templates/
-    ├── scripts/
-    └── memory/
+├── schema/                      # Schema definitions
+│   ├── data_contract/           # ODCS schemas
+│   │   └── odcs/v3.1.0/
+│   └── data_product/            # ODPS schemas
+│       └── odps/v1.0.0/
+├── shared_scripts/              # Utility scripts
+│   ├── activate-pyenv.sh
+│   ├── databricks-auth-setup.sh
+│   ├── databricks-auth-setup-zsh.sh
+│   └── fix-databricks-cache.sh
+└── shared_agents_usage_docs/    # Agent documentation
+    └── README-*.md              # Usage guides for each agent
 ```
 
 ## Updating to New Versions
 
-```bash
-# Update the package
-poetry update agentic-data-engineer
+Since this package is installed directly (not from a registry), update by pulling latest changes:
 
-# Refresh Claude assets
-poetry run ade update
+```bash
+# In consumer repo - poetry will pick up the latest from source
+poetry install
 ```
 
 ## Makefile Integration
@@ -162,18 +129,9 @@ poetry run ade update
 Add these targets to your project's Makefile:
 
 ```makefile
-# Setup platform assets
-setup-platform:
-	poetry run ade setup
-
-# Update to latest version
-update-platform:
-	poetry update agentic-data-engineer
-	poetry run ade update
-
-# Check platform status
-platform-status:
-	poetry run ade status
+# Check installed version
+platform-info:
+	poetry show agentic-data-engineer
 ```
 
 ## Included Agents
@@ -181,42 +139,36 @@ platform-status:
 | Agent | Purpose |
 |-------|---------|
 | `bronze-table-finder` | Discover and analyze Bronze layer tables |
+| `claude-agent-template-generator` | Create new agent templates |
 | `coding-agent` | General code implementation |
+| `data-contract-agent` | Generate and validate ODCS data contracts |
 | `data-naming-agent` | Naming conventions and consistency |
 | `data-profiler` | Data analysis and statistical profiling |
-| `data-project-generator` | Scaffold new data projects |
 | `decision-documenter` | Document architectural decisions |
 | `dimensional-modeling` | Design fact and dimension tables |
 | `documentation-agent` | Generate technical documentation |
+| `makefile-formatter-agent` | Format and validate Makefiles |
+| `materialized-view-agent` | Design materialized views for Databricks |
 | `medallion-architecture` | Design Bronze/Silver/Gold layers |
+| `project-structure-agent` | Scaffold and organize project structure |
+| `pyproject-formatter-agent` | Format and validate pyproject.toml files |
+| `pyspark-standards-agent` | Enforce PySpark coding standards |
 | `silver-data-modeling` | Entity-Centric Modeling for Silver layer |
+| `streaming-tables-agent` | Design streaming table pipelines |
 | `testing-agent` | Test development and QA |
-| `claude-agent-template-generator` | Create new agent templates |
+| `transformation-validation-agent` | Validate data transformations |
+| `unity-catalog-agent` | Unity Catalog management and operations |
 
 ## Knowledge Base
 
-The knowledge base is accessible via MCP server using `kb://` URIs. Agents and commands reference these documents for context.
+The knowledge base is accessible via the `skyscanner-data-knowledge-base-mcp` package. Agents and commands reference these documents for context via the MCP server.
 
-### Available Domains
-
-| Domain | Documents | Description |
-|--------|-----------|-------------|
-| `data-platform` | `catalog-structure`, `databricks-system-tables` | Unity Catalog and system tables |
-| `data-product-standards` | `data-contracts`, `data-quality`, `documentation`, `project-structure`, `testing-standards`, `transformation-requirements` | Development standards |
-| `dimensional-modeling` | `dimensions`, `facts`, `naming-conventions` | Kimball dimensional modeling |
-| `medallion-architecture` | `data-domains`, `data-flows`, `design-rationale`, `kimball-modeling`, `layer-specifications`, `naming-conventions`, `table-categories`, `technical-standards` | Bronze/Silver/Gold architecture |
-| `pipeline` | `lakeflow-pipelines`, `materialized-views`, `streaming-tables` | Pipeline patterns |
-| `pyspark-standards` | `README`, `configuration`, `data_coverage_instructions`, `import-organization-rule` | PySpark development |
-| `python-standards` | `coding`, `testing_structure` | Python development |
-
-### Example URIs
-
+### Access Pattern
 ```
-kb://document/medallion-architecture/layer-specifications
-kb://document/dimensional-modeling/dimensions
-kb://document/data-product-standards/testing-standards
-kb://document/pipeline/streaming-tables
+kb://document/<domain>/<document>
 ```
+
+This knowledge base is managed separately and installed as a dependency.
 
 ## Speckit Workflow
 
@@ -254,15 +206,15 @@ For developing on `agentic-data-engineer` itself:
 
 ### Prerequisites
 
-- Python 3.10+ (via pyenv)
+- Python 3.10+ (via pyenv, 3.12 recommended)
 - Poetry 2.2+
-- Git with submodule support
+- Make 3.81+
 
 ### Setup
 
 ```bash
-# Clone with submodules
-git clone --recurse-submodules git@github.com:Skyscanner/agentic-data-engineer.git
+# Clone repository
+git clone git@github.com:Skyscanner/agentic-data-engineer.git
 cd agentic-data-engineer
 
 # Setup environment
@@ -273,27 +225,6 @@ pyenv install 3.12.12
 pyenv local 3.12.12
 poetry install
 ```
-
-### Working with Submodules
-
-```bash
-# Update all submodules
-git submodule update --remote --merge
-
-# Check submodule status
-git submodule status
-```
-
-### Submodule Packages
-
-| Submodule | Repository |
-|-----------|------------|
-| `spark-session-utils` | github.com/Skyscanner/spark-session-utils |
-| `data-shared-utils` | github.com/Skyscanner/data-shared-utils |
-| `data-catalog-utils` | github.com/Skyscanner/data-catalog-utils |
-| `data-quality-utils` | github.com/Skyscanner/data-quality-utils |
-| `data-observability-utils` | github.com/Skyscanner/data-observability-utils |
-| `blue-data-nova-cookiecutter` | github.com/Skyscanner/blue-data-nova-cookiecutter |
 
 ### MCP Server Setup
 
@@ -320,37 +251,45 @@ make lint          # Check code style
 make lint-fix      # Fix code style
 ```
 
-### Building
+### Building & Packaging
 
 ```bash
 make build         # Build distribution
+make validate      # Validate package structure
 ```
 
 ## Repository Structure
 
 ```
 agentic-data-engineer/
-├── src/agentic_data_engineer/
-│   ├── __init__.py              # Package version
-│   ├── cli.py                   # CLI implementation
-│   └── _assets/                 # Bundled assets
-│       ├── claude/              # Agents, commands, skills
-│       ├── docs/                # Knowledge base
-│       └── specify/             # Workflow templates
-├── spark-session-utils/         # Submodule
-├── data-shared-utils/           # Submodule
-├── data-catalog-utils/          # Submodule
-├── data-quality-utils/          # Submodule
-├── data-observability-utils/    # Submodule
-├── data-project-templates/
-│   └── blue-data-nova-cookiecutter/  # Submodule
-├── .claude/                     # Dev copy (symlinks to _assets)
-├── docs-agentic-data-engineer/  # Dev copy
-├── .specify/                    # Dev copy
+├── .claude/                     # Claude Code assets
+│   ├── agents/shared/           # 20 AI agents
+│   ├── commands/                # 9 Speckit commands
+│   └── skills/                  # 5 reusable skills
+├── .github/
+│   └── workflows/
+│       └── main.yaml            # CI/CD pipeline
+├── .specify/                    # Speckit workflow templates
+│   ├── templates/
+│   ├── scripts/
+│   └── memory/
+├── docs/                        # Documentation
+│   └── PACKAGING.md
+├── schema/                      # Schema definitions
+│   ├── data_contract/           # ODCS v3.1.0
+│   └── data_product/            # ODPS v1.0.0
+├── scripts/                     # Build scripts
+│   └── verify-packaging.sh
+├── shared_agents_usage_docs/    # Agent documentation (21 READMEs)
+├── shared_scripts/              # Environment utilities (4 scripts)
 ├── specs/                       # Feature specifications
-├── pyproject.toml
-├── Makefile
-└── README.md
+│   ├── 001-ai-native-data-eng-process/
+│   ├── 001-makefile-build-tools/
+│   └── .../
+├── Makefile                     # Build automation
+├── pyproject.toml               # Package configuration
+├── MANIFEST.in                  # Package manifest
+└── README.md                    # This file
 ```
 
 ## Architecture
@@ -358,31 +297,29 @@ agentic-data-engineer/
 ```mermaid
 flowchart TD
     subgraph Package["agentic-data-engineer Package"]
-        CLI[ade CLI]
         ASSETS[Bundled Assets]
         subgraph Deps["Dependencies"]
             SSU[spark-session-utils]
             DSU[data-shared-utils]
-            DCU[data-catalog-utils]
-            DQU[data-quality-utils]
-            DOU[data-observability-utils]
-            DBU[databricks-utils]
+            DBU[databricks-utils MCP]
+            KBU[knowledge-base MCP]
         end
     end
 
     subgraph Consumer["Consumer Repo"]
         PYPROJECT[pyproject.toml]
         CLAUDE[.claude/]
-        DOCS[docs-agentic-data-engineer/]
-        SPECIFY[.specify/]
+        SCHEMA[schema/]
+        SCRIPTS[shared_scripts/]
         CODE[Your Code]
     end
 
     PYPROJECT -->|poetry install| Package
-    CLI -->|ade setup| CLAUDE
-    CLI -->|ade setup| DOCS
-    CLI -->|ade setup| SPECIFY
+    Package -->|includes| CLAUDE
+    Package -->|includes| SCHEMA
+    Package -->|includes| SCRIPTS
     Deps -->|import| CODE
+    KBU -->|kb://| CLAUDE
 ```
 
 ## Version History

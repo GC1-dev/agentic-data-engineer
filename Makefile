@@ -27,7 +27,7 @@ ERROR_PYENV_NOT_FOUND := ERROR: pyenv not found
 PYENV_INSTALL_INSTRUCTIONS := \n\nInstall pyenv:\n  macOS: brew install pyenv\n  Linux: curl https://pyenv.run | bash
 
 # Declare all targets as phony to prevent conflicts with files
-.PHONY: help project-pyenv-init project-init build-pyenv activate-pyenv check-pyenv check-python install-databricks-cli install-poetry install-deps install-hooks setup-mcp setup validate lint format lint-fix test test-cov build clean check-venv
+.PHONY: help project-pyenv-init project-init build-pyenv activate-pyenv check-pyenv check-python install-databricks-cli install-poetry install-deps install-hooks setup-mcp setup validate lint format lint-fix test test-cov build build-verify clean check-venv
 
 # ==============================================================================
 # Internal Helper Targets
@@ -57,7 +57,7 @@ project-pyenv-init: build-pyenv activate-pyenv check-pyenv check-python ## Initi
 	@echo ""
 	@echo "========================================"
 	@echo "IMPORTANT: To use pyenv in this terminal, run:"
-	@echo "  source scripts_shared/activate-pyenv.sh"
+	@echo "  source shared_scripts/activate-pyenv.sh"
 	@echo "========================================"
 
 project-init: install-databricks-cli install-poetry install-deps install-hooks ## Initialize project end-to-end
@@ -93,7 +93,7 @@ activate-pyenv: ## Activate pyenv and set Python version
 	@echo ""
 	@echo "========================================"
 	@echo "To activate pyenv NOW in your terminal:"
-	@echo "  source scripts_shared/activate-pyenv.sh"
+	@echo "  source shared_scripts/activate-pyenv.sh"
 	@echo "========================================"
 
 check-pyenv: ## Verify pyenv installation and Python version
@@ -152,7 +152,7 @@ check-python: ## Check which Python version is active in terminal
 		echo "✓ Terminal is using virtual environment Python"; \
 	else \
 		echo "✗ Terminal is NOT using pyenv (using system Python)"; \
-		echo "  Run: source scripts_shared/activate-pyenv.sh"; \
+		echo "  Run: source shared_scripts/activate-pyenv.sh"; \
 	fi
 
 # ==============================================================================
@@ -267,6 +267,27 @@ build: check-venv ## Build the project
 	@echo "Building project..."
 	@poetry build
 	@echo "✓ Build complete"
+	@echo ""
+	@echo "Verifying package contents..."
+	@tar -tzf dist/agentic_data_engineer-*.tar.gz | grep -E "(.claude|shared_scripts|shared_agents_usage_docs|constitution.md)" | head -20 || echo "Note: To see full package contents, use: tar -tzf dist/agentic_data_engineer-*.tar.gz"
+
+build-verify: build ## Build and verify included files
+	@echo ""
+	@echo "=== Package Contents Verification ==="
+	@echo ""
+	@echo "Claude Code files:"
+	@tar -tzf dist/agentic_data_engineer-*.tar.gz | grep ".claude" | wc -l | xargs echo "  Files included:"
+	@echo ""
+	@echo "Scripts shared:"
+	@tar -tzf dist/agentic_data_engineer-*.tar.gz | grep "shared_scripts" | wc -l | xargs echo "  Files included:"
+	@echo ""
+	@echo "Agent usage docs:"
+	@tar -tzf dist/agentic_data_engineer-*.tar.gz | grep "shared_agents_usage_docs" | wc -l | xargs echo "  Files included:"
+	@echo ""
+	@echo "Constitution:"
+	@tar -tzf dist/agentic_data_engineer-*.tar.gz | grep "constitution.md" && echo "  ✓ Included" || echo "  ✗ Not found"
+	@echo ""
+	@echo "✓ Verification complete"
 
 clean: ## Remove build artifacts and caches
 	@echo "Cleaning build artifacts and caches..."

@@ -8,7 +8,28 @@ license = "MIT"
 repository = "https://github.com/Skyscanner/agentic-data-engineer"
 homepage = "https://github.com/Skyscanner/agentic-data-engineer"
 packages = [
-    { include = "agentic_data_engineer", from = "src" }
+    { include = ".claude" },
+    { include = ".specify" },
+    { include = "schema" },
+    { include = "shared_scripts" },
+    { include = "shared_agents_usage_docs" }   
+]
+
+# Include data files in the package
+include = [
+    ".claude/**/*.md",
+    ".claude/**/*.py",
+    ".claude/**/*.json",
+    ".specify/**/*",
+    "schema/**/*.json",
+    "shared_scripts/**/*",
+    "shared_agents_usage_docs/**/*.md"
+]
+
+# Exclude local configuration files
+exclude = [
+    ".claude/settings.local.json",
+    ".claude/**/.DS_Store"
 ]
 
 # Optional dependency groups available:

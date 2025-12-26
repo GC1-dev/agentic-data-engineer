@@ -134,6 +134,7 @@ poetry install --with mcp
 ```bash
 # Set environment variables
 export DATABRICKS_HOST="https://skyscanner-dev.cloud.databricks.com"
+export DATABRICKS_CONFIG_PROFILE="skyscanner-dev"
 export DATABRICKS_WAREHOUSE_ID="your-warehouse-id"
 
 # Authenticate with Databricks
@@ -152,6 +153,7 @@ Add to your `.claude/settings.local.json`:
       "args": ["run", "python", "-m", "databricks_utils.mcp.server"],
       "env": {
         "DATABRICKS_HOST": "https://skyscanner-dev.cloud.databricks.com",
+        "DATABRICKS_CONFIG_PROFILE": "skyscanner-dev",
         "DATABRICKS_WAREHOUSE_ID": "your-warehouse-id"
       }
     },

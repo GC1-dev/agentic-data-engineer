@@ -22,7 +22,7 @@ def get_resource_path(resource_path: str) -> Path:
         Path object pointing to the resource file
 
     Examples:
-        >>> schema_path = get_resource_path('schema/data_contract/odcs/v3.1.0/odcs-json-schema-v3.1.0.skyscanner.schema.json')
+        >>> schema_path = get_resource_path('shared_schema/data_contract/odcs/v3.1.0/odcs-json-schema-v3.1.0.skyscanner.schema.json')
         >>> agent_doc = get_resource_path('shared_agents_usage_docs/README-data-contract-agent.md')
         >>> script = get_resource_path('shared_scripts/activate-pyenv.sh')
     """
@@ -34,7 +34,7 @@ def list_resources(directory: str) -> list[Path]:
     List all resources in a directory.
 
     Args:
-        directory: Directory path relative to package root (e.g., 'schema', 'shared_scripts')
+        directory: Directory path relative to package root (e.g., 'shared_schema', 'shared_scripts')
 
     Returns:
         List of Path objects for files in the directory

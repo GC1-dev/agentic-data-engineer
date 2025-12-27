@@ -10,8 +10,8 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 echo "Setting up symlinks at project root..."
 
 # Define symlinks as separate arrays
-LINK_NAMES=(".claude" ".specify" "schema" "shared_scripts" "shared_agents_usage_docs")
-TARGETS=("src/agentic_data_engineer/.claude" "src/agentic_data_engineer/.specify" "src/agentic_data_engineer/schema" "src/agentic_data_engineer/shared_scripts" "src/agentic_data_engineer/shared_agents_usage_docs")
+LINK_NAMES=(".claude" ".specify" "shared_schema" "shared_scripts" "shared_agents_usage_docs")
+TARGETS=("src/agentic_data_engineer/.claude" "src/agentic_data_engineer/.specify" "src/agentic_data_engineer/shared_schema" "src/agentic_data_engineer/shared_scripts" "src/agentic_data_engineer/shared_agents_usage_docs")
 
 cd "$PROJECT_ROOT"
 

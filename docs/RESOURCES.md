@@ -11,13 +11,13 @@ project-root/
 │       ├── __init__.py
 │       ├── .claude/              (actual directory - Claude AI agents)
 │       ├── .specify/             (actual directory - Specification templates)
-│       ├── schema/               (actual directory - JSON schemas)
+│       ├── shared_schema/        (actual directory - JSON schemas)
 │       ├── shared_scripts/       (actual directory - Shared shell scripts)
 │       └── shared_agents_usage_docs/  (actual directory - Agent documentation)
 └── (symlinks at root for convenience)
     ├── .claude -> src/agentic_data_engineer/.claude
     ├── .specify -> src/agentic_data_engineer/.specify
-    ├── schema -> src/agentic_data_engineer/schema
+    ├── shared_schema -> src/agentic_data_engineer/shared_schema
     ├── shared_scripts -> src/agentic_data_engineer/shared_scripts
     └── shared_agents_usage_docs -> src/agentic_data_engineer/shared_agents_usage_docs
 ```
@@ -57,7 +57,7 @@ make setup-symlinks
 Check if symlinks are correct:
 
 ```bash
-ls -la | grep -E "(claude|specify|schema|shared)"
+ls -la | grep -E "(claude|specify|shared)"
 ```
 
 You should see symlinks (indicated by `->`) pointing to `src/agentic_data_engineer/<directory>`.
@@ -96,18 +96,18 @@ They can access resources using the package API:
 from agentic_data_engineer import get_resource_path, list_resources
 
 # Access any resource
-schema = get_resource_path('schema/data_contract/odcs/v3.1.0/odcs-json-schema-v3.1.0.skyscanner.schema.json')
+schema = get_resource_path('shared_schema/data_contract/odcs/v3.1.0/odcs-json-schema-v3.1.0.skyscanner.schema.json')
 agent_doc = get_resource_path('shared_agents_usage_docs/README-data-contract-agent.md')
 script = get_resource_path('shared_scripts/activate-pyenv.sh')
 
 # List resources
-schemas = list_resources('schema')
+schemas = list_resources('shared_schema')
 ```
 
 ## Troubleshooting
 
 **Symlinks appear as regular files or directories:**
-- Delete them: `rm -rf .claude .specify schema shared_scripts shared_agents_usage_docs`
+- Delete them: `rm -rf .claude .specify shared_schema shared_scripts shared_agents_usage_docs`
 - Run setup: `bash scripts/setup-symlinks.sh`
 
 **Symlinks are broken:**

@@ -272,7 +272,7 @@ build: check-venv ## Build the project
 	@echo "✓ Build complete"
 	@echo ""
 	@echo "Verifying package contents..."
-	@tar -tzf dist/skyscanner_agentic_data_engineer-*.tar.gz | grep -E "(.claude|shared_scripts|shared_agents_usage_docs)" | head -20 || echo "Note: To see full package contents, use: tar -tzf dist/skyscanner_agentic_data_engineer-*.tar.gz"
+	@tar -tzf dist/skyscanner_agentic_data_engineer-*.tar.gz | grep -E "(.claude|shared_schema|shared_scripts|shared_agents_usage_docs)" | head -20 || echo "Note: To see full package contents, use: tar -tzf dist/skyscanner_agentic_data_engineer-*.tar.gz"
 
 build-verify: build ## Build and verify included files
 	@echo ""
@@ -280,6 +280,9 @@ build-verify: build ## Build and verify included files
 	@echo ""
 	@echo "Claude Code files:"
 	@tar -tzf dist/skyscanner_agentic_data_engineer-*.tar.gz | grep ".claude" | wc -l | xargs echo "  Files included:"
+	@echo ""
+	@echo "Schemas:"
+	@tar -tzf dist/skyscanner_agentic_data_engineer-*.tar.gz | grep "shared_schema" | wc -l | xargs echo "  Files included:"
 	@echo ""
 	@echo "Scripts shared:"
 	@tar -tzf dist/skyscanner_agentic_data_engineer-*.tar.gz | grep "shared_scripts" | wc -l | xargs echo "  Files included:"

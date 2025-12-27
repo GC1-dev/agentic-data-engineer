@@ -41,7 +41,7 @@ def list_resources(directory: str) -> list[Path]:
     """
     resource_dir = resources.files(__package__).joinpath(directory)
     if resource_dir.is_dir():
-        return list(resource_dir.iterdir())
+        return sorted(resource_dir.iterdir())
     return []
 
 

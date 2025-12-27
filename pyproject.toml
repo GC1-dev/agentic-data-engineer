@@ -13,19 +13,10 @@ packages = [
     { include = "agentic_data_engineer", from = "src" }
 ]
 
-# Include resource directories directly from root (symlinks in src/ point to these)
-include = [
-    ".claude/**/*",
-    ".specify/**/*",
-    "schema/**/*",
-    "shared_scripts/**/*",
-    "shared_agents_usage_docs/**/*"
-]
-
 # Exclude local configuration files from package
 exclude = [
-    "src/agentic_data_engineer/.claude/settings.local.json",
-    "src/agentic_data_engineer/.claude/**/.DS_Store"
+    "agentic_data_engineer/.claude/settings.local.json",
+    "agentic_data_engineer/.claude/**/.DS_Store"
 ]
 
 # Optional dependency groups available:

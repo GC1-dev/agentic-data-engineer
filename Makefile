@@ -60,15 +60,14 @@ project-pyenv-init: build-pyenv activate-pyenv check-pyenv check-python ## Initi
 	@echo "  source shared_scripts/activate-pyenv.sh"
 	@echo "========================================"
 
-project-init: install-databricks-cli install-poetry install-deps install-hooks ## Initialize project end-to-end
+project-init: install-databricks-cli install-poetry install-deps install-hooks setup-symlinks ## Initialize project end-to-end
 	@echo ""
 	@echo "✓ Project initialization complete"
 	@echo ""
 
-
-setup-symlinks: ## Set up symlinks for package structure
+setup-symlinks: ## Set up convenience symlinks at project root
 	@bash scripts/setup-symlinks.sh
-	
+
 # ==============================================================================
 # Pyenv Management
 # ==============================================================================
@@ -273,23 +272,20 @@ build: check-venv ## Build the project
 	@echo "✓ Build complete"
 	@echo ""
 	@echo "Verifying package contents..."
-	@tar -tzf dist/agentic_data_engineer-*.tar.gz | grep -E "(.claude|shared_scripts|shared_agents_usage_docs|constitution.md)" | head -20 || echo "Note: To see full package contents, use: tar -tzf dist/agentic_data_engineer-*.tar.gz"
+	@tar -tzf dist/skyscanner_agentic_data_engineer-*.tar.gz | grep -E "(.claude|shared_scripts|shared_agents_usage_docs)" | head -20 || echo "Note: To see full package contents, use: tar -tzf dist/skyscanner_agentic_data_engineer-*.tar.gz"
 
 build-verify: build ## Build and verify included files
 	@echo ""
 	@echo "=== Package Contents Verification ==="
 	@echo ""
 	@echo "Claude Code files:"
-	@tar -tzf dist/agentic_data_engineer-*.tar.gz | grep ".claude" | wc -l | xargs echo "  Files included:"
+	@tar -tzf dist/skyscanner_agentic_data_engineer-*.tar.gz | grep ".claude" | wc -l | xargs echo "  Files included:"
 	@echo ""
 	@echo "Scripts shared:"
-	@tar -tzf dist/agentic_data_engineer-*.tar.gz | grep "shared_scripts" | wc -l | xargs echo "  Files included:"
+	@tar -tzf dist/skyscanner_agentic_data_engineer-*.tar.gz | grep "shared_scripts" | wc -l | xargs echo "  Files included:"
 	@echo ""
 	@echo "Agent usage docs:"
-	@tar -tzf dist/agentic_data_engineer-*.tar.gz | grep "shared_agents_usage_docs" | wc -l | xargs echo "  Files included:"
-	@echo ""
-	@echo "Constitution:"
-	@tar -tzf dist/agentic_data_engineer-*.tar.gz | grep "constitution.md" && echo "  ✓ Included" || echo "  ✗ Not found"
+	@tar -tzf dist/skyscanner_agentic_data_engineer-*.tar.gz | grep "shared_agents_usage_docs" | wc -l | xargs echo "  Files included:"
 	@echo ""
 	@echo "✓ Verification complete"
 

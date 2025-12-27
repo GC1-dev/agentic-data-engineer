@@ -8,7 +8,12 @@ license = "MIT"
 repository = "https://github.com/Skyscanner/agentic-data-engineer"
 homepage = "https://github.com/Skyscanner/agentic-data-engineer"
 
-# Include data files in the package
+# Python package to include (from src/ directory)
+packages = [
+    { include = "agentic_data_engineer", from = "src" }
+]
+
+# Include resource directories directly from root (symlinks in src/ point to these)
 include = [
     ".claude/**/*",
     ".specify/**/*",
@@ -17,10 +22,10 @@ include = [
     "shared_agents_usage_docs/**/*"
 ]
 
-# Exclude local configuration files
+# Exclude local configuration files from package
 exclude = [
-    ".claude/settings.local.json",
-    ".claude/**/.DS_Store"
+    "src/agentic_data_engineer/.claude/settings.local.json",
+    "src/agentic_data_engineer/.claude/**/.DS_Store"
 ]
 
 # Optional dependency groups available:

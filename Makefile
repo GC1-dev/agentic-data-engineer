@@ -27,7 +27,7 @@ ERROR_PYENV_NOT_FOUND := ERROR: pyenv not found
 PYENV_INSTALL_INSTRUCTIONS := \n\nInstall pyenv:\n  macOS: brew install pyenv\n  Linux: curl https://pyenv.run | bash
 
 # Declare all targets as phony to prevent conflicts with files
-.PHONY: help project-pyenv-init project-init build-pyenv activate-pyenv check-pyenv check-python install-databricks-cli install-poetry install-deps install-hooks setup-mcp setup validate lint format lint-fix test test-cov build build-verify clean check-venv
+.PHONY: help project-pyenv-init project-init build-pyenv activate-pyenv check-pyenv check-python install-databricks-cli install-poetry install-deps install-hooks setup-mcp setup setup-symlinks validate lint format lint-fix test test-cov build build-verify clean check-venv
 
 # ==============================================================================
 # Internal Helper Targets
@@ -65,6 +65,10 @@ project-init: install-databricks-cli install-poetry install-deps install-hooks #
 	@echo "✓ Project initialization complete"
 	@echo ""
 
+
+setup-symlinks: ## Set up symlinks for package structure
+	@bash scripts/setup-symlinks.sh
+	
 # ==============================================================================
 # Pyenv Management
 # ==============================================================================
@@ -203,7 +207,7 @@ install-hooks: check-venv ## Install pre-commit hooks
 # Environment Setup
 # ==============================================================================
 
-setup: check-pyenv install-poetry install-deps ## Set up development environment
+setup: check-pyenv install-poetry install-deps setup-symlinks ## Set up development environment
 	@echo ""
 	@echo "✓ Development environment ready"
 	@echo ""

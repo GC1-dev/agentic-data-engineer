@@ -65,9 +65,6 @@ project-init: install-databricks-cli install-poetry install-deps install-hooks s
 	@echo "✓ Project initialization complete"
 	@echo ""
 
-setup-symlinks: ## Set up convenience symlinks at project root
-	@bash scripts/setup-symlinks.sh
-
 # ==============================================================================
 # Pyenv Management
 # ==============================================================================
@@ -218,6 +215,10 @@ setup-mcp: ## Install MCP dependencies from installed library
 	@echo "✓ MCP dependencies installed (including CLI dependencies required by MCP server)"
 	@echo ""
 	@echo "MCP server is now ready. The databricks-utils package is available in the virtual environment."
+
+
+setup-symlinks: ## Set up convenience symlinks at project root
+	@bash scripts/setup-symlinks.sh
 
 validate: ## Validate environment configuration
 	@echo "Validating environment..."

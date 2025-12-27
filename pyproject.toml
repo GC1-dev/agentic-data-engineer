@@ -7,25 +7,16 @@ readme = "README.md"
 license = "MIT"
 repository = "https://github.com/Skyscanner/agentic-data-engineer"
 homepage = "https://github.com/Skyscanner/agentic-data-engineer"
+
+# Python package to include (from src/ directory)
 packages = [
-    { include = ".claude" }
+    { include = "agentic_data_engineer", from = "src" }
 ]
 
-# Include data files in the package
-include = [
-    ".claude/**/*.md",
-    ".claude/**/*.py",
-    ".claude/**/*.json",
-    ".specify/**/*",
-    "schema/**/*.json",
-    "shared_scripts/**/*",
-    "shared_agents_usage_docs/**/*.md"
-]
-
-# Exclude local configuration files
+# Exclude local configuration files from package
 exclude = [
-    ".claude/settings.local.json",
-    ".claude/**/.DS_Store"
+    "agentic_data_engineer/.claude/settings.local.json",
+    "agentic_data_engineer/.claude/**/.DS_Store"
 ]
 
 # Optional dependency groups available:

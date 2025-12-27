@@ -27,7 +27,7 @@ ERROR_PYENV_NOT_FOUND := ERROR: pyenv not found
 PYENV_INSTALL_INSTRUCTIONS := \n\nInstall pyenv:\n  macOS: brew install pyenv\n  Linux: curl https://pyenv.run | bash
 
 # Declare all targets as phony to prevent conflicts with files
-.PHONY: help project-pyenv-init project-init build-pyenv activate-pyenv check-pyenv check-python install-databricks-cli install-poetry install-deps install-hooks setup-mcp setup validate lint format lint-fix test test-cov build build-verify clean check-venv
+.PHONY: help project-pyenv-init project-init build-pyenv activate-pyenv check-pyenv check-python install-databricks-cli install-poetry install-deps install-hooks setup-mcp setup setup-symlinks validate lint format lint-fix test test-cov build build-verify clean check-venv
 
 # ==============================================================================
 # Internal Helper Targets
@@ -60,7 +60,7 @@ project-pyenv-init: build-pyenv activate-pyenv check-pyenv check-python ## Initi
 	@echo "  source shared_scripts/activate-pyenv.sh"
 	@echo "========================================"
 
-project-init: install-databricks-cli install-poetry install-deps install-hooks ## Initialize project end-to-end
+project-init: install-databricks-cli install-poetry install-deps install-hooks setup-symlinks ## Initialize project end-to-end
 	@echo ""
 	@echo "✓ Project initialization complete"
 	@echo ""
@@ -203,7 +203,7 @@ install-hooks: check-venv ## Install pre-commit hooks
 # Environment Setup
 # ==============================================================================
 
-setup: check-pyenv install-poetry install-deps ## Set up development environment
+setup: check-pyenv install-poetry install-deps setup-symlinks ## Set up development environment
 	@echo ""
 	@echo "✓ Development environment ready"
 	@echo ""
@@ -215,6 +215,10 @@ setup-mcp: ## Install MCP dependencies from installed library
 	@echo "✓ MCP dependencies installed (including CLI dependencies required by MCP server)"
 	@echo ""
 	@echo "MCP server is now ready. The databricks-utils package is available in the virtual environment."
+
+
+setup-symlinks: ## Set up convenience symlinks at project root
+	@bash scripts/setup-symlinks.sh
 
 validate: ## Validate environment configuration
 	@echo "Validating environment..."
@@ -269,23 +273,23 @@ build: check-venv ## Build the project
 	@echo "✓ Build complete"
 	@echo ""
 	@echo "Verifying package contents..."
-	@tar -tzf dist/agentic_data_engineer-*.tar.gz | grep -E "(.claude|shared_scripts|shared_agents_usage_docs|constitution.md)" | head -20 || echo "Note: To see full package contents, use: tar -tzf dist/agentic_data_engineer-*.tar.gz"
+	@tar -tzf dist/skyscanner_agentic_data_engineer-*.tar.gz | grep -E "(.claude|shared_schema|shared_scripts|shared_agents_usage_docs)" | head -20 || echo "Note: To see full package contents, use: tar -tzf dist/skyscanner_agentic_data_engineer-*.tar.gz"
 
 build-verify: build ## Build and verify included files
 	@echo ""
 	@echo "=== Package Contents Verification ==="
 	@echo ""
 	@echo "Claude Code files:"
-	@tar -tzf dist/agentic_data_engineer-*.tar.gz | grep ".claude" | wc -l | xargs echo "  Files included:"
+	@tar -tzf dist/skyscanner_agentic_data_engineer-*.tar.gz | grep ".claude" | wc -l | xargs echo "  Files included:"
+	@echo ""
+	@echo "Schemas:"
+	@tar -tzf dist/skyscanner_agentic_data_engineer-*.tar.gz | grep "shared_schema" | wc -l | xargs echo "  Files included:"
 	@echo ""
 	@echo "Scripts shared:"
-	@tar -tzf dist/agentic_data_engineer-*.tar.gz | grep "shared_scripts" | wc -l | xargs echo "  Files included:"
+	@tar -tzf dist/skyscanner_agentic_data_engineer-*.tar.gz | grep "shared_scripts" | wc -l | xargs echo "  Files included:"
 	@echo ""
 	@echo "Agent usage docs:"
-	@tar -tzf dist/agentic_data_engineer-*.tar.gz | grep "shared_agents_usage_docs" | wc -l | xargs echo "  Files included:"
-	@echo ""
-	@echo "Constitution:"
-	@tar -tzf dist/agentic_data_engineer-*.tar.gz | grep "constitution.md" && echo "  ✓ Included" || echo "  ✗ Not found"
+	@tar -tzf dist/skyscanner_agentic_data_engineer-*.tar.gz | grep "shared_agents_usage_docs" | wc -l | xargs echo "  Files included:"
 	@echo ""
 	@echo "✓ Verification complete"
 

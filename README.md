@@ -61,7 +61,7 @@ poetry show skyscanner-agentic-data-engineer
 After installation, all assets are automatically available:
 
 ✅ **Claude AI Assets** - 21 agents, 9 commands, 5 skills in `.claude/`
-✅ **Schema Definitions** - ODCS/ODPS schemas in `schema/`
+✅ **Schema Definitions** - ODCS/ODPS schemas in `shared_schema/`
 ✅ **Utility Scripts** - Databricks auth and environment setup in `shared_scripts/`
 ✅ **Documentation** - Agent usage guides in `shared_agents_usage_docs/`
 ✅ **Constitution Template** - Speckit workflow configuration in `.specify/`
@@ -230,6 +230,106 @@ poetry show skyscanner-agentic-data-engineer
 
 ## Package Contents
 
+### Project Structure
+
+This repository uses a specific structure to properly package resources while keeping them accessible during development:
+
+```
+agentic-data-engineer/
+├── src/
+│   └── agentic_data_engineer/           # Main Python package
+│       ├── __init__.py                  # Package API for accessing resources
+│       ├── .claude/                     # Claude AI assets (actual directory)
+│       │   ├── agents/shared/           # 21 specialized agents
+│       │   │   ├── bronze-table-finder-agent.md
+│       │   │   ├── data-contract-agent.md
+│       │   │   ├── dimensional-modeling-agent.md
+│       │   │   ├── medallion-architecture-agent.md
+│       │   │   ├── pyspark-standards-agent.md
+│       │   │   └── ... (16 more agents)
+│       │   ├── commands/                # 9 speckit workflow commands
+│       │   │   ├── speckit.analyze.md
+│       │   │   ├── speckit.plan.md
+│       │   │   ├── speckit.specify.md
+│       │   │   ├── speckit.tasks.md
+│       │   │   └── ... (5 more commands)
+│       │   └── skills/                  # 5 reusable skills
+│       │       ├── dbdiagram-skill/
+│       │       ├── json-formatter-skill/
+│       │       ├── mermaid-diagrams-skill/
+│       │       ├── pdf-creator-skill/
+│       │       └── recommend_silver_data_model-skill/
+│       ├── .specify/                    # Speckit templates (actual directory)
+│       │   └── templates/
+│       ├── shared_schema/               # Schema definitions (actual directory)
+│       │   ├── data_contract/           # ODCS schemas
+│       │   │   └── odcs/v3.1.0/
+│       │   └── data_product/            # ODPS schemas
+│       │       └── odps/v1.0.0/
+│       ├── shared_scripts/              # Utility scripts (actual directory)
+│       │   ├── activate-pyenv.sh
+│       │   ├── databricks-auth-setup.sh
+│       │   ├── databricks-auth-setup-zsh.sh
+│       │   └── fix-databricks-cache.sh
+│       └── shared_agents_usage_docs/    # Agent documentation (actual directory)
+│           └── README-*.md              # Usage guides for 21 agents
+├── .claude -> src/agentic_data_engineer/.claude  # Symlink for convenience
+├── .specify -> src/agentic_data_engineer/.specify
+├── shared_schema -> src/agentic_data_engineer/shared_schema
+├── shared_scripts -> src/agentic_data_engineer/shared_scripts
+├── shared_agents_usage_docs -> src/agentic_data_engineer/shared_agents_usage_docs
+├── pyproject.toml                       # Package configuration
+├── Makefile                             # Build automation
+└── README.md
+```
+
+**Key Points:**
+- **Actual resources** live in `src/agentic_data_engineer/` (properly packaged)
+- **Symlinks at root** provide convenient access during development
+- **Git tracks** both the actual directories and symlinks
+- **Poetry packages** everything in `src/agentic_data_engineer/` automatically
+
+### Accessing Resources
+
+#### In Development (This Repo)
+
+Use symlinks at the root for convenience:
+```bash
+# Edit agents
+vim .claude/agents/shared/data-contract-agent.md
+
+# Use scripts
+source shared_scripts/activate-pyenv.sh
+
+# View schemas
+cat shared_schema/data_contract/odcs/v3.1.0/odcs-json-schema-v3.1.0.skyscanner.schema.json
+```
+
+Or access directly:
+```bash
+vim src/agentic_data_engineer/.claude/agents/shared/data-contract-agent.md
+```
+
+#### In Consumer Projects (via Package)
+
+Use the Python API to access resources:
+```python
+from agentic_data_engineer import get_resource_path, list_resources
+
+# Access schema files
+schema_path = get_resource_path('shared_schema/data_contract/odcs/v3.1.0/odcs-json-schema-v3.1.0.skyscanner.schema.json')
+
+# Access agent documentation
+agent_doc = get_resource_path('shared_agents_usage_docs/README-data-contract-agent.md')
+
+# Access scripts
+script_path = get_resource_path('shared_scripts/activate-pyenv.sh')
+
+# List available resources
+all_schemas = list_resources('shared_schema')
+all_agents = list_resources('.claude/agents/shared')
+```
+
 ### Core Dependencies (via Poetry)
 
 | Package | Version | Description |
@@ -239,62 +339,36 @@ poetry show skyscanner-agentic-data-engineer
 | `skyscanner-databricks-utils` | >=0.2.2 | MCP server for Claude Code + Databricks integration |
 | `skyscanner-data-knowledge-base-mcp` | >=1.0.5 | Data knowledge base MCP integration |
 
-### Bundled Assets (Automatically Included)
+### For Contributors
 
-```
-your-project/
-├── .claude/
-│   ├── agents/shared/           # 21 specialized agents
-│   │   ├── bronze-table-finder-agent.md
-│   │   ├── claude-agent-template-generator.md
-│   │   ├── coding-agent.md
-│   │   ├── data-contract-agent.md
-│   │   ├── data-naming-agent.md
-│   │   ├── data-profiler-agent.md
-│   │   ├── data-project-generator-agent.md
-│   │   ├── decision-documenter-agent.md
-│   │   ├── dimensional-modeling-agent.md
-│   │   ├── documentation-agent.md
-│   │   ├── makefile-formatter-agent.md
-│   │   ├── materialized-view-agent.md
-│   │   ├── medallion-architecture-agent.md
-│   │   ├── project-structure-agent.md
-│   │   ├── pyproject-formatter-agent.md
-│   │   ├── pyspark-standards-agent.md
-│   │   ├── silver-data-modeling-agent.md
-│   │   ├── streaming-tables-agent.md
-│   │   ├── testing-agent.md
-│   │   ├── transformation-validation-agent.md
-│   │   └── unity-catalog-agent.md
-│   ├── commands/                # 9 speckit workflow commands
-│   │   ├── speckit.analyze.md
-│   │   ├── speckit.checklist.md
-│   │   ├── speckit.clarify.md
-│   │   ├── speckit.constitution.md
-│   │   ├── speckit.implement.md
-│   │   ├── speckit.plan.md
-│   │   ├── speckit.specify.md
-│   │   ├── speckit.tasks.md
-│   │   └── speckit.taskstoissues.md
-│   └── skills/                  # 5 reusable skills
-│       ├── dbdiagram-skill/
-│       ├── json-formatter-skill/
-│       ├── mermaid-diagrams-skill/
-│       ├── pdf-creator-skill/
-│       └── recommend_silver_data_model-skill/
-├── schema/                      # Schema definitions
-│   ├── data_contract/           # ODCS schemas
-│   │   └── odcs/v3.1.0/
-│   └── data_product/            # ODPS schemas
-│       └── odps/v1.0.0/
-├── shared_scripts/              # Utility scripts
-│   ├── activate-pyenv.sh
-│   ├── databricks-auth-setup.sh
-│   ├── databricks-auth-setup-zsh.sh
-│   └── fix-databricks-cache.sh
-└── shared_agents_usage_docs/    # Agent documentation
-    └── README-*.md              # Usage guides for each agent
-```
+If you're contributing to this repository:
+
+1. **Clone the repo:**
+   ```bash
+   git clone https://github.com/Skyscanner/agentic-data-engineer.git
+   cd agentic-data-engineer
+   ```
+
+2. **Setup development environment:**
+   ```bash
+   make setup
+   ```
+   This automatically:
+   - Installs Python dependencies via Poetry
+   - Sets up convenience symlinks at project root
+   - Configures pre-commit hooks
+
+3. **Verify symlinks:**
+   ```bash
+   ls -la | grep -E "(claude|specify|shared)"
+   ```
+   You should see symlinks pointing to `src/agentic_data_engineer/`
+
+4. **Edit resources:**
+   - Edit via symlinks at root OR directly in `src/agentic_data_engineer/`
+   - Both point to the same files
+
+For more details, see [docs/RESOURCES.md](docs/RESOURCES.md).
 
 ## Makefile Integration
 
@@ -383,6 +457,7 @@ For developing on `agentic-data-engineer` itself:
 - **Poetry 2.2+** for dependency management
 - **Make 3.81+** for build automation
 - **Databricks CLI** for Databricks integration
+- **Git** with symlink support (required for resource access)
 
 ### Setup Steps
 
@@ -393,6 +468,13 @@ Follow these steps in order:
 ```bash
 git clone git@github.com:Skyscanner/agentic-data-engineer.git
 cd agentic-data-engineer
+```
+
+**Windows Users**: Ensure Git has symlink support enabled:
+```bash
+git config --global core.symlinks true
+# Then re-clone the repository
+```
 ```
 
 #### Step 2: Install pyenv and Python
@@ -428,8 +510,31 @@ This command will:
 - Install Poetry
 - Install all Python dependencies (including MCP servers)
 - Set up pre-commit hooks
+- **Create convenience symlinks** at project root (`.claude`, `.specify`, `shared_schema`, `shared_scripts`, `shared_agents_usage_docs`)
 
-#### Step 5: Configure Databricks Authentication
+#### Step 5: Verify Symlinks
+
+After initialization, verify that symlinks were created:
+
+```bash
+# Check symlinks
+ls -la | grep -E "(claude|specify|shared)"
+
+# Expected output:
+# lrwxr-xr-x .claude -> src/agentic_data_engineer/.claude
+# lrwxr-xr-x .specify -> src/agentic_data_engineer/.specify
+# lrwxr-xr-x shared_schema -> src/agentic_data_engineer/shared_schema
+# lrwxr-xr-x shared_scripts -> src/agentic_data_engineer/shared_scripts
+# lrwxr-xr-x shared_agents_usage_docs -> src/agentic_data_engineer/shared_agents_usage_docs
+```
+
+If symlinks are missing or broken, run:
+
+```bash
+make setup-symlinks
+```
+
+#### Step 6: Configure Databricks Authentication
 
 ```bash
 # Set up Databricks authentication
@@ -599,7 +704,7 @@ agentic-data-engineer/
 │   └── memory/
 ├── docs/                        # Documentation
 │   └── PACKAGING.md
-├── schema/                      # Schema definitions
+├── shared_schema/               # Schema definitions
 │   ├── data_contract/           # ODCS v3.1.0
 │   └── data_product/            # ODPS v1.0.0
 ├── scripts/                     # Build scripts

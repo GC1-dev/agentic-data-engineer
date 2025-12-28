@@ -208,7 +208,7 @@ Optimize for both performance and cost.
 - Adaptive Query Execution (AQE) enabled
 - Appropriate partitioning, bucketing, and Z-ordering
 - Delta Lake optimization (OPTIMIZE, VACUUM)
-- Broadcast joins for small tables
+- NO Broadcast joins for small tables
 - Autoscaling where appropriate
 - Cost monitoring and alerts
 

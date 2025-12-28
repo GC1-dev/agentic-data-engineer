@@ -208,7 +208,7 @@ Optimize for both performance and cost.
 - Adaptive Query Execution (AQE) enabled
 - Appropriate partitioning, bucketing, and Z-ordering
 - Delta Lake optimization (OPTIMIZE, VACUUM)
-- Broadcast joins for small tables
+- NO Broadcast joins for small tables
 - Autoscaling where appropriate
 - Cost monitoring and alerts
 
@@ -245,14 +245,38 @@ Documentation is a first-class deliverable.
 
 ## Code Quality Standards
 
+### Standardized Tool Configuration (NON-NEGOTIABLE)
+All projects must use centralized configuration files for tooling consistency and maintainability.
+
+**Required Configuration Files:**
+- **pytest.ini**: Centralized pytest configuration (test discovery, markers, coverage settings, output formatting)
+- **ruff.toml**: Ruff linting and formatting rules (line length, indent style, enabled rules, exclusions)
+- **.jsonlintrc**: JSON validation rules (schema validation, formatting standards)
+- **.yamllint**: YAML linting configuration (indentation, key ordering, line length, document standards)
+
+**Configuration File Requirements:**
+- All configuration files must be in the project root directory
+- Configuration must be version-controlled (committed to git)
+- Tool-specific settings must NOT be in `pyproject.toml` if a dedicated config file exists
+- No local overrides that contradict project standards
+- Configuration changes require team review and approval
+- All developers must respect these configurations (no `--ignore-config` flags)
+
+**Benefits:**
+- Consistent code quality across all environments
+- Reduced cognitive load (one source of truth)
+- Easier onboarding (standard tooling setup)
+- CI/CD alignment (same rules locally and in pipelines)
+- Better IDE integration with standardized configurations
+
 ### Python Standards
 - Src layout structure (mandatory)
 - Poetry for dependency management
 - Type hints on all public APIs
 - Google-style docstrings complete
-- Ruff for linting and formatting
+- Ruff for linting and formatting (configured via ruff.toml)
 - Mypy for type checking
-- pytest with 80%+ coverage
+- pytest with 80%+ coverage (configured via pytest.ini)
 - Pydantic for configuration
 
 #### Test Directory Structure (Mandatory)
@@ -346,11 +370,14 @@ All contributions must meet these criteria:
 - [ ] Follows src layout structure
 - [ ] Type hints on all public APIs
 - [ ] Google-style docstrings complete
-- [ ] Passes ruff linting
+- [ ] Passes ruff linting (using ruff.toml configuration)
 - [ ] Passes mypy type checking
-- [ ] Unit tests written (80%+ coverage)
+- [ ] Unit tests written (80%+ coverage, using pytest.ini configuration)
 - [ ] No hardcoded credentials or configs
 - [ ] Uses Pydantic for configuration
+- [ ] Required config files present: pytest.ini, ruff.toml, .jsonlintrc, .yamllint
+- [ ] All JSON files pass .jsonlintrc validation
+- [ ] All YAML files pass .yamllint validation
 
 ### PySpark Compliance
 - [ ] Uses SparkSession utilities

@@ -13,5 +13,3 @@ pyenv shell "$PYTHON_VERSION"
 echo "✓ Python $PYTHON_VERSION activated"
 echo "Current Python version: $(python --version)"
 echo "Python path: $(which python)"
-
-source ~/.zshrc

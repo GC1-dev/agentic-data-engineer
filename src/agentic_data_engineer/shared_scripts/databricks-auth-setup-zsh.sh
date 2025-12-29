@@ -14,7 +14,7 @@ echo ""
 # Get input parameters or use defaults
 DATABRICKS_ENV_NAME="${1:-dev}"
 DATABRICKS_CONFIG_PROFILE="${2:-skyscanner-dev}"
-DATABRICKS_WAREHOUSE_ID="${3:-c45e9cf2e10e61e}"
+DATABRICKS_WAREHOUSE_ID="${3:-c45e9cf2e10e61e5}"
 
 # Derive host from profile
 DATABRICKS_HOST="https://skyscanner-${DATABRICKS_ENV_NAME}.cloud.databricks.com"
@@ -71,7 +71,7 @@ fi
 {
     echo "$DATABRICKS_BLOCK_START"
     echo -e "$DATABRICKS_EXPORTS"
-    echo "$DATABRICKS_BLOCK_END" co
+    echo "$DATABRICKS_BLOCK_END"
 } >> "$ZSHRC"
 
 echo "✓ Environment variables set"
@@ -89,15 +89,15 @@ echo ""
 
 # Step 4: Test connection
 echo "Testing connection..."
-if databricks current-user me >/dev/null 2>&1; then
+if databricks current-user me --profile "$DATABRICKS_CONFIG_PROFILE" >/dev/null 2>&1; then
     echo "✓ Successfully connected to Databricks"
     echo ""
     echo "Current user:"
-    databricks current-user me
+    databricks current-user me --profile "$DATABRICKS_CONFIG_PROFILE"
 else
     echo "✗ Failed to connect to Databricks"
     echo "  Please check your authentication and try again"
-    exit 1
+    return 1 2>/dev/null || exit 1
 fi
 
 

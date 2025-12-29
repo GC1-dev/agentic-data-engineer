@@ -1,0 +1,428 @@
+# https://github.com/Skyscanner/cortex/blob/main/cortexapp/catalog_schemas/component_schema.yml
+# commit: 5e1c3c7
+"$schema": http://json-schema.org/draft-07/schema#
+# "$id": https://systems-catalog-api.skyscannertools.net/schemas/definitions/component.yml
+type: object
+title: Catalog fields common to all component types
+required:
+  - version
+  - type
+  - component
+additionalProperties: false
+properties:
+  version:
+    type: string
+    description: Component schema version
+    examples:
+      - "1"
+    enum:
+      - "1"
+  type:
+    type: string
+    description: Component type
+    enum:
+      - agent
+      - app
+      - app-component
+      - artifact
+      - backup
+      - batch
+      - batch-job
+      - cli-tool
+      - cloudformation
+      - command-line-tool
+      - config
+      - cookiecutter
+      - danger-plugin
+      - database
+      - dataset
+      - docker-image
+      - docker-official-image
+      - documentation
+      - drone-plugin
+      - emr
+      - enablement
+      - etl
+      - examples
+      - frontend-component
+      - frontend-experience
+      - github-action
+      - github-app
+      - infra
+      - infrastructure
+      - internal-tooling-microservice
+      - lambda-function
+      - library
+      - k8s-component
+      - microservice
+      - microsite
+      - misc-scripts
+      - monitoring
+      - mshell-reference-app
+      - open-component
+      - other
+      - project
+      - report
+      - service
+      - s3
+      - s3bucket
+      - spark-job
+      - statemachine
+      - stream-processing
+      - third-party
+      - Third-Party
+      - tool
+      - tooling
+      - transformation-pipeline
+      - unknown
+      - web-app
+      - opensource
+  extras:
+    type: object
+    description: "[Optional] Extra component information"
+    minProperties: 1
+    properties:
+      tags:
+        type: array
+        description:
+          "[Optional] List of tags which this component will be searchable
+          by. It can also include old names of your component"
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          examples:
+            - flight-pricing
+          pattern: ^[\w_-]+$ # Allow alphanumeric characters, underscores and dashes
+  component:
+    type: object
+    description: Component definition
+    required:
+      - name
+      - owner
+      - description
+      - personalDataHandling
+      - soxScope
+      - paymentProcessing
+    properties:
+      name:
+        type: string
+        description: Unique name of the component. Can change over time
+        examples:
+          - codelift-api
+        pattern: "^[a-zA-Z0-9-_.]+$" # Allow lower and uppercase letters, numbers, underscores, dots and dashes.
+      systemName:
+        type: string
+        description: "[Optional] Name of the wider system the component belongs to"
+        examples:
+          - codelift
+        pattern: "^[a-zA-Z0-9-_.]+$"
+      description:
+        type: string
+        description: Description of what your component does
+      awsProjectTag:
+        type: string
+        description: "[Optional] Self-Service project which is used to track costs for this component. This is only required if we are hosting the component in AWS ourselves"
+        examples:
+          - codelift
+        minLength: 1
+      personalDataHandling:
+        description: Indicates whether your component is handling personal data and in which way
+        enum:
+          - collecting
+          - storing
+          - processing
+          - none
+      personalDataSensitivity:
+        description: Indicates the sensitivity of personal data handled by the component
+        enum:
+          - high
+          - medium
+          - low
+      soxScope:
+        type: boolean
+        description: Indicates whether your component is tracking company revenue
+      paymentProcessing:
+        type: boolean
+        description: Indicates whether your component is subject to PCI compliance
+      supportOverride:
+        type: object
+        description: "[Optional] You can override certain fields, that are taken from Prism by default"
+        minProperties: 1
+        additionalProperties: false
+        properties:
+          slackChannel:
+            type: string
+            description: Support slack channel for the component. By default
+              it will be taken from the owning squad's Prism details. Must be in quotes
+              so that it's not parsed as a YAML comment
+            pattern: "^#[a-z0-9-_]{1,80}$" # Should start with hashtag. Only lowercase letters, numbers, dashes, underscores allowed. Max length - 80 characters
+            examples:
+              - "#support"
+          slackAlertsChannel:
+            type: string
+            description: Alerts slack channel for the component. By default
+              it will be taken from the owning squad's Prism details. Must be in quotes
+              so that it's not parsed as a YAML comment
+            pattern: "^#[a-z0-9-_]{1,80}$" # Should start with hashtag. Only lowercase letters, numbers, dashes, underscores allowed. Max length - 80 characters
+            examples:
+              - "#support-alerts"
+          slackNotificationsChannel:
+            type: string
+            description: Notifications slack channel for the component. By default
+              it will be taken from the owning squad's Prism details. Must be in quotes
+              so that it's not parsed as a YAML comment
+            pattern: "^#[a-z0-9-_]{1,80}$" # Should start with hashtag. Only lowercase letters, numbers, dashes, underscores allowed. Max length - 80 characters
+            examples:
+              - "#support-notifications"
+          jiraProject:
+            type: string
+            description: id of the JIRA project that is used for managing
+              this component's support tickets
+            pattern: "^[A-Z0-9]+$"
+            examples:
+              - ELEM
+          confluenceUrl:
+            type: string
+            format: uri
+            description: "Link to the component's documentation"
+      owner:
+        oneOf:
+          - type: string
+            description:
+              Name of the squad (or tribe) that currently own the component,pyte
+              as defined in Prism/Flightdeck
+            examples:
+              - Elements
+          - type: array
+            description: List of squads/tribes that currently own the component,
+              as defined in Prism/Flightdeck
+            examples:
+              - '["Honey Badgers", "GAP"]'
+            minItems: 1
+            uniqueItems: true
+            items:
+              type: string
+      serviceLevelObjectives:
+        type: array
+        description: "[Optional] List of SLOs for this service"
+        uniqueItems: true
+        items:
+          type: object
+          required:
+            - type
+            - name
+            - target
+          properties:
+            type:
+              type: string
+              description: Type of SLO
+              enum:
+                - availability
+                - performance
+                - other
+            name:
+              type: string
+              description: Name of SLO. For example successRate
+              pattern: "^[a-zA-Z0-9]+$" # Alphanumeric, no spaces or special chars
+            description:
+              type: string
+              description: "[Optional] Simple description of the SLO for display"
+            target:
+              type: number
+              description: "The target successful request percentage for this SLO. e.g. 99% written as 0.99"
+              minimum: 0
+              maximum: 1
+            latency:
+              type: number
+              description: "For performance SLOs this is the target in milliseconds"
+              minimum: 1
+      sliExclude:
+        type: array
+        description: "[Optional] Simple description of the SLIs to exclude"
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+            - coverage
+            - generation
+      sliExcludeReason:
+        type: string
+        description: "[Optional] Justification of why the service is excluded from SLIs"
+      sloExclude:
+        type: boolean
+        description: "[Optional] Apply this field to exclude your service from having an SLO calculated"
+      sloExcludeReason:
+        type: string
+        description: "[Optional] Justification of why the service is excluded from having an SLO calculated"
+      sloAlertSource:
+        type: string
+        description: "[Optional] SLO Alert source to be used, mshell or cells, default mshell"
+        enum:
+          - mshell
+          - cells
+      outOfHoursSupportRequired:
+        type: boolean
+        description: "[Optional] Does the service require out of hours support?"
+      directories:
+        type: array
+        description: "[Optional] List of source code directories that are linked to this component in the repository"
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          examples:
+            - src/foo/bar
+            - aa/bb/
+            - /
+      deploymentSystem:
+        type: string
+        description: "[Optional] The system used to deploy the component."
+        enum:
+          - teamcity
+          - octopus
+          - drone
+          - slingshot
+          - travisci
+          - helm
+          - jenkins
+          - strata
+          - spinnaker
+      designDocuments:
+        type: array
+        description: "[Optional] List of links to design documents for the component"
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          examples:
+            - https://confluence.skyscannertools.net/display/ME/Awesome+Design+Document
+            - https://confluence.skyscannertools.net/display/ME/New+Significant+Feature+Design
+            - ./docs/designs/01_high_level.md
+      playbooks:
+        type: array
+        description: "[Optional] List of links to the playbook(s)"
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          examples:
+            - https://confluence.skyscannertools.net/display/ME/Service+Runbook
+            - ./docs/playbooks/main.md
+      alertInstance:
+        type: string
+        format: uri
+        description: "Link to the bosun instance for alerts."
+      operationalDashboards:
+        type: array
+        description: "[Optional] List of links to operational dashboards"
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          examples:
+            - https://grafana.prod.aws.skyscnr.com/d/my-awesome-dashboard
+      operationalCostOverride:
+        type: number
+        description: "[Optional] Override for the generated operation score for the repository"
+        minimum: 0
+      lifecycleState:
+        type: string
+        description: "[Optional] To show the current state of the service. See https://confluence.skyscannertools.net/x/VobYBw"
+        enum:
+          - development
+          - production
+          - deprecating
+          - retired
+      serviceClass:
+        type: string
+        description: Component service classification
+        enum:
+          - economy-class
+          - first-class
+          - business-class
+      public:
+        type: boolean
+        description: Indicates whether your microsite/service is publicly available or internal traffic only.
+      securityChecklistID:
+        type: string
+        pattern: "^(([a-z0-9]{8}-[a-z0-9]{4}-4[a-z0-9]{3}-[89ab][a-z0-9]{3}-[a-z0-9]{12})|((SDSEC|sdsec)-[0-9]{1,6}))$"
+        description: "[Optional] The ID (Jira ID or UUID) of the Security Checklist that is linked to this component."
+      vendor:
+        type: string
+        description: "[Optional] Component vendor"
+        examples:
+          - Atlassian
+      url:
+        type: string
+        description: "[Optional] If the component exposes a UI, this field should be specified"
+      contract:
+        type: object
+        description: "[Optional] Contract information"
+        minProperties: 1
+        additionalProperties: false
+        properties:
+          internalContact:
+            type: string
+            description: "[Optional] If the component owner is not the same as the contract owner, this must be specified (it must a Skyscanner employee)"
+          expiryDate:
+            type: string
+            format: date
+            description: "[Optional] Contract expiry date in YYYY-MM-DD format"
+            examples:
+              - "2019-12-31"
+      selfHosted:
+        type: boolean
+        description: True if we are hosting this ourselves (e.g. GitHub Enterprise), False if the 3rd party run the instance themselves
+      license:
+        type: string
+        description: 'Either "Commercial" or a specific license type, ideally one in the "Identifier" column from this list: https://spdx.org/licenses/'
+        examples:
+          - Commercial
+          - MIT
+      support:
+        type: object
+        description: "[Optional] Component support information"
+        minProperties: 1
+        additionalProperties: false
+        properties:
+          externalContact:
+            type: string
+            description: "[Optional] If we have a contact/escalation point for this component, their email should go here (it must be a vendor employee)"
+          links:
+            type: array
+            description: "[Optional] List of links related to the product; e.g. docs, issue tracker, helpdesk"
+            minItems: 1
+            items:
+              type: string
+              format: uri
+              examples:
+                - https://github.com/project
+                - https://docs
+                - https://bugtracker
+      sonarqubeProjectKey:
+        type: string
+        description: "[Optional] SonarQube project key"
+        pattern: "^[a-zA-Z0-9-_.:\/%]+$"
+      subdomain:
+        oneOf:
+          - type: string
+            description: "[Optional] Subdomain for the component"
+            pattern: "^[a-z0-9-]+-subdomain$"
+          - type: array
+            description: "[Optional] List of subdomains for the component"
+            items:
+              type: string
+              pattern: "^[a-z0-9-]+-subdomain$"
+      threatModel:
+        type: string
+        format: uri
+        description: "[Optional] Link to the threat model documentation for the component"
+        examples:
+          - https://skyscanner.atlassian.net/wiki/x/XYHYUQ
+      pentestReport:
+        type: string
+        format: uri
+        description: "[Optional] Link to the penetration test report for the component"
+        examples:
+          - https://skyscanner.atlassian.net/wiki/x/XYHYUQ

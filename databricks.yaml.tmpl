@@ -1,0 +1,110 @@
+# Databricks Asset Bundle configuration for databricks-meta-search-silver-domain
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+
+bundle:
+  name: agentic-data-engineer
+
+artifacts:
+  my-artifact:
+    type: whl
+    path: .
+    build: |
+        poetry build -f wheel && \
+        poetry run pip list --format=freeze > requirements.txt && \
+        mkdir -p ./dependency_wheels && \
+        pip wheel -r requirements.txt -w ./dependency_wheels && \
+        find dist dependency_wheels -type f -name "*.whl" | sed "s|^|${workspace.file_path}/|" > requirements-dabs.txt
+
+variables:
+  env:
+    description: This is the environment variable for tasks
+    default: "dev"
+  squad:
+    description: This is the squad name
+    default: zurg
+  project:
+    description: This is the AWS project name.
+    default: data-exemplar-slv
+  service_principal_application_id:
+    description: The application ID of the service principal used to deploy the DAB. Passed in by the spark reusable workflow.
+    default: bcfc93d0-4c4a-460c-851f-4eb6e5fcec01
+
+
+  workflow_trigger_status:
+    description: This is the status of the workflow trigger
+    default: "PAUSED"
+  schedule_pause_status:
+    description: This is the status of the workflow schedule
+    default: "PAUSED"
+  github_branch_name:
+    description: The github branch name used to deploy the bundle
+    default: "dev"
+
+# Sync configuration - only sync src, notebooks, and pipelines
+sync:
+  include:
+    - "src/"
+    - "config/"
+    - "libs/"
+    - "pipelines/"
+    - "notebooks/"
+    - "dashboards/"
+    - "data_contracts/"
+    - "data_monitoring/"
+    - "data_analysis/"
+    - "data_validation/"    
+    - "scripts/"
+    - "docs/"
+    - "reports/"
+    - "drivers/"
+    - "examples/"
+    - "schema/"
+    - "Makefile"
+    - ".catalog.yml"
+    - "dist/"
+    - "fatdist/"
+
+  exclude:
+    - "*.cfg"
+    - "*.ipynb"
+    - "*.pre-commit-config.yaml"
+    - "tests/"
+    - "*venv"
+    - "*.md"
+    - "*.toml"
+    - "*.gitignore"
+    - ".github"
+    - "*.databricksignore"
+
+targets:
+  # Development target
+  dev:
+    # Note: No mode set - allows custom workspace paths
+    # mode: development enforces paths under /Workspace/Users/<service-principal-id>/
+    default: true
+    # mode: production
+
+    workspace:
+      root_path: "/Workspace/Users/bcfc93d0-4c4a-460c-851f-4eb6e5fcec01/.bundle/${bundle.name}"
+
+    permissions:
+      - level: CAN_MANAGE
+        service_principal_name: bcfc93d0-4c4a-460c-851f-4eb6e5fcec01
+
+
+      - level: CAN_MANAGE
+        group_name: "Zurg Squad"
+
+    variables:
+      env: dev
+      workflow_trigger_status: "PAUSED"
+      schedule_pause_status: "PAUSED"
+
+    presets:
+      tags:
+        squad: "${var.squad}"
+        project: "${var.project}"
+        target: "${bundle.target}"
+
+    run_as:
+      service_principal_name: bcfc93d0-4c4a-460c-851f-4eb6e5fcec01

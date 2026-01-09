@@ -20,6 +20,151 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Build jobs - run on all branches and PRs
+  build:
+    name: Build Package
+    runs-on: ubuntu-latest-small
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry
+        run: |
+          pip install poetry==2.2.1
+          poetry config virtualenvs.in-project true
+
+      - name: Install dependencies
+        run: poetry install --no-interaction --no-root --with dev,test
+
+      - name: Build package
+        run: make build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ github.run_number }}
+          path: dist/
+          retention-days: 30
+
+  build-fat:
+    name: Build Fat Distribution
+    runs-on: ubuntu-latest-small
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry
+        run: |
+          pip install poetry==2.2.1
+          poetry config virtualenvs.in-project true
+
+      - name: Install dependencies
+        run: poetry install --no-interaction --no-root --with dev,test
+
+      - name: Build fat distribution
+        run: make build-fat
+
+      - name: Upload fat build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fatdist-${{ github.run_number }}
+          path: fatdist/
+          retention-days: 30
+
+  # Deploy to dev workspace when pushing to dev branch
+  dabs-publish-dev:
+    name: "Spark Job for Dev deployment"
+    uses: skyscanner/reusable-workflows/.github/workflows/databricks-asset-bundles.yaml@v3.4.1
+    secrets: inherit
+    with:
+      # Required inputs
+      databricks-runtime-version: 16.4 # DBR 16.4 LTS - Python 3.12.3, Java 17, Spark 3.5
+      service-principal-application-id:  bcfc93d0-4c4a-460c-851f-4eb6e5fcec01
+      databricks-workspace: dev
+
+      # Install dependencies before tests and deployment
+      install-commands: |
+        python -m pip install --upgrade pip
+        python -m pip install poetry==2.2.1
+        python -m pip install build
+
+  # Create deployment version file after successful deployment
+  create-deployment-version:
+    name: "Create Deployment Version File"
+    runs-on: ubuntu-latest-small
+    needs: dabs-publish-dev
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create deployment version file
+        run: |
+          mkdir -p .deployment
+          cat > .deployment/version.json << EOF
+          {
+            "deployment_timestamp": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+            "deployment_date": "$(date -u +"%Y-%m-%d")",
+            "deployment_time": "$(date -u +"%H:%M:%S")",
+            "git_commit": "${{ github.sha }}",
+            "git_commit_short": "${GITHUB_SHA::7}",
+            "git_branch": "${{ github.ref_name }}",
+            "git_ref": "${{ github.ref }}",
+            "deployment_target": "dev",
+            "workflow_run_id": "${{ github.run_id }}",
+            "workflow_run_number": "${{ github.run_number }}",
+            "actor": "${{ github.actor }}",
+            "repository": "${{ github.repository }}"
+          }
+          EOF
+
+          cat > .deployment/VERSION.txt << EOF
+          Deployment Version Information
+          ==============================
+
+          Deployed: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          Commit:   ${{ github.sha }}
+          Branch:   ${{ github.ref_name }}
+          Target:   dev
+          By:       ${{ github.actor }}
+
+          Workflow: ${{ github.repository }}/actions/runs/${{ github.run_id }}
+          EOF
+
+          echo "Created deployment version files:"
+          cat .deployment/version.json
+          echo ""
+          cat .deployment/VERSION.txt
+
+      - name: Upload deployment version artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-version-${{ github.run_number }}
+          path: .deployment/
+          retention-days: 90
+
+      - name: Add deployment info to job summary
+        run: |
+          echo "## 🚀 Deployment Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Timestamp**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit**: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch**: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Target**: dev" >> $GITHUB_STEP_SUMMARY
+          echo "**Deployed by**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Download the deployment version artifact for full details." >> $GITHUB_STEP_SUMMARY
+
+  
   publish:
     name: Publish
     runs-on: ubuntu-latest-small

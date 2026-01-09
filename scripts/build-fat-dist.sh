@@ -26,15 +26,25 @@ echo "Using version: $VERSION"
 PROJECT_DIR="fatdist/skyscanner_agentic_data_engineer-${VERSION}"
 mkdir -p "$PROJECT_DIR/internal"
 
-# Download internal Skyscanner packages only (no dependencies)
+# Download internal Skyscanner packages with their dependencies
 echo "Downloading internal Skyscanner dependencies..."
 poetry run pip download \
     --dest "$PROJECT_DIR/internal" \
-    --no-deps \
     "skyscanner-databricks-utils>=0.2.2" \
     "skyscanner-data-knowledge-base-mcp>=1.0.7" \
     "skyscanner-spark-session-utils>=1.0.1" \
     "skyscanner-data-shared-utils>=1.0.2" 2>/dev/null || echo "Note: Some internal packages may not be available"
+
+# Remove non-Skyscanner packages (keep only internal dependencies)
+echo "Filtering to keep only Skyscanner internal dependencies..."
+cd "$PROJECT_DIR/internal"
+for file in *; do
+    if [[ ! "$file" =~ ^skyscanner ]]; then
+        echo "Removing external dependency: $file"
+        rm -rf "$file"
+    fi
+done
+cd - > /dev/null
 
 # Extract any tarballs
 echo "Extracting packages..."
@@ -56,9 +66,22 @@ done
 # Rename directories to remove version numbers and create VERSION files
 for dir in */; do
     [ -d "$dir" ] || continue
+
+    # Remove trailing slash for processing
+    dir_name="${dir%/}"
+
+    # Check if this is skyscanner-ip-ranges
+    if [[ "$dir_name" =~ ^skyscanner-ip-ranges-([0-9]+\.[0-9]+\.[0-9]+) ]]; then
+        pkg_version="${BASH_REMATCH[1]}"
+        echo "Renaming $dir to skyscanner_ip/ and creating VERSION file"
+        echo "$pkg_version" > "${dir}VERSION"
+        mv "$dir" "skyscanner_ip/"
+        continue
+    fi
+
     # Extract version from directory name
     # Pattern: package-name-version-py3-none-any/
-    if [[ "$dir" =~ ([a-zA-Z_]+)-([0-9]+\.[0-9]+\.[0-9]+) ]]; then
+    if [[ "$dir_name" =~ ([a-zA-Z_]+)-([0-9]+\.[0-9]+\.[0-9]+) ]]; then
         base_name="${BASH_REMATCH[1]}"
         pkg_version="${BASH_REMATCH[2]}"
 

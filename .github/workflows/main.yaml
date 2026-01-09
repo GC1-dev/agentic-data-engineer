@@ -11,9 +11,10 @@ on:
       - main
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
   id-token: write
+  pull-requests: write # Required by workflow-validation-action
+  actions: read # Required by workflow-validation-action
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

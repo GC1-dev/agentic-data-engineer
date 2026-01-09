@@ -27,7 +27,7 @@ ERROR_PYENV_NOT_FOUND := ERROR: pyenv not found
 PYENV_INSTALL_INSTRUCTIONS := \n\nInstall pyenv:\n  macOS: brew install pyenv\n  Linux: curl https://pyenv.run | bash
 
 # Declare all targets as phony to prevent conflicts with files
-.PHONY: help project-pyenv-init project-init build-pyenv activate-pyenv check-pyenv check-python install-databricks-cli install-poetry install-deps install-hooks setup-mcp setup setup-symlinks validate lint format lint-fix test test-cov build build-verify clean check-venv
+.PHONY: help project-pyenv-init project-init build-pyenv activate-pyenv check-pyenv check-python install-databricks-cli install-poetry install-deps install-hooks setup-mcp setup setup-symlinks validate lint format lint-fix test test-cov build build-verify build-fat clean check-venv
 
 # ==============================================================================
 # Internal Helper Targets
@@ -293,9 +293,13 @@ build-verify: build ## Build and verify included files
 	@echo ""
 	@echo "✓ Verification complete"
 
+build-fat: check-venv ## Build fat distribution with all dependencies bundled
+	@echo "Building fat distribution (includes all dependencies)..."
+	@bash scripts/build-fat-dist.sh
+
 clean: ## Remove build artifacts and caches
 	@echo "Cleaning build artifacts and caches..."
-	@rm -rf dist/ build/ *.egg-info spark-warehouse/ spark-warehouse-unit/ spark-warehouse-integration/ spark-warehouse-data-quality/
+	@rm -rf dist/ build/ *.egg-info spark-warehouse/ spark-warehouse-unit/ spark-warehouse-integration/ spark-warehouse-data-quality/ fatdist/ requirements.txt
 	@find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
 	@find . -type f -name '*.pyc' -delete
 	@rm -rf .pytest_cache .ruff_cache htmlcov/ .coverage

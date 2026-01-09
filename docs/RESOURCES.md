@@ -5,7 +5,7 @@ This project uses a specific directory structure to properly package resources w
 ## Directory Structure
 
 ```
-project-root/
+agentic-data-engineer/
 ├── src/
 │   └── agentic_data_engineer/
 │       ├── __init__.py
@@ -14,12 +14,71 @@ project-root/
 │       ├── shared_schema/        (actual directory - JSON schemas)
 │       ├── shared_scripts/       (actual directory - Shared shell scripts)
 │       └── shared_agents_usage_docs/  (actual directory - Agent documentation)
-└── (symlinks at root for convenience)
+└── (symlinks at root for testing agents)
     ├── .claude -> src/agentic_data_engineer/.claude
     ├── .specify -> src/agentic_data_engineer/.specify
     ├── shared_schema -> src/agentic_data_engineer/shared_schema
     ├── shared_scripts -> src/agentic_data_engineer/shared_scripts
     └── shared_agents_usage_docs -> src/agentic_data_engineer/shared_agents_usage_docs
+
+```
+
+# Distribution
+```
+│
+├── fatdist/                          # Fat distribution builds
+   └── skyscanner_agentic_data_engineer-1.0.4/
+       ├── agentic_data_engineer/
+       └── internal/                 # Bundled internal packages
+            ├──  skyscanner_spark_session_utils
+            ├──  skyscanner_data_shared_utils
+            ├──  skyscanner_ip
+            ├──  skyscanner_databricks_utils
+            └──  skyscanner_data_knowledge_base_mcp
+```
+
+# Package Dependencies Flow:
+```
+  ┌───────────────────────────────────────────────────┐
+  │   agentic_data_engineer (Main Package)            │
+  │   - Claude Code integration                       │
+  │   - Agent templates & skills                      │
+  │   - Schema definitions (ODCS, ODPS)               │
+  └───────────────┬───────────────────────────────────┘
+                  │
+                  ▼
+  ┌───────────────────────────────────────────────────┐
+  │             Internal Dependencies                 │
+  ├───────────────────────────────────────────────────┤
+  │  ┌─ data_knowledge_base_mcp                       │
+  │  │   • MCP server for knowledge access            │
+  │  │   • 30+ documentation files                    │
+  │  │                                                │
+  │  ┌─ databricks_utils                              │
+  │  │   • Unity Catalog operations                   │
+  │  │   • SQL execution & validation                 │
+  │  │   • MCP tools integration                      │
+  │  │                                                │
+  │  ┌─ spark_session_utils                           │
+  │  │   • Session lifecycle management               │
+  │  │   • Config loading (YAML)                      │
+  │  │   • Testing fixtures                           │
+  │  │                                                │
+  │  ┌─ data_shared_utils                             │
+  │  │   • Transformation utilities                   │
+  │  │   • DataFrame operations                       │
+  │  │   • Domain helpers (geo, time, currency)       │
+  │  │                                                │
+  │  └─ data_catalog_utils                            │
+  │  │   • Data catalog utilities                     │
+  │  │                                                │
+  │  └─ data_observability_utils                      │
+  │  |    • Data observability utilities              │
+  │  │                                                │
+  │  └─ data_quality_utils                            │
+  │      • Data quality utilities                     │
+  └───────────────────────────────────────────────────┘
+
 ```
 
 ## Why This Structure?

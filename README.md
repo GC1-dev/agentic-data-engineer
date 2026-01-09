@@ -651,11 +651,67 @@ make validate
 # Build distribution package
 make build
 
+# Build fat distribution (includes all dependencies)
+make build-fat
+
 # Build and verify contents
 make build-verify
 
 # Clean build artifacts
 make clean
+```
+
+### CI/CD Pipeline
+
+The project uses GitHub Actions for automated builds and deployments:
+
+#### Build Jobs
+
+On every push and pull request, the workflow runs:
+
+1. **`build`** - Creates standard distribution package
+   - Runs `make build`
+   - Uploads artifacts as `dist-{run_number}`
+   - Retention: 30 days
+
+2. **`build-fat`** - Creates fat distribution with all dependencies bundled
+   - Runs `make build-fat`
+   - Uploads artifacts as `fatdist-{run_number}`
+   - Retention: 30 days
+
+#### Deployment Jobs
+
+1. **`dabs-publish-dev`** - Deploys to Databricks dev workspace (on main branch)
+2. **`create-deployment-version`** - Creates deployment version tracking files
+3. **`publish`** - Publishes to Artifactory (on git tags only)
+
+#### Workflow Configuration
+
+Location: `.github/workflows/main.yaml`
+
+Required permissions:
+```yaml
+permissions:
+  actions: read          # Required for reusable workflows
+  contents: write        # Required for creating releases
+  pull-requests: write   # Required for PR operations
+  id-token: write        # Required for OIDC authentication
+```
+
+#### Triggering Builds
+
+```bash
+# Trigger build on PR
+git checkout -b feature/my-change
+git push origin feature/my-change
+
+# Trigger deployment to dev (main branch)
+git checkout main
+git push origin main
+
+# Trigger publish to Artifactory (tag)
+git tag v1.0.5
+git push origin v1.0.5
 ```
 
 ### Daily Development Workflow

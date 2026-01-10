@@ -67,14 +67,32 @@ jobs:
       - name: Install project
         run: poetry install --no-interaction
 
+      - name: Get version from git tag
+        id: get_version
+        run: |
+          VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "dev")
+          VERSION=${VERSION#v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Using version: $VERSION"
+
       - name: Build package
         run: make build
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: dist-${{ github.run_number }}
+          name: dist-${{ steps.get_version.outputs.version }}-${{ github.run_number }}
           path: dist/
+          retention-days: 30
+
+      - name: Build fat distribution
+        run: make build-fat
+
+      - name: Upload fat build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fatdist-${{ steps.get_version.outputs.version }}-${{ github.run_number }}
+          path: fatdist/
           retention-days: 30
 
   # Deploy to dev workspace when pushing to dev branch

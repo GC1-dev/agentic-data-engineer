@@ -118,7 +118,7 @@ targets:
     # mode: production
 
     workspace:
-      root_path: "/Workspace/Users/bcfc93d0-4c4a-460c-851f-4eb6e5fcec01/.bundle/${bundle.name}"
+      root_path: "/Workspace/Users/bcfc93d0-4c4a-460c-851f-4eb6e5fcec01/.bundle/${bundle.name}/${var.package_version}"
 
     permissions:
       - level: CAN_MANAGE

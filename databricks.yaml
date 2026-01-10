@@ -2,7 +2,7 @@
 # See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
 
 bundle:
-  name: agentic-data-engineer-${var.package_version}
+  name: agentic-data-engineer
 
 artifacts:
   # Standard distribution (lightweight wheel, requires dependency resolution)

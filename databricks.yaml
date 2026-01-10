@@ -25,8 +25,8 @@ artifacts:
             echo "Using version from pyproject.toml"
           fi
         fi && \
-        # Build fat distribution first (it cleans directories)
-        make build-fat && \
+        # Build fat distribution first (it cleans directories) - call script directly to avoid make venv check
+        bash scripts/build-fat-dist.sh && \
         # Then build standard wheel (won't be cleaned)
         poetry build -f wheel && \
         poetry run pip list --format=freeze > requirements.txt && \

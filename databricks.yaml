@@ -10,7 +10,9 @@ artifacts:
     type: whl
     path: .
     build: |
-        # Fetch git tags to get correct version
+        # Export version for build scripts to use
+        export PACKAGE_VERSION="${var.package_version}" && \
+        # Fetch git tags to get correct version (fallback if version not passed)
         git fetch --tags 2>/dev/null || true && \
         # Build fat distribution first (it cleans directories)
         bash scripts/build-fat-dist.sh && \
@@ -22,6 +24,9 @@ artifacts:
         find dist dependency_wheels -type f -name "*.whl" | sed "s|^|${workspace.file_path}/|" > requirements-dabs.txt
 
 variables:
+  package_version:
+    description: The version number for the package build
+    default: "1.0.0"
   env:
     description: This is the environment variable for tasks
     default: "dev"

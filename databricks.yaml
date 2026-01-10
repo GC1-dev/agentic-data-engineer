@@ -10,14 +10,14 @@ artifacts:
     type: whl
     path: .
     build: |
-        # Build standard wheel
+        # Build fat distribution first (it cleans directories)
+        bash scripts/build-fat-dist.sh && \
+        # Then build standard wheel (won't be cleaned)
         poetry build -f wheel && \
         poetry run pip list --format=freeze > requirements.txt && \
         mkdir -p ./dependency_wheels && \
         pip wheel -r requirements.txt -w ./dependency_wheels && \
-        find dist dependency_wheels -type f -name "*.whl" | sed "s|^|${workspace.file_path}/|" > requirements-dabs.txt && \
-        # Build fat distribution with all internal dependencies as source
-        bash scripts/build-fat-dist.sh
+        find dist dependency_wheels -type f -name "*.whl" | sed "s|^|${workspace.file_path}/|" > requirements-dabs.txt
 
 variables:
   env:

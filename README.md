@@ -116,6 +116,9 @@ source shared_scripts/activate-pyenv.sh
 
 # Fix Databricks cache issues
 ./shared_scripts/fix-databricks-cache.sh
+
+# Deploy to Databricks with retry logic (handles deployment locks)
+./scripts/databricks-deploy-with-retry.sh
 ```
 
 ### MCP Server Setup (Optional)

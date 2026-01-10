@@ -93,6 +93,10 @@ jobs:
       service-principal-application-id:  bcfc93d0-4c4a-460c-851f-4eb6e5fcec01
       databricks-workspace: dev
 
+      # Retry configuration for deployment lock issues
+      retry-count: 3
+      retry-delay: 30
+
       # Install dependencies before tests and deployment
       install-commands: |
         python -m pip install --upgrade pip

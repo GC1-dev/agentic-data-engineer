@@ -10,12 +10,23 @@ artifacts:
     type: whl
     path: .
     build: |
-        # Export version for build scripts to use
-        export PACKAGE_VERSION="${var.package_version}" && \
-        # Fetch git tags to get correct version (fallback if version not passed)
-        git fetch --tags 2>/dev/null || true && \
+        # Get version from variable or git tags or pyproject.toml
+        if [ -n "${var.package_version}" ] && [ "${var.package_version}" != "1.0.0" ]; then
+          export PACKAGE_VERSION="${var.package_version}"
+          echo "Using version from bundle var: ${var.package_version}"
+        else
+          # Fetch git tags to get correct version
+          git fetch --tags 2>/dev/null || true
+          VERSION=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || echo "")
+          if [ -n "$VERSION" ]; then
+            export PACKAGE_VERSION="$VERSION"
+            echo "Using version from git tags: $VERSION"
+          else
+            echo "Using version from pyproject.toml"
+          fi
+        fi && \
         # Build fat distribution first (it cleans directories)
-        bash scripts/build-fat-dist.sh && \
+        make build-fat && \
         # Then build standard wheel (won't be cleaned)
         poetry build -f wheel && \
         poetry run pip list --format=freeze > requirements.txt && \

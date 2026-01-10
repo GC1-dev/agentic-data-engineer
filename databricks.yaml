@@ -10,6 +10,8 @@ artifacts:
     type: whl
     path: .
     build: |
+        # Fetch git tags to get correct version
+        git fetch --tags 2>/dev/null || true && \
         # Build fat distribution first (it cleans directories)
         bash scripts/build-fat-dist.sh && \
         # Then build standard wheel (won't be cleaned)

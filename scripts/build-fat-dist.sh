@@ -8,19 +8,25 @@ echo "Building distribution..."
 # Clean previous builds
 rm -rf dist/ build/ fatdist/ requirements.txt
 
-# Get version from latest git tag
-VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+# Get version from PACKAGE_VERSION env var (passed from databricks.yaml)
+if [ -n "$PACKAGE_VERSION" ]; then
+    VERSION="$PACKAGE_VERSION"
+    echo "Using version from PACKAGE_VERSION: $VERSION"
+else
+    # Get version from latest git tag
+    VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
 
-# If no tag found, get version from pyproject.toml
-if [ -z "$VERSION" ]; then
-    echo "No git tag found, reading version from pyproject.toml..."
-    VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
+    # If no tag found, get version from pyproject.toml
+    if [ -z "$VERSION" ]; then
+        echo "No git tag found, reading version from pyproject.toml..."
+        VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
+    fi
+
+    # Remove 'v' prefix if present
+    VERSION=${VERSION#v}
+
+    echo "Using version: $VERSION"
 fi
-
-# Remove 'v' prefix if present
-VERSION=${VERSION#v}
-
-echo "Using version: $VERSION"
 
 # Create versioned project directory
 PROJECT_DIR="fatdist/skyscanner_agentic_data_engineer-${VERSION}"

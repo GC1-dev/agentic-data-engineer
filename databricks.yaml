@@ -2,7 +2,7 @@
 # See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
 
 bundle:
-  name: agentic-data-engineer
+  name: agentic-data-engineer-${var.package_version}
 
 artifacts:
   # Standard distribution (lightweight wheel, requires dependency resolution)
@@ -118,7 +118,7 @@ targets:
     # mode: production
 
     workspace:
-      root_path: "/Workspace/Users/bcfc93d0-4c4a-460c-851f-4eb6e5fcec01/.bundle/${bundle.name}/${var.package_version}"
+      root_path: "/Workspace/Users/bcfc93d0-4c4a-460c-851f-4eb6e5fcec01/.bundle/${bundle.name}"
 
     permissions:
       - level: CAN_MANAGE

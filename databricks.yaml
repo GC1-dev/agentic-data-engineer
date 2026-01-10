@@ -12,27 +12,33 @@ artifacts:
     build: |
         # Get version from variable or git tags or pyproject.toml
         if [ -n "${var.package_version}" ] && [ "${var.package_version}" != "1.0.0" ]; then
-          export PACKAGE_VERSION="${var.package_version}"
+          DETECTED_VERSION="${var.package_version}"
           echo "Using version from bundle var: ${var.package_version}"
         else
           # Try to fetch git tags if in a git repo
           if [ -d .git ]; then
             echo "Git repository detected, fetching tags..."
             git fetch --unshallow 2>/dev/null || git fetch --tags 2>/dev/null || true
-            VERSION=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || echo "")
-            if [ -n "$VERSION" ]; then
-              export PACKAGE_VERSION="$VERSION"
-              echo "✓ Using version from git tags: $VERSION"
+            DETECTED_VERSION=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || echo "")
+            if [ -n "$DETECTED_VERSION" ]; then
+              echo "✓ Using version from git tags: $DETECTED_VERSION"
             else
               echo "⚠ No git tags found, will use pyproject.toml"
+              DETECTED_VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
             fi
           else
             echo "⚠ Not a git repository, will use pyproject.toml"
+            DETECTED_VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
           fi
         fi && \
+        # Export for build-fat-dist.sh script
+        export PACKAGE_VERSION="$DETECTED_VERSION" && \
+        echo "Building with version: $DETECTED_VERSION" && \
         # Build fat distribution first (it cleans directories) - call script directly to avoid make venv check
         bash scripts/build-fat-dist.sh && \
-        # Then build standard wheel (won't be cleaned)
+        # Set poetry version before building wheel
+        poetry version "$DETECTED_VERSION" && \
+        # Build standard wheel with updated version
         poetry build -f wheel && \
         poetry run pip list --format=freeze > requirements.txt && \
         mkdir -p ./dependency_wheels && \

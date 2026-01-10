@@ -25,22 +25,47 @@ jobs:
   build:
     name: Build Package
     runs-on: ubuntu-latest-small
+    strategy:
+      matrix:
+        python-version: ["3.12"]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v6
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python-version }}
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
       - name: Install Poetry
         run: |
           pip install poetry==2.2.1
           poetry config virtualenvs.in-project true
 
+      - name: Configure Artifactory for Poetry
+        run: |
+          poetry config repositories.skyscanner-artifactory https://artifactory.skyscannertools.net/artifactory/api/pypi/pypi/simple/
+          poetry config http-basic.skyscanner-artifactory ${{ secrets.ARTIFACTORY_USERNAME }} ${{ secrets.ARTIFACTORY_PASSWORD }}
+
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v5
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+
       - name: Install dependencies
-        run: poetry install --no-interaction --no-root --with dev,test
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --with dev,test
+
+      - name: Install project
+        run: poetry install --no-interaction
 
       - name: Build package
         run: make build
@@ -51,27 +76,6 @@ jobs:
           name: dist-${{ github.run_number }}
           path: dist/
           retention-days: 30
-
-  build-fat:
-    name: Build Fat Distribution
-    runs-on: ubuntu-latest-small
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install Poetry
-        run: |
-          pip install poetry==2.2.1
-          poetry config virtualenvs.in-project true
-
-      - name: Install dependencies
-        run: poetry install --no-interaction --no-root --with dev,test
-
       - name: Build fat distribution
         run: make build-fat
 
@@ -81,7 +85,7 @@ jobs:
           name: fatdist-${{ github.run_number }}
           path: fatdist/
           retention-days: 30
-
+          
   # Deploy to dev workspace when pushing to dev branch
   dabs-publish-dev:
     name: "Spark Job for Dev deployment"

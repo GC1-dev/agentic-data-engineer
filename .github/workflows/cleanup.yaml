@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   CleanupDAB:
-    name: Cleanup Databricks Asset Bundle
+    name: Cleanup Active Deployment
     uses: skyscanner/reusable-workflows/.github/workflows/databricks-asset-bundles.yaml@v3
     secrets: inherit
     with:
@@ -21,17 +21,31 @@ jobs:
       service-principal-application-id: bcfc93d0-4c4a-460c-851f-4eb6e5fcec01
       databricks-workspace: dev
       delete-dab: true
+      dry-run: false
 
-      # Delete all .bundle files before running DAB cleanup
+  CleanupDABAllVersions:
+    name: Cleanup All Bundle Versions
+    uses: skyscanner/reusable-workflows/.github/workflows/databricks-asset-bundles.yaml@v3
+    secrets: inherit
+    needs: CleanupDAB
+    if: always()
+    with:
+      runs-on: ubuntu-latest-small
+      databricks-runtime-version: 16.4
+      service-principal-application-id: bcfc93d0-4c4a-460c-851f-4eb6e5fcec01
+      databricks-workspace: dev
+      delete-dab: false
+      dry-run: false
+
+      # Delete all .bundle directories and all versions
       install-commands: |
         echo "Listing all bundle directories..."
         databricks workspace list /Workspace/Users/bcfc93d0-4c4a-460c-851f-4eb6e5fcec01/.bundle || echo "No .bundle directory found"
 
         echo "Deleting all bundle directories recursively..."
-        # Try to delete the entire .bundle directory
         databricks workspace delete --recursive /Workspace/Users/bcfc93d0-4c4a-460c-851f-4eb6e5fcec01/.bundle 2>/dev/null || true
 
-        # List subdirectories and delete each one individually
+        echo "Checking for remaining subdirectories..."
         for dir in $(databricks workspace list /Workspace/Users/bcfc93d0-4c4a-460c-851f-4eb6e5fcec01/.bundle 2>/dev/null | awk '{print $2}' || echo ""); do
           if [ -n "$dir" ]; then
             echo "Deleting $dir..."
@@ -39,5 +53,4 @@ jobs:
           fi
         done
 
-        echo "✓ Bundle cleanup complete"
-      dry-run: false
+        echo "✓ All bundle versions cleaned up"

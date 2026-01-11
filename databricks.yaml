@@ -108,6 +108,7 @@ sync:
     - "*.gitignore"
     - ".github"
     - "*.databricksignore"
+    - "dependency_wheels/"
 
 targets:
   # Development target

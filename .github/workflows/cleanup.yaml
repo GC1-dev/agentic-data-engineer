@@ -24,7 +24,20 @@ jobs:
 
       # Delete all .bundle files before running DAB cleanup
       install-commands: |
-        echo "Deleting all bundle directories under .bundle/..."
-        databricks workspace delete -r /Workspace/Users/bcfc93d0-4c4a-460c-851f-4eb6e5fcec01/.bundle || echo "Already deleted or not found"
-        echo "✓ All bundle files cleaned up"
+        echo "Listing all bundle directories..."
+        databricks workspace list /Workspace/Users/bcfc93d0-4c4a-460c-851f-4eb6e5fcec01/.bundle || echo "No .bundle directory found"
+
+        echo "Deleting all bundle directories recursively..."
+        # Try to delete the entire .bundle directory
+        databricks workspace delete --recursive /Workspace/Users/bcfc93d0-4c4a-460c-851f-4eb6e5fcec01/.bundle 2>/dev/null || true
+
+        # List subdirectories and delete each one individually
+        for dir in $(databricks workspace list /Workspace/Users/bcfc93d0-4c4a-460c-851f-4eb6e5fcec01/.bundle 2>/dev/null | awk '{print $2}' || echo ""); do
+          if [ -n "$dir" ]; then
+            echo "Deleting $dir..."
+            databricks workspace delete --recursive "/Workspace/Users/bcfc93d0-4c4a-460c-851f-4eb6e5fcec01/.bundle/$dir" || echo "Failed to delete $dir"
+          fi
+        done
+
+        echo "✓ Bundle cleanup complete"
       dry-run: false

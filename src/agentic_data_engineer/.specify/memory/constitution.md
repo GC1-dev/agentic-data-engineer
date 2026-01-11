@@ -2,7 +2,24 @@
 
 ## Core Principles
 
-### I. Standards-First Development (NON-NEGOTIABLE)
+### I. Data Contracts as Source of Truth (NON-NEGOTIABLE)
+Data contracts are the authoritative source of truth for all data products.
+
+- **Data contracts define the "what"** - the schema, properties, SLA, ownership, and business semantics
+- **Code implements the "how"** - the transformations and pipelines that produce the contracted output
+- Data contracts are written in ODCS (Open Data Contract Standard) v3.1.0 format
+- All data products MUST have a data contract before implementation begins
+- Schema changes REQUIRE data contract versioning and approval
+- SpecKit workflow uses data contracts to generate implementation artifacts:
+  - `/speckit.specify` → Creates feature specification from natural language
+  - `/speckit.plan` → Generates implementation plan, data models, and contracts from spec
+  - `/speckit.tasks` → Breaks plan into actionable tasks
+  - `/speckit.implement` → Executes tasks to produce code
+- Code MUST conform to the data contract schema (57 properties = 57 properties in code)
+- Data contract violations detected in CI/CD block deployment
+- Contract-first approach ensures alignment between producers and consumers
+
+### II. Standards-First Development (NON-NEGOTIABLE)
 All development must adhere to established standards before implementation begins.
 
 - Documentation precedes implementation
@@ -12,7 +29,7 @@ All development must adhere to established standards before implementation begin
 - Code reviews enforce compliance; automated tooling validates adherence (ruff, mypy, pytest)
 - Standards violations block merges
 
-### II. AI-Native by Design
+### III. AI-Native by Design
 The framework must be optimized for AI-assisted development and operation.
 
 - Clear, structured documentation for LLM consumption
@@ -22,7 +39,7 @@ The framework must be optimized for AI-assisted development and operation.
 - Declarative over imperative where possible
 - Configuration-driven behavior with rich metadata and lineage tracking
 
-### III. Medallion Architecture Adherence (NON-NEGOTIABLE)
+### IV. Medallion Architecture Adherence (NON-NEGOTIABLE)
 Strict compliance with Medallion Architecture (Bronze/Silver/Gold) patterns.
 
 - Bronze: Raw data ingestion, minimal transformation
@@ -34,7 +51,7 @@ Strict compliance with Medallion Architecture (Bronze/Silver/Gold) patterns.
 - Table-based access only (no direct S3/DBFS)
 - Proper metadata and lineage tracking
 
-### IV. Type Safety and Validation (NON-NEGOTIABLE)
+### V. Type Safety and Validation (NON-NEGOTIABLE)
 Embrace strong typing and validation to catch errors early.
 
 - Type hints on all functions, methods, and variables
@@ -44,7 +61,7 @@ Embrace strong typing and validation to catch errors early.
 - Tools: mypy (static), Pydantic (runtime), PySpark schema validation
 - Unit tests with type coverage
 
-### V. Test-First Development (NON-NEGOTIABLE)
+### VI. Test-First Development (NON-NEGOTIABLE)
 Every component must be testable and tested before deployment.
 
 - Unit tests for all business logic (80% minimum coverage)
@@ -172,7 +189,7 @@ For systematic test case design, use these dimension categories when generating 
 
 When generating tests, apply relevant dimensions to create comprehensive test datasets covering all aspects of the data pipeline.
 
-### VI. Configuration Over Code
+### VII. Configuration Over Code
 Behavior should be configurable without code changes.
 
 - Environment-specific configs (dev/staging/prod) via YAML
@@ -181,7 +198,7 @@ Behavior should be configurable without code changes.
 - Configuration hierarchy: Environment variables (highest) → .env files → YAML → Code defaults (lowest)
 - Pydantic Settings for type-safe configuration
 
-### VII. Security and Governance (NON-NEGOTIABLE)
+### VIII. Security and Governance (NON-NEGOTIABLE)
 Security and governance are non-negotiable requirements.
 
 - Principle of least privilege
@@ -193,7 +210,7 @@ Security and governance are non-negotiable requirements.
 - Secrets in Databricks Secrets/cloud KMS
 - PII/sensitive data marked and protected
 
-### VIII. Observability and Debugging
+### IX. Observability and Debugging
 Systems must be observable and debuggable.
 
 - Structured logging (JSON in production)
@@ -202,7 +219,7 @@ Systems must be observable and debuggable.
 - Log levels: DEBUG (dev), INFO (staging), WARN (prod)
 - Correlation IDs for request tracking
 
-### IX. Performance and Cost Efficiency
+### X. Performance and Cost Efficiency
 Optimize for both performance and cost.
 
 - Adaptive Query Execution (AQE) enabled
@@ -212,7 +229,7 @@ Optimize for both performance and cost.
 - Autoscaling where appropriate
 - Cost monitoring and alerts
 
-### X. Documentation as Code
+### XI. Documentation as Code
 Documentation is a first-class deliverable.
 
 - Google-style docstrings mandatory

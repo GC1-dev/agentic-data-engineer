@@ -1,0 +1,24 @@
+name: Cleanup
+on:
+  push:
+    branches:
+      - clean_up_dab
+
+permissions:
+  contents: read
+  id-token: write
+  pull-requests: write
+  actions: read
+
+jobs:
+  CleanupDAB:
+    name: Cleanup Workflow
+    uses: skyscanner/reusable-workflows/.github/workflows/databricks-asset-bundles.yaml@v3
+    secrets: inherit
+    with:
+      runs-on: ubuntu-latest-small
+      databricks-runtime-version: 16.4
+      service-principal-application-id: bcfc93d0-4c4a-460c-851f-4eb6e5fcec01
+      databricks-workspace: dev
+      delete-dab: true
+      dry-run: false

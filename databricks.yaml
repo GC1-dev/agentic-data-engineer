@@ -129,10 +129,10 @@ targets:
         group_name: "Zurg Squad"
 
       - level: CAN_VIEW
-        group_name: "All account users"
+        service_principal_name: "All account users"
       
       - level: CAN_VIEW
-        group_name: "All Skyscanner employees"
+        service_principal_name: "All Skyscanner employees"
 
     variables:
       env: dev

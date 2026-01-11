@@ -128,12 +128,6 @@ targets:
       - level: CAN_MANAGE
         group_name: "Zurg Squad"
 
-      - level: CAN_VIEW
-        service_principal_name: "All account users"
-      
-      - level: CAN_VIEW
-        service_principal_name: "All Skyscanner employees"
-
     variables:
       env: dev
       workflow_trigger_status: "PAUSED"

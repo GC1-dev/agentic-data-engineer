@@ -34,7 +34,7 @@ jobs:
       databricks-runtime-version: 16.4
       service-principal-application-id: bcfc93d0-4c4a-460c-851f-4eb6e5fcec01
       databricks-workspace: dev
-      delete-dab: false
+      delete-dab: true
       dry-run: false
 
       # Delete all .bundle directories and all versions

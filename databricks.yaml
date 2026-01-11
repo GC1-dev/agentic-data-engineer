@@ -125,7 +125,6 @@ targets:
       - level: CAN_MANAGE
         service_principal_name: bcfc93d0-4c4a-460c-851f-4eb6e5fcec01
 
-
       - level: CAN_MANAGE
         group_name: "Zurg Squad"
 

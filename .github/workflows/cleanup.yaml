@@ -21,4 +21,10 @@ jobs:
       service-principal-application-id: bcfc93d0-4c4a-460c-851f-4eb6e5fcec01
       databricks-workspace: dev
       delete-dab: true
+
+      # Delete all .bundle files before running DAB cleanup
+      install-commands: |
+        echo "Deleting all bundle directories under .bundle/..."
+        databricks workspace delete -r /Workspace/Users/bcfc93d0-4c4a-460c-851f-4eb6e5fcec01/.bundle || echo "Already deleted or not found"
+        echo "✓ All bundle files cleaned up"
       dry-run: false

@@ -108,8 +108,16 @@ jobs:
       service-principal-application-id:  bcfc93d0-4c4a-460c-851f-4eb6e5fcec01
       databricks-workspace: dev
 
-      # Install dependencies before tests and deployment
+      # Modify bundle name and install dependencies
       install-commands: |
+        # First, modify bundle name to include version
+        VERSION=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || echo "1.0.0")
+        echo "Detected version: ${VERSION}"
+        echo "Modifying databricks.yaml bundle name to: agentic-data-engineer-${VERSION}"
+        sed -i "s/name: agentic-data-engineer$/name: agentic-data-engineer-${VERSION}/" databricks.yaml
+        echo "Verifying modification:"
+        grep "name:" databricks.yaml | head -1
+        # Then install dependencies
         python -m pip install --upgrade pip
         python -m pip install poetry==2.2.1
         python -m pip install build

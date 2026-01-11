@@ -98,24 +98,25 @@ jobs:
           path: fatdist/
           retention-days: 30
 
-      # GitHub Pages deployment (only on main branch)
+      # GitHub Pages deployment (only on push to main branch)
       - name: Setup Pages
-        if: github.ref_name == github.event.repository.default_branch
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
-        if: github.ref_name == github.event.repository.default_branch
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v3
         with:
           path: "dist"
 
       - name: Deploy to GitHub Pages
-        if: github.ref_name == github.event.repository.default_branch
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/deploy-pages@v4
 
   # Deploy to dev workspace when pushing to dev branch
   dabs-publish-dev:
     name: "Spark Job for Dev deployment"
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     uses: skyscanner/reusable-workflows/.github/workflows/databricks-asset-bundles.yaml@v3.4.1
     secrets: inherit
     with:
@@ -142,6 +143,7 @@ jobs:
   # Create deployment version file after successful deployment
   create-deployment-version:
     name: "Create Deployment Version File"
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest-small
     needs: dabs-publish-dev
     steps:

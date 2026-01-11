@@ -49,9 +49,6 @@ variables:
   package_version:
     description: The version number for the package build
     default: "1.0.0"
-  env:
-    description: This is the environment variable for tasks
-    default: "dev"
   squad:
     description: This is the squad name
     default: zurg
@@ -69,9 +66,6 @@ variables:
   schedule_pause_status:
     description: This is the status of the workflow schedule
     default: "PAUSED"
-  github_branch_name:
-    description: The github branch name used to deploy the bundle
-    default: "dev"
 
 # Sync configuration - only sync src, notebooks, and pipelines
 sync:

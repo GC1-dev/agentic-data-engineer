@@ -110,7 +110,8 @@ jobs:
 
       # Modify bundle name and install dependencies
       install-commands: |
-        # First, modify bundle name to include version
+        # First, fetch git tags to get version
+        git fetch --unshallow 2>/dev/null || git fetch --tags 2>/dev/null || echo "Could not fetch tags"
         VERSION=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || echo "1.0.0")
         echo "Detected version: ${VERSION}"
         echo "Modifying databricks.yaml bundle name to: agentic-data-engineer-${VERSION}"

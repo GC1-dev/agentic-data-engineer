@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   CleanupDAB:
-    name: Cleanup Workflow
+    name: Cleanup Active Deployment
     uses: skyscanner/reusable-workflows/.github/workflows/databricks-asset-bundles.yaml@v3
     secrets: inherit
     with:

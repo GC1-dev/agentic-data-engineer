@@ -11,33 +11,8 @@ permissions:
   actions: read
 
 jobs:
-  CleanupAllBundleFiles:
-    name: Cleanup All Bundle Directories
-    runs-on: ubuntu-latest-small
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Setup Databricks CLI
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
-
-      - name: Configure Databricks authentication
-        run: |
-          echo "[dev]" > ~/.databrickscfg
-          echo "host = https://skyscanner-dev.cloud.databricks.com" >> ~/.databrickscfg
-          echo "token = ${{ secrets.DATABRICKS_TOKEN }}" >> ~/.databrickscfg
-
-      - name: Delete entire .bundle directory
-        run: |
-          echo "Deleting all bundle directories under .bundle/..."
-          databricks workspace delete -r /Workspace/Users/bcfc93d0-4c4a-460c-851f-4eb6e5fcec01/.bundle || echo "Already deleted or not found"
-          echo "✓ All bundle files cleaned up"
-
   CleanupDAB:
     name: Cleanup Databricks Asset Bundle
-    needs: CleanupAllBundleFiles
-    if: always()
     uses: skyscanner/reusable-workflows/.github/workflows/databricks-asset-bundles.yaml@v3
     secrets: inherit
     with:

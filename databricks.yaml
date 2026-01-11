@@ -49,6 +49,9 @@ variables:
   package_version:
     description: The version number for the package build
     default: "1.0.0"
+  env:
+    description: This is the environment variable for tasks
+    default: "dev"
   squad:
     description: This is the squad name
     default: zurg

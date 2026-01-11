@@ -14,7 +14,6 @@ permissions:
   actions: read
   contents: write
   id-token: write
-  pages: write
   pull-requests: write
 
 concurrency:
@@ -97,21 +96,6 @@ jobs:
           name: fatdist-${{ steps.get_version.outputs.version }}-${{ github.run_number }}
           path: fatdist/
           retention-days: 30
-
-      # GitHub Pages deployment (only on push to main branch)
-      - name: Setup Pages
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/configure-pages@v5
-
-      - name: Upload Pages artifact
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: "dist"
-
-      - name: Deploy to GitHub Pages
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/deploy-pages@v4
 
   # Deploy to dev workspace when pushing to dev branch
   dabs-publish-dev:

@@ -187,6 +187,8 @@ install-poetry: ## Install Poetry if not present
 	fi
 
 install-deps: install-poetry ## Install project dependencies
+	@echo "Configuring Poetry credentials..."
+	@bash shared_scripts/configure_poetry_credentials.sh
 	@echo "Configuring Poetry..."
 	@poetry config virtualenvs.in-project true
 	@echo "✓ virtualenvs.in-project = true"

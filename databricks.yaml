@@ -131,6 +131,9 @@ targets:
       - level: CAN_VIEW
         group_name: "Viserion Squad"
 
+      - level: CAN_VIEW
+        group_name: "604a5986-f422-4ce2-bee3-f5386e89467b" # Silver Search intent - SP - Viserion
+
     variables:
       env: dev
       workflow_trigger_status: "PAUSED"
@@ -164,6 +167,9 @@ targets:
 
       - level: CAN_VIEW
         group_name: "Viserion Squad"
+
+      - level: CAN_VIEW
+        group_name: "b230be05-9b09-4977-a2a3-d4077bc16485" # Silver Search intent - SP - Viserion
 
     variables:
       env: prod

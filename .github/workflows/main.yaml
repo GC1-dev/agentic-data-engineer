@@ -132,7 +132,7 @@ jobs:
     needs: dabs-publish-dev
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Create deployment version file
         run: |

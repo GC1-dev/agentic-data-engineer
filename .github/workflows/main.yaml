@@ -123,6 +123,33 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install poetry==2.2.1
         python -m pip install build
+  
+  # Deploy to prod workspace when pushing to dev branch
+  dabs-publish-prod:
+    name: "Spark Job for Prod deployment"
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    uses: skyscanner/reusable-workflows/.github/workflows/databricks-asset-bundles.yaml@v3.4.1
+    secrets: inherit
+    with:
+      # Required inputs
+      databricks-runtime-version: 16.4 # DBR 16.4 LTS - Python 3.12.3, Java 17, Spark 3.5
+      service-principal-application-id:  c0ed747f-fb29-4f62-b91f-fd76e162a444
+      databricks-workspace: prod
+
+      # Modify bundle name and install dependencies
+      install-commands: |
+        # First, fetch git tags to get version
+        git fetch --unshallow 2>/dev/null || git fetch --tags 2>/dev/null || echo "Could not fetch tags"
+        VERSION=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || echo "1.0.0")
+        echo "Detected version: ${VERSION}"
+        echo "Modifying databricks.yaml bundle name to: agentic-data-engineer-${VERSION}"
+        sed -i "s/name: agentic-data-engineer$/name: agentic-data-engineer-${VERSION}/" databricks.yaml
+        echo "Verifying modification:"
+        grep "name:" databricks.yaml | head -1
+        # Then install dependencies
+        python -m pip install --upgrade pip
+        python -m pip install poetry==2.2.1
+        python -m pip install build
 
   # Create deployment version file after successful deployment
   create-deployment-version:

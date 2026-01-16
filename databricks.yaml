@@ -128,6 +128,9 @@ targets:
       - level: CAN_MANAGE
         group_name: "Zurg Squad"
 
+      - level: CAN_VIEW
+        group_name: "Viserion Squad"
+
     variables:
       env: dev
       workflow_trigger_status: "PAUSED"
@@ -141,3 +144,37 @@ targets:
 
     run_as:
       service_principal_name: bcfc93d0-4c4a-460c-851f-4eb6e5fcec01
+
+  # Production target
+  prod:
+    # Note: No mode set - allows custom workspace paths
+    # mode: production enforces paths under /Workspace/Users/<service-principal-id>/
+    default: true
+    mode: production
+
+    workspace:
+      root_path: "/Workspace/Users/c0ed747f-fb29-4f62-b91f-fd76e162a444/.bundle/${bundle.name}"
+
+    permissions:
+      - level: CAN_MANAGE
+        service_principal_name: c0ed747f-fb29-4f62-b91f-fd76e162a444
+
+      - level: CAN_RUN
+        group_name: "Zurg Squad"
+
+      - level: CAN_VIEW
+        group_name: "Viserion Squad"
+
+    variables:
+      env: prod
+      workflow_trigger_status: "PAUSED"
+      schedule_pause_status: "PAUSED"
+
+    presets:
+      tags:
+        squad: "${var.squad}"
+        project: "${var.project}"
+        target: "${bundle.target}"
+
+    run_as:
+      service_principal_name: c0ed747f-fb29-4f62-b91f-fd76e162a444

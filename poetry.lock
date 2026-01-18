@@ -2961,20 +2961,20 @@ reference = "skyscanner-artifactory"
 
 [[package]]
 name = "skyscanner-data-shared-utils"
-version = "1.0.2"
+version = "1.0.4"
 description = "Core utilities for Databricks with Spark integration, and testing support"
 optional = false
 python-versions = ">=3.10,<4.0"
 groups = ["main"]
 files = [
-    {file = "skyscanner_data_shared_utils-1.0.2-py3-none-any.whl", hash = "sha256:8dcd621a18798e3644fe3fd7879f3e30b34d5079a3ab69d8e06ad26f2b7da324"},
-    {file = "skyscanner_data_shared_utils-1.0.2.tar.gz", hash = "sha256:f4c3bc9e9965ab31083384241d2e91515da61f244f66556911bb37e6439fe5e7"},
+    {file = "skyscanner_data_shared_utils-1.0.4-py3-none-any.whl", hash = "sha256:ab1a129339dcc3df7163a8af8edc57c9aa8c5416f948c1685535641ab488dc97"},
+    {file = "skyscanner_data_shared_utils-1.0.4.tar.gz", hash = "sha256:2e510c4c2e4a2b6146038f4a2b4e50784f31ec2cde3df7eb5ec989e85f38c41e"},
 ]
 
 [package.dependencies]
 pyspark = ">=3.2,<4.0"
 skyscanner-ip-ranges = "0.0.34"
-skyscanner-spark-session-utils = "1.0.1"
+skyscanner-spark-session-utils = ">=1.0.2"
 
 [package.source]
 type = "legacy"
@@ -3025,19 +3025,19 @@ reference = "skyscanner-artifactory"
 
 [[package]]
 name = "skyscanner-spark-session-utils"
-version = "1.0.1"
+version = "1.0.2"
 description = "Minimal Spark session management with configuration and testing support"
 optional = false
 python-versions = ">=3.10,<4.0"
 groups = ["main"]
 files = [
-    {file = "skyscanner_spark_session_utils-1.0.1-py3-none-any.whl", hash = "sha256:253a47d3a3c7434f4197abb64dcaa615cfcb42d92b3d2f9f7936aca9e6294b33"},
-    {file = "skyscanner_spark_session_utils-1.0.1.tar.gz", hash = "sha256:cfcb2b536dd452bf0257c8895e0c9e7c31181c003c40d2a4212c7741a2f8c177"},
+    {file = "skyscanner_spark_session_utils-1.0.2-py3-none-any.whl", hash = "sha256:bf16f57ba5fc359e49cf7b2d791a2deddceb4c51af452da5528fec5d54bc006b"},
+    {file = "skyscanner_spark_session_utils-1.0.2.tar.gz", hash = "sha256:6ae881adda33d41d7976a4c319275330d3bce782ac69a59112db96b4e7c8fa40"},
 ]
 
 [package.dependencies]
 pydantic = ">=2.0,<3.0"
-pyspark = ">=3.0,<4.0"
+pyspark = ">=3.5.1,<3.6"
 pyyaml = ">=6.0,<7.0"
 
 [package.source]
@@ -3378,4 +3378,4 @@ reference = "skyscanner-artifactory"
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<4.0"
-content-hash = "6290d37b623c49804fc0f864c72e97c1fbb3fe175965bb75f3bfb2fe9b7ffc7d"
+content-hash = "56e7eec10b8afa2b61383634b4af994c5d5a327cd386452b299bba5432b46ce4"

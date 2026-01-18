@@ -51,8 +51,8 @@ python-json-logger = ">=4.0.0"  # Structured JSON logging - https://nhairs.githu
 # Internal dependencies - Skyscanner data engineering utilities
 skyscanner-databricks-utils = ">=0.2.2"  # Databricks utilities and helpers MCP integration
 skyscanner-data-knowledge-base-mcp = ">=1.0.9"  # Data knowledge base MCP integration
-skyscanner-spark-session-utils = ">=1.0.1"  # Spark session management utilities
-skyscanner-data-shared-utils = ">=1.0.2"  # Shared data engineering utilities
+skyscanner-spark-session-utils = ">=1.0.2"  # Spark session management utilities
+skyscanner-data-shared-utils = ">=1.0.4"  # Shared data engineering utilities
 
 # ============================================================================
 # CLI Dependencies

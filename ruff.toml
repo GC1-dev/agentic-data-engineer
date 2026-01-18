@@ -1,0 +1,84 @@
+# ============================================================================
+# Ruff Configuration
+# ============================================================================
+# Configuration for Ruff linter and code formatter
+# Reference: https://docs.astral.sh/ruff/
+
+line-length = 120
+target-version = "py310"
+
+# Exclude directories from linting
+exclude = [
+    ".specify",
+    "scripts",
+    "pipelines"
+]
+
+# ============================================================================
+# Lint Configuration
+# ============================================================================
+
+[lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "SIM", # flake8-simplify
+    "D",   # pydocstyle (docstring conventions)
+]
+ignore = [
+    "E501",  # Line too long (handled by formatter)
+    "E203",  # Whitespace before ':' (conflicts with Black)
+    "D100",  # Missing docstring in public module
+    "D104",  # Missing docstring in public package
+    "D103",  # Missing docstring in public function
+    "N812",  # Lowercase imported as non-lowercase (common PySpark pattern: functions as F),
+    "E203",  # Whitespace before ':' (conflicts with Black)
+    "E266",  # Too many leading '#' for block comment
+    "E501"  # Line too long (handled by Black)
+]
+
+[lint.per-file-ignores]
+"__init__.py" = ["F401"]  # Unused imports in __init__.py
+
+# ============================================================================
+# Import Order (isort)
+# ============================================================================
+# Import order configuration following PEP 8 conventions
+# Order:
+# 1. Module docstring
+# 2. Standard library imports
+# 3. Third-party imports (pytest, pyspark, etc.)
+# 4. Imports from the module(s) being tested
+# 5. Test classes and functions
+
+[lint.isort]
+known-first-party = [
+    "spark_session_utils",
+    "data_shared_utils",
+    "data_quality_utils",
+    "data_catalog_utils",
+    "data_observability_utils",
+]
+section-order = [
+    "future",
+    "standard-library",
+    "third-party",
+    "first-party",
+    "local-folder",
+]
+known-local-folder = ["tests"]
+
+# ============================================================================
+# Google Docstring Configuration (pydocstyle)
+# ============================================================================
+# Enforces Google-style docstrings for all functions, classes, and methods
+# Reference: https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings
+
+[lint.pydocstyle]
+convention = "google"

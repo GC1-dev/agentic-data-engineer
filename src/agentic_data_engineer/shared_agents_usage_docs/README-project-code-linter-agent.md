@@ -11,6 +11,7 @@ Using @project-code-linter-agent lint the entire project and report all violatio
 
 The `project-code-linter-agent` enforces code quality standards across your data engineering project by running:
 - **Ruff** (Python linting and formatting)
+- **Python Package Structure** (validate __init__.py files in src/ and tests/)
 - **yamllint** (YAML validation)
 - **jsonlint** (JSON validation)
 - **pytest** (test structure validation)
@@ -213,7 +214,75 @@ FIX COMMAND
 ruff check --select I --fix .
 ```
 
-### Use Case 6: Pre-Commit Validation
+### Use Case 6: Validate Python Package Structure
+
+**Prompt:**
+```
+Using @project-code-linter-agent validate Python package structure in src/ and tests/
+```
+
+**What it does:**
+1. Scans all directories in `src/` and `tests/` recursively
+2. Identifies directories containing Python files (`.py`)
+3. Checks for `__init__.py` in each directory
+4. Validates package naming conventions (lowercase, underscores)
+5. Reports missing __init__.py files with fix commands
+
+**Expected Output:**
+```
+PYTHON PACKAGE STRUCTURE VALIDATION
+====================================
+
+Checking src/
+-------------
+✅ src/__init__.py - Present
+✅ src/my_package/__init__.py - Present
+❌ src/my_package/utils/ - Missing __init__.py
+   Contains: helper.py, validators.py
+   Fix: touch src/my_package/utils/__init__.py
+
+✅ src/my_package/transformations/__init__.py - Present
+❌ src/my_package/InvalidName/ - Invalid package name (use lowercase)
+   Fix: mv src/my_package/InvalidName src/my_package/invalid_name
+
+Checking tests/
+---------------
+❌ tests/ - Missing __init__.py at root
+   Fix: touch tests/__init__.py
+
+✅ tests/unit/__init__.py - Present
+❌ tests/integration/ - Missing __init__.py
+   Contains: test_e2e.py
+   Fix: touch tests/integration/__init__.py
+
+SUMMARY
+=======
+Total directories scanned: 8
+Valid packages: 5
+Missing __init__.py: 3
+Naming violations: 1
+
+IMPACT
+======
+Missing __init__.py files will cause:
+- ModuleNotFoundError when importing
+- pytest discovery issues
+- Package not recognized by Python
+
+FIX COMMANDS
+============
+touch src/my_package/utils/__init__.py
+touch tests/__init__.py
+touch tests/integration/__init__.py
+mv src/my_package/InvalidName src/my_package/invalid_name
+```
+
+**Why This Matters:**
+- **Imports fail**: `from my_package.utils import helper` → ModuleNotFoundError
+- **Tests not discovered**: pytest won't find tests in directories without __init__.py
+- **Package not installable**: pip/poetry require proper package structure
+
+### Use Case 7: Pre-Commit Validation
 
 **Prompt:**
 ```
@@ -261,7 +330,7 @@ Fix issues before committing:
 ruff check --fix tests/test_new_feature.py
 ```
 
-### Use Case 7: Check Specific Linting Rules
+### Use Case 8: Check Specific Linting Rules
 
 **Prompt:**
 ```
@@ -300,7 +369,7 @@ ruff check --select F --fix .  # Removes unused imports
 # Manually add missing imports for undefined names
 ```
 
-### Use Case 8: Validate Docstring Conventions
+### Use Case 9: Validate Docstring Conventions
 
 **Prompt:**
 ```

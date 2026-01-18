@@ -12,6 +12,8 @@ model: sonnet
 ## Capabilities
 - Run Ruff linter and formatter on Python code with project-specific configuration
 - Validate pytest test structure and naming conventions
+- Validate Python package structure (ensure __init__.py files exist in src/ and tests/)
+- Check that directories are proper Python packages with correct module structure
 - Lint YAML files against yamllint rules (120 char lines, 2-space indent)
 - Lint JSON files against jsonlintrc rules (2-space indent, no trailing commas)
 - Auto-fix code style issues where possible
@@ -112,6 +114,49 @@ model: sonnet
 - `-v`: Verbose output
 - `--tb=short`: Short traceback format
 
+### Python Package Structure
+
+**Key Requirements:**
+- **Every Python directory must contain `__init__.py`**: Required for proper module imports
+- **src/ structure**: All source code must be under `src/` with proper `__init__.py` files
+- **tests/ structure**: All tests must be under `tests/` with proper `__init__.py` files
+- **Package hierarchy**: Each subdirectory containing Python files must be a valid package
+
+**Valid Package Structure:**
+```
+src/
+├── __init__.py                    # Root package
+├── my_package/
+│   ├── __init__.py                # Package marker
+│   ├── module.py                  # Module file
+│   └── subpackage/
+│       ├── __init__.py            # Subpackage marker
+│       └── another_module.py
+
+tests/
+├── __init__.py                    # Test package root
+├── unit/
+│   ├── __init__.py                # Unit tests package
+│   └── test_module.py
+└── integration/
+    ├── __init__.py                # Integration tests package
+    └── test_integration.py
+```
+
+**What to Check:**
+- `src/` contains `__init__.py` at root
+- Every subdirectory in `src/` with `.py` files has `__init__.py`
+- `tests/` contains `__init__.py` at root
+- Every subdirectory in `tests/` with `.py` files has `__init__.py`
+- `__init__.py` files are importable (no syntax errors)
+- Package names follow Python naming conventions (lowercase, underscores)
+
+**Common Issues:**
+- Missing `__init__.py` causes `ModuleNotFoundError`
+- Empty directories don't need `__init__.py`
+- `__pycache__` and `.pyc` files are ignored
+- Virtual environments (`.venv`, `venv`) are excluded
+
 ## Usage
 
 <example>
@@ -208,7 +253,66 @@ Agent:
 </example>
 
 <example>
-### Example 5: Check import order
+### Example 5: Validate Python package structure
+
+User: "Using @project-code-linter-agent validate Python package structure in src/ and tests/"
+
+Agent:
+1. Scans `src/` and `tests/` directories recursively
+2. Checks for `__init__.py` files in all directories containing Python files
+3. Validates package naming conventions
+4. Reports missing or invalid package structure:
+   ```
+   PYTHON PACKAGE STRUCTURE VALIDATION
+   ====================================
+
+   Checking src/
+   -------------
+   ✅ src/__init__.py - Present
+   ✅ src/my_package/__init__.py - Present
+   ❌ src/my_package/utils/ - Missing __init__.py
+      Contains: helper.py, validators.py
+      Fix: Create src/my_package/utils/__init__.py
+
+   ✅ src/my_package/transformations/__init__.py - Present
+   ❌ src/my_package/InvalidName/__init__.py - Invalid package name (use lowercase)
+      Fix: Rename to src/my_package/invalid_name/
+
+   Checking tests/
+   ---------------
+   ❌ tests/ - Missing __init__.py at root
+      Fix: Create tests/__init__.py
+
+   ✅ tests/unit/__init__.py - Present
+   ❌ tests/integration/ - Missing __init__.py
+      Contains: test_e2e.py
+      Fix: Create tests/integration/__init__.py
+
+   SUMMARY
+   =======
+   Total directories scanned: 8
+   Valid packages: 5
+   Missing __init__.py: 3
+   Naming violations: 1
+
+   IMPACT
+   ======
+   Missing __init__.py files will cause:
+   - ModuleNotFoundError when importing
+   - pytest discovery issues
+   - Package not recognized by Python
+
+   FIX COMMANDS
+   ============
+   touch src/my_package/utils/__init__.py
+   touch tests/__init__.py
+   touch tests/integration/__init__.py
+   mv src/my_package/InvalidName src/my_package/invalid_name
+   ```
+</example>
+
+<example>
+### Example 6: Check import order
 
 User: "Using @project-code-linter-agent validate import order in all Python files"
 
@@ -240,7 +344,7 @@ Agent:
 </example>
 
 <example>
-### Example 6: Pre-commit validation
+### Example 7: Pre-commit validation
 
 User: "Using @project-code-linter-agent run pre-commit validation checks"
 
@@ -252,6 +356,7 @@ Agent:
 5. Validates:
    - Python formatting (Ruff)
    - Import sorting (Ruff)
+   - Python package structure (__init__.py files)
    - YAML syntax
    - JSON syntax
    - Test naming conventions
@@ -438,6 +543,81 @@ class TestPipeline:
         assert True
 ```
 
+### Violation: Missing __init__.py
+
+```
+# ❌ Bad - Directory structure without __init__.py
+src/
+├── my_package/
+│   ├── utils/
+│   │   ├── helper.py          # Missing __init__.py in utils/
+│   │   └── validators.py
+│   └── transformations/
+│       └── clean.py            # Missing __init__.py in transformations/
+
+tests/
+└── unit/
+    └── test_utils.py           # Missing __init__.py in tests/ and tests/unit/
+```
+
+**Impact**: Causes `ModuleNotFoundError` when importing
+```python
+# This will fail:
+from my_package.utils.helper import clean_data  # ModuleNotFoundError
+```
+
+**Fix**: Add __init__.py to all directories
+```
+# ✅ Good - Proper package structure
+src/
+├── __init__.py                 # Root package marker
+├── my_package/
+│   ├── __init__.py             # Package marker
+│   ├── utils/
+│   │   ├── __init__.py         # Makes utils importable
+│   │   ├── helper.py
+│   │   └── validators.py
+│   └── transformations/
+│       ├── __init__.py         # Makes transformations importable
+│       └── clean.py
+
+tests/
+├── __init__.py                 # Test package root
+└── unit/
+    ├── __init__.py             # Makes unit tests discoverable
+    └── test_utils.py
+```
+
+**Commands to fix**:
+```bash
+# Create missing __init__.py files
+touch src/__init__.py
+touch src/my_package/__init__.py
+touch src/my_package/utils/__init__.py
+touch src/my_package/transformations/__init__.py
+touch tests/__init__.py
+touch tests/unit/__init__.py
+```
+
+### Violation: Invalid package name
+
+```
+# ❌ Bad - CamelCase or spaces in directory names
+src/
+├── MyPackage/              # Should be lowercase
+├── data Utils/             # Spaces not allowed
+└── Transform-Data/         # Hyphens not recommended
+```
+
+**Fix**: Use lowercase with underscores
+```
+# ✅ Good - PEP 8 compliant names
+src/
+├── my_package/
+├── data_utils/
+└── transform_data/
+```
+
 ## Best Practices
 
 ### ✅ DO
@@ -449,6 +629,9 @@ class TestPipeline:
 - **Lint new files immediately**: Catch issues early in development
 - **Keep config files synced**: Ensure all team members use same configs
 - **Use markers for slow tests**: Tag integration and slow tests appropriately
+- **Create __init__.py files**: Always add to new directories in src/ and tests/
+- **Validate package structure**: Check imports work before committing
+- **Use lowercase package names**: Follow PEP 8 naming conventions
 
 ### ❌ DON'T
 
@@ -458,6 +641,9 @@ class TestPipeline:
 - **Don't disable rules globally**: Use per-file ignores when needed
 - **Don't commit formatting changes with logic changes**: Separate commits
 - **Don't modify config without team consensus**: Linting standards are team agreements
+- **Don't forget __init__.py**: Missing files cause import errors
+- **Don't use CamelCase for packages**: Use snake_case for directories
+- **Don't skip package validation**: Always check structure before adding modules
 
 ## Configuration Files
 

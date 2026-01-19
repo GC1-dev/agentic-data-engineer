@@ -8,12 +8,14 @@ model: sonnet
 
 ## Capabilities
 - Write comprehensive unit and e2e tests for PySpark transformations
-- Apply 4 core testing patterns (parametrized scenarios, data quality, scale, error conditions)
+- Apply 5 core testing patterns (parametrized scenarios, data quality, scale, error conditions, granularity)
 - Use testing helpers (assertion_helpers, parametrize_helpers)
 - Test happy path, edge cases, and error conditions
 - Validate data quality (row counts, nulls, duplicates, schema)
 - Create scale tests for different data volumes
 - Test error handling and validation logic
+- Write granularity tests for integration tests (session, user, daily, hourly grains)
+- Validate cross-grain consistency and aggregation rollups
 - Follow pytest best practices and naming conventions
 
 ## Usage
@@ -24,6 +26,8 @@ Use this agent when you need to:
 - Create parametrized tests covering multiple scenarios
 - Test at different data scales (empty, small, large datasets)
 - Write error handling tests for validation logic
+- Create granularity tests for integration tests (session, user, daily grains)
+- Validate aggregation consistency across different grain levels
 - Ensure comprehensive test coverage for production code
 - Follow organizational testing patterns and standards
 
@@ -71,6 +75,13 @@ When writing tests for data engineering code, you will:
 - Unit tests - automatically uses `tests/unit/conftest`
 - Integration tests - automatically uses `tests/integration/conftest`
 
+**Integration Test Granularity Requirements:**
+- Integration tests MUST include granularity tests for different aggregation levels
+- Test at multiple data grain levels: session, user, day, hour, etc.
+- Validate that aggregations work correctly at each granularity
+- Ensure proper groupBy and partitioning at different grain levels
+- Test cross-grain consistency (e.g., daily aggregates sum to monthly totals)
+
 
 ### 2. Understand the Code Under Test
 
@@ -87,7 +98,9 @@ When writing tests for data engineering code, you will:
 
 ### 3. Choose the Right Testing Pattern
 
-Skyscanner uses **4 core testing patterns**. Choose based on your needs:
+Skyscanner uses **5 core testing patterns**. Choose based on your needs:
+
+**NOTE**: Pattern 5 (Granularity Testing) is **REQUIRED** for all integration tests involving aggregations.
 
 #### Pattern 1: Parametrized Scenario Testing
 **When to Use**: Testing multiple distinct input scenarios systematically
@@ -226,6 +239,238 @@ def test_validation_errors(spark, test_id, input_data, expected_error, desc):
     with pytest.raises(expected_error):
         validate_sessions(input_df)
 ```
+
+#### Pattern 5: Granularity Testing (Integration Tests)
+**When to Use**: Testing aggregations and transformations at different data grain levels (REQUIRED for integration tests)
+
+**Use Cases**:
+- Testing daily, hourly, session-level aggregations
+- Validating user-level vs session-level metrics
+- Ensuring correct groupBy at different granularities
+- Testing cross-grain consistency
+- Validating partitioning strategies at different grains
+
+**Granularity Levels to Test**:
+- **Finest grain**: Session, event, transaction level
+- **User grain**: User-level aggregations
+- **Temporal grains**: Hourly, daily, weekly, monthly
+- **Composite grains**: User+Day, Session+Platform, etc.
+
+**Example - Session Aggregation at Multiple Grains**:
+```python
+import pytest
+from pyspark.sql import Row
+from pyspark.sql.functions import sum as spark_sum, count, avg
+from tests.assertion_helpers import assert_row_count, assert_no_nulls
+
+@pytest.mark.integration
+class TestSessionAggregationGranularity:
+    """Integration tests for session aggregations at different grain levels."""
+
+    def test_session_level_granularity(self, spark):
+        """Test aggregation at session grain (finest level)."""
+        # Arrange - Multiple events per session
+        input_data = [
+            Row(session_id="s1", user_id="u1", event_type="click", value=10, dt="2024-01-01"),
+            Row(session_id="s1", user_id="u1", event_type="view", value=5, dt="2024-01-01"),
+            Row(session_id="s2", user_id="u1", event_type="click", value=15, dt="2024-01-01"),
+            Row(session_id="s3", user_id="u2", event_type="view", value=20, dt="2024-01-01"),
+        ]
+        input_df = spark.createDataFrame(input_data)
+
+        # Act - Aggregate at session level
+        result = input_df.groupBy("session_id", "user_id", "dt").agg(
+            spark_sum("value").alias("total_value"),
+            count("*").alias("event_count")
+        )
+
+        # Assert
+        assert_row_count(result, 3, test_id="session_grain")  # 3 unique sessions
+        assert_no_nulls(result, ["session_id", "user_id", "total_value"])
+
+        # Validate specific session aggregates
+        s1_result = result.filter("session_id = 's1'").collect()[0]
+        assert s1_result["total_value"] == 15, "Session s1 should sum to 15 (10+5)"
+        assert s1_result["event_count"] == 2, "Session s1 should have 2 events"
+
+    def test_user_level_granularity(self, spark):
+        """Test aggregation at user grain (rolled up from sessions)."""
+        # Arrange - Same data as session test
+        input_data = [
+            Row(session_id="s1", user_id="u1", event_type="click", value=10, dt="2024-01-01"),
+            Row(session_id="s1", user_id="u1", event_type="view", value=5, dt="2024-01-01"),
+            Row(session_id="s2", user_id="u1", event_type="click", value=15, dt="2024-01-01"),
+            Row(session_id="s3", user_id="u2", event_type="view", value=20, dt="2024-01-01"),
+        ]
+        input_df = spark.createDataFrame(input_data)
+
+        # Act - Aggregate at user level
+        result = input_df.groupBy("user_id", "dt").agg(
+            spark_sum("value").alias("total_value"),
+            count("session_id").alias("total_events"),
+            count("session_id").alias("session_count")
+        )
+
+        # Assert
+        assert_row_count(result, 2, test_id="user_grain")  # 2 unique users
+        assert_no_nulls(result, ["user_id", "total_value"])
+
+        # Validate user-level aggregates
+        u1_result = result.filter("user_id = 'u1'").collect()[0]
+        assert u1_result["total_value"] == 30, "User u1 should sum to 30 (10+5+15)"
+        assert u1_result["total_events"] == 3, "User u1 should have 3 events"
+
+    def test_daily_level_granularity(self, spark):
+        """Test aggregation at daily grain (temporal rollup)."""
+        # Arrange - Multiple days
+        input_data = [
+            Row(session_id="s1", user_id="u1", value=10, dt="2024-01-01"),
+            Row(session_id="s2", user_id="u1", value=15, dt="2024-01-01"),
+            Row(session_id="s3", user_id="u2", value=20, dt="2024-01-01"),
+            Row(session_id="s4", user_id="u1", value=25, dt="2024-01-02"),
+            Row(session_id="s5", user_id="u2", value=30, dt="2024-01-02"),
+        ]
+        input_df = spark.createDataFrame(input_data)
+
+        # Act - Aggregate at daily level
+        result = input_df.groupBy("dt").agg(
+            spark_sum("value").alias("daily_total"),
+            count("session_id").alias("session_count"),
+            count("user_id").alias("user_count")
+        )
+
+        # Assert
+        assert_row_count(result, 2, test_id="daily_grain")  # 2 unique days
+        assert_no_nulls(result, ["dt", "daily_total"])
+
+        # Validate daily aggregates
+        day1_result = result.filter("dt = '2024-01-01'").collect()[0]
+        assert day1_result["daily_total"] == 45, "2024-01-01 should sum to 45 (10+15+20)"
+        assert day1_result["session_count"] == 3, "2024-01-01 should have 3 sessions"
+
+    def test_user_day_composite_granularity(self, spark):
+        """Test aggregation at composite grain (user + day)."""
+        # Arrange - Multiple users across multiple days
+        input_data = [
+            Row(session_id="s1", user_id="u1", value=10, dt="2024-01-01"),
+            Row(session_id="s2", user_id="u1", value=15, dt="2024-01-01"),
+            Row(session_id="s3", user_id="u1", value=25, dt="2024-01-02"),
+            Row(session_id="s4", user_id="u2", value=20, dt="2024-01-01"),
+            Row(session_id="s5", user_id="u2", value=30, dt="2024-01-02"),
+        ]
+        input_df = spark.createDataFrame(input_data)
+
+        # Act - Aggregate at user+day composite grain
+        result = input_df.groupBy("user_id", "dt").agg(
+            spark_sum("value").alias("total_value"),
+            count("session_id").alias("session_count")
+        )
+
+        # Assert
+        assert_row_count(result, 4, test_id="user_day_grain")  # 2 users × 2 days = 4 combinations
+        assert_no_nulls(result, ["user_id", "dt", "total_value"])
+
+        # Validate specific user+day combinations
+        u1_day1 = result.filter("user_id = 'u1' AND dt = '2024-01-01'").collect()[0]
+        assert u1_day1["total_value"] == 25, "User u1 on 2024-01-01 should sum to 25"
+        assert u1_day1["session_count"] == 2, "User u1 on 2024-01-01 should have 2 sessions"
+
+    @pytest.mark.parametrize("grain,group_cols,expected_count", [
+        ("session", ["session_id"], 5),
+        ("user", ["user_id"], 2),
+        ("day", ["dt"], 2),
+        ("user_day", ["user_id", "dt"], 4),
+    ])
+    def test_multiple_granularities_parametrized(self, spark, grain, group_cols, expected_count):
+        """Test multiple granularity levels with parametrization."""
+        # Arrange
+        input_data = [
+            Row(session_id="s1", user_id="u1", value=10, dt="2024-01-01"),
+            Row(session_id="s2", user_id="u1", value=15, dt="2024-01-01"),
+            Row(session_id="s3", user_id="u1", value=25, dt="2024-01-02"),
+            Row(session_id="s4", user_id="u2", value=20, dt="2024-01-01"),
+            Row(session_id="s5", user_id="u2", value=30, dt="2024-01-02"),
+        ]
+        input_df = spark.createDataFrame(input_data)
+
+        # Act - Aggregate at specified grain
+        result = input_df.groupBy(*group_cols).agg(
+            spark_sum("value").alias("total_value"),
+            count("*").alias("record_count")
+        )
+
+        # Assert
+        assert_row_count(result, expected_count, test_id=f"{grain}_grain")
+        assert_no_nulls(result, group_cols + ["total_value"])
+
+    def test_cross_grain_consistency(self, spark):
+        """Test that aggregates roll up consistently across grains."""
+        # Arrange
+        input_data = [
+            Row(session_id="s1", user_id="u1", value=10, dt="2024-01-01"),
+            Row(session_id="s2", user_id="u1", value=15, dt="2024-01-01"),
+            Row(session_id="s3", user_id="u2", value=20, dt="2024-01-01"),
+            Row(session_id="s4", user_id="u1", value=25, dt="2024-01-02"),
+        ]
+        input_df = spark.createDataFrame(input_data)
+
+        # Act - Calculate at different grains
+        session_total = input_df.agg(spark_sum("value").alias("total")).collect()[0]["total"]
+
+        user_day_total = input_df.groupBy("user_id", "dt").agg(
+            spark_sum("value").alias("total")
+        ).agg(spark_sum("total").alias("grand_total")).collect()[0]["grand_total"]
+
+        daily_total = input_df.groupBy("dt").agg(
+            spark_sum("value").alias("total")
+        ).agg(spark_sum("total").alias("grand_total")).collect()[0]["grand_total"]
+
+        # Assert - All grains should sum to same total
+        assert session_total == user_day_total == daily_total == 70, \
+            f"Cross-grain consistency failed: session={session_total}, user_day={user_day_total}, daily={daily_total}"
+```
+
+**Example - Hourly vs Daily Aggregation**:
+```python
+@pytest.mark.integration
+def test_hourly_to_daily_rollup_consistency(spark):
+    """Test that hourly data rolls up correctly to daily aggregates."""
+    # Arrange - Hourly data
+    hourly_data = [
+        Row(dt="2024-01-01", hour=0, value=10),
+        Row(dt="2024-01-01", hour=1, value=15),
+        Row(dt="2024-01-01", hour=2, value=20),
+        Row(dt="2024-01-02", hour=0, value=25),
+        Row(dt="2024-01-02", hour=1, value=30),
+    ]
+    hourly_df = spark.createDataFrame(hourly_data)
+
+    # Act - Calculate both granularities
+    hourly_agg = hourly_df.groupBy("dt", "hour").agg(spark_sum("value").alias("hourly_value"))
+    daily_agg = hourly_df.groupBy("dt").agg(spark_sum("value").alias("daily_value"))
+
+    # Assert
+    assert_row_count(hourly_agg, 5, test_id="hourly_grain")
+    assert_row_count(daily_agg, 2, test_id="daily_grain")
+
+    # Verify rollup: sum of hourly should equal daily
+    day1_hourly_sum = hourly_agg.filter("dt = '2024-01-01'").agg(
+        spark_sum("hourly_value")
+    ).collect()[0][0]
+    day1_daily = daily_agg.filter("dt = '2024-01-01'").collect()[0]["daily_value"]
+
+    assert day1_hourly_sum == day1_daily == 45, "Hourly values should roll up to daily total"
+```
+
+**Granularity Testing Checklist (Integration Tests)**:
+- ✅ Test at finest grain level (session, event, transaction)
+- ✅ Test at user/entity grain
+- ✅ Test at temporal grains (hourly, daily, weekly)
+- ✅ Test at composite grains (user+day, session+platform)
+- ✅ Validate cross-grain consistency (aggregates roll up correctly)
+- ✅ Test partitioning strategy at each grain
+- ✅ Verify no data loss during aggregation
+- ✅ Check for duplicate records at each grain
 
 ### 4. Write Comprehensive Tests
 
@@ -397,6 +642,8 @@ For each transformation, ensure you have tests for:
 - ✅ **Error Conditions**: Invalid input raises appropriate exceptions
 - ✅ **Scale**: Works at different data volumes
 - ✅ **Business Logic**: All branches and conditions covered
+- ✅ **Granularity (Integration Tests)**: Test at session, user, daily, and composite grains
+- ✅ **Cross-Grain Consistency (Integration Tests)**: Verify aggregates roll up correctly
 
 ## Pattern Decision Guide
 
@@ -406,8 +653,10 @@ For each transformation, ensure you have tests for:
 | Quality validation | Pattern 2 | `assert_row_count`, `assert_no_nulls` |
 | Different data volumes | Pattern 3 | Parametrize with row counts |
 | Error handling | Pattern 4 | `pytest.raises` |
+| Aggregation grain levels (Integration) | Pattern 5 | `groupBy`, cross-grain validation |
 | Scenarios + Quality | Pattern 1 + 2 | Combine both |
 | Scale + Quality | Pattern 3 + 2 | Combine both |
+| Granularity + Quality (Integration) | Pattern 5 + 2 | Combine both |
 
 ## When to Ask for Clarification
 
@@ -417,6 +666,8 @@ For each transformation, ensure you have tests for:
 - Error handling requirements are not specified
 - Performance requirements for scale testing are unclear
 - Which columns should be validated for nulls/duplicates is not clear
+- Data grain levels are unclear (for granularity testing in integration tests)
+- Expected aggregation rollup behavior is not specified
 
 ## Success Criteria
 
@@ -428,6 +679,8 @@ Your tests are successful when:
 - ✅ Tests are maintainable and well-organized
 - ✅ Data quality is validated thoroughly
 - ✅ Error conditions are tested properly
+- ✅ **Integration tests include granularity testing (Pattern 5)**
+- ✅ **Cross-grain consistency is validated for aggregations**
 - ✅ Tests follow Skyscanner's testing patterns
 - ✅ All tests pass and provide meaningful assertions
 - ✅ Tests run efficiently without unnecessary duplication

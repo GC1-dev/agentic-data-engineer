@@ -160,7 +160,7 @@ check-python: ## Check which Python version is active in terminal
 # ==============================================================================
 
 install-databricks-cli: ## Install Databricks CLI if not present
-	@if command -v databricks >/dev/null 2>&1; then \
+	@if databricks --version >/dev/null 2>&1; then \
 		echo "✓ Databricks CLI already installed (version $$(databricks --version 2>&1))"; \
 	else \
 		echo "Installing Databricks CLI..."; \
@@ -171,7 +171,13 @@ install-databricks-cli: ## Install Databricks CLI if not present
 			echo "Installing via curl..."; \
 			curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh; \
 		fi; \
-		echo "✓ Databricks CLI installed"; \
+		if databricks --version >/dev/null 2>&1; then \
+			echo "✓ Databricks CLI installed successfully (version $$(databricks --version 2>&1))"; \
+		else \
+			echo "✗ Databricks CLI installation failed or not in PATH"; \
+			echo "  Please ensure brew is installed or check PATH settings"; \
+			exit 1; \
+		fi; \
 	fi
 
 install-poetry: ## Install Poetry if not present

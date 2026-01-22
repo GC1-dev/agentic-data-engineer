@@ -1,12 +1,12 @@
-# Coding Agent
+# Data Transformation Coding Agent
 
 ## Overview
 
-The Coding Agent implements features, fixes bugs, and refactors code in Databricks data engineering projects following best practices and organizational standards. It specializes in PySpark transformations following medallion architecture patterns.
+The Data Transformation Coding Agent implements features, fixes bugs, and refactors code in Databricks data engineering projects following best practices and organizational standards. It specializes in PySpark transformations following medallion architecture patterns.
 
 ## Agent Details
 
-- **Name**: `coding-agent`
+- **Name**: `data-transformation-coding-agent`
 - **Model**: Sonnet
 - **Skills**: None
 

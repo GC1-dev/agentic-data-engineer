@@ -27,7 +27,7 @@ Each agent has its own detailed README with:
 
 | Agent | Model | Description | Documentation |
 |-------|-------|-------------|---------------|
-| **Coding** | Sonnet | Implement features, fix bugs, refactor PySpark code | [README](./README-coding-agent.md) |
+| **Data Transformation Coding** | Sonnet | Implement features, fix bugs, refactor PySpark code | [README](./README-data-transformation-coding-agent.md) |
 | **PySpark Standards** | Sonnet | Apply PySpark best practices and performance optimization | [README](./README-pyspark-standards-agent.md) |
 | **Streaming Tables** | Sonnet | Implement Delta Live Tables streaming pipelines | [README](./README-streaming-tables-agent.md) |
 
@@ -42,7 +42,7 @@ Each agent has its own detailed README with:
 
 | Agent | Model | Description | Documentation |
 |-------|-------|-------------|---------------|
-| **Testing** | Sonnet | Generate comprehensive unit and E2E tests for transformations | [README](./README-testing-agent.md) |
+| **Data Transformation Testing** | Sonnet | Generate comprehensive unit and E2E tests for transformations | [README](./README-data-transformation-testing-agent.md) |
 | **Transformation Validation** | Sonnet | Validate data transformation outputs and quality | [README](./README-transformation-validation-agent.md) |
 | **Data Contract** | Sonnet | Generate and enforce data contracts for tables | [README](./README-data-contract-agent.md) |
 
@@ -65,8 +65,8 @@ Each agent has its own detailed README with:
 
 | Agent | Model | Description | Documentation |
 |-------|-------|-------------|---------------|
-| **Makefile Formatter** | Haiku | Format and validate Makefiles | [README](./README-makefile-formatter.md) |
-| **PyProject Formatter** | Haiku | Format pyproject.toml configuration files | [README](./README-pyproject-formatter.md) |
+| **Data Contract Formatter** | Haiku | Format and validate data contracts with ODCS standards | [README](./README-data-contract-formatter-agent.md) |
+| **Project Code Linter** | Haiku | Lint and validate code quality across projects | [README](./README-project-code-linter-agent.md) |
 
 ### 🔄 Databricks Platform
 
@@ -89,16 +89,16 @@ Each agent has its own detailed README with:
 5. **[Materialized View Agent](./README-materialized-view-agent.md)** - Optimize with materialized views
 
 ### Implementing Code
-1. **[Coding Agent](./README-coding-agent.md)** - Write transformation code
+1. **[Data Transformation Coding Agent](./README-data-transformation-coding-agent.md)** - Write transformation code
 2. **[PySpark Standards Agent](./README-pyspark-standards-agent.md)** - Apply best practices
 3. **[Streaming Tables Agent](./README-streaming-tables-agent.md)** - Implement streaming if needed
-4. **[Testing Agent](./README-testing-agent.md)** - Generate comprehensive tests
+4. **[Data Transformation Testing Agent](./README-data-transformation-testing-agent.md)** - Generate comprehensive tests
 5. **[Transformation Validation Agent](./README-transformation-validation-agent.md)** - Validate outputs
 
 ### Quality & Governance
 1. **[Data Profiler Agent](./README-data-profiler-agent.md)** - Profile data quality
 2. **[Data Contract Agent](./README-data-contract-agent.md)** - Define and enforce contracts
-3. **[Testing Agent](./README-testing-agent.md)** - Ensure quality with tests
+3. **[Data Transformation Testing Agent](./README-data-transformation-testing-agent.md)** - Ensure quality with tests
 
 ### Documentation
 1. **[Documentation Agent](./README-documentation-agent.md)** - Generate technical docs and diagrams
@@ -128,11 +128,11 @@ Simply reference the agent's purpose in your prompt:
 
 | Capability | Agents |
 |-----------|---------|
-| **Generate Code** | Coding, Data Project Generator, Testing, Streaming Tables |
+| **Generate Code** | Data Transformation Coding, Data Project Generator, Data Transformation Testing, Streaming Tables |
 | **Design Models** | Medallion Architecture, Dimensional Modeling, Silver Data Modeling, Materialized View |
 | **Find/Discover** | Bronze Table Finder, Data Profiler |
-| **Validate/Test** | Testing, Transformation Validation, Data Contract |
-| **Format/Standardize** | Data Naming, PySpark Standards, Makefile Formatter, PyProject Formatter |
+| **Validate/Test** | Data Transformation Testing, Transformation Validation, Data Contract |
+| **Format/Standardize** | Data Naming, PySpark Standards, Data Contract Formatter, Project Code Linter |
 | **Document** | Documentation, Decision Documenter |
 | **Generate Templates** | Claude Agent Template Generator, Data Project Generator |
 | **Govern** | Unity Catalog, Data Contract |
@@ -158,25 +158,24 @@ Simple, straightforward tasks:
 
 1. [Bronze Table Finder Agent](./README-bronze-table-finder-agent.md) - Find Bronze source tables
 2. [Claude Agent Template Generator](./README-claude-agent-template-generator.md) - Create new agents
-3. [Coding Agent](./README-coding-agent.md) - Implement features and code
-4. [Data Contract Agent](./README-data-contract-agent.md) - Generate/enforce contracts
+3. [Data Contract Agent](./README-data-contract-agent.md) - Generate/enforce contracts
+4. [Data Contract Formatter Agent](./README-data-contract-formatter-agent.md) - Format data contracts
 5. [Data Naming Agent](./README-data-naming-agent.md) - Apply naming conventions
 6. [Data Profiler Agent](./README-data-profiler-agent.md) - Profile data quality
-7. [Data Project Generator Agent](./README-data-project-generator-agent.md) - Scaffold projects
-8. [Decision Documenter Agent](./README-decision-documenter-agent.md) - Document decisions
-9. [Dimensional Modeling Agent](./README-dimensional-modeling-agent.md) - Design star schemas
-10. [Documentation Agent](./README-documentation-agent.md) - Generate documentation
-11. [Makefile Formatter](./README-makefile-formatter.md) - Format Makefiles
+7. [Data Transformation Coding Agent](./README-data-transformation-coding-agent.md) - Implement features and code
+8. [Data Transformation Testing Agent](./README-data-transformation-testing-agent.md) - Generate tests
+9. [Decision Documenter Agent](./README-decision-documenter-agent.md) - Document decisions
+10. [Dimensional Modeling Agent](./README-dimensional-modeling-agent.md) - Design star schemas
+11. [Documentation Agent](./README-documentation-agent.md) - Generate documentation
 12. [Materialized View Agent](./README-materialized-view-agent.md) - Design materialized views
 13. [Medallion Architecture Agent](./README-medallion-architecture-agent.md) - Implement medallion patterns
-14. [Project Structure Agent](./README-project-structure-agent.md) - Set up project structure
-15. [PyProject Formatter](./README-pyproject-formatter.md) - Format pyproject.toml
+14. [Project Code Linter Agent](./README-project-code-linter-agent.md) - Lint code quality
+15. [Project Structure Agent](./README-project-structure-agent.md) - Set up project structure
 16. [PySpark Standards Agent](./README-pyspark-standards-agent.md) - Apply PySpark standards
 17. [Silver Data Modeling Agent](./README-silver-data-modeling-agent.md) - Design Silver entities
 18. [Streaming Tables Agent](./README-streaming-tables-agent.md) - Implement streaming
-19. [Testing Agent](./README-testing-agent.md) - Generate tests
-20. [Transformation Validation Agent](./README-transformation-validation-agent.md) - Validate transformations
-21. [Unity Catalog Agent](./README-unity-catalog-agent.md) - Work with Unity Catalog
+19. [Transformation Validation Agent](./README-transformation-validation-agent.md) - Validate transformations
+20. [Unity Catalog Agent](./README-unity-catalog-agent.md) - Work with Unity Catalog
 
 ## Example Workflows
 
@@ -187,9 +186,9 @@ Simple, straightforward tasks:
 2. Use Bronze Table Finder to identify source tables
 3. Use Silver Data Modeling Agent to design entities
 4. Use Dimensional Modeling Agent to design Gold schemas
-5. Use Coding Agent to implement transformations
+5. Use Data Transformation Coding Agent to implement transformations
 6. Use PySpark Standards Agent to optimize code
-7. Use Testing Agent to generate comprehensive tests
+7. Use Data Transformation Testing Agent to generate comprehensive tests
 8. Use Data Contract Agent to define quality contracts
 9. Use Documentation Agent to create technical docs
 10. Use Decision Documenter to record key choices
@@ -201,7 +200,7 @@ Simple, straightforward tasks:
 1. Use Data Profiler Agent to assess current quality
 2. Use Data Contract Agent to define quality standards
 3. Use Transformation Validation Agent to validate pipelines
-4. Use Testing Agent to ensure quality gates
+4. Use Data Transformation Testing Agent to ensure quality gates
 5. Use Documentation Agent to document quality metrics
 ```
 
@@ -210,8 +209,8 @@ Simple, straightforward tasks:
 ```
 1. Use Medallion Architecture Agent to understand layer patterns
 2. Use Data Naming Agent to name new tables/columns
-3. Use Coding Agent to implement feature
-4. Use Testing Agent to write comprehensive tests
+3. Use Data Transformation Coding Agent to implement feature
+4. Use Data Transformation Testing Agent to write comprehensive tests
 5. Use Documentation Agent to document the feature
 6. Use Decision Documenter to record design decisions
 ```
@@ -244,6 +243,6 @@ For questions about agents:
 ---
 
 **Directory**: `/shared_agents_usage_docs`
-**Total Agents**: 21
-**Last Updated**: 2025-12-26
+**Total Agents**: 20
+**Last Updated**: 2026-01-22
 **Status**: ✅ All agents documented

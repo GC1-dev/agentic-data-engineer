@@ -155,6 +155,7 @@ mshell-cut cut
 ## Related Components
 
 - [SkySpark Framework](SKYSPARK_FRAMEWORK.md) - Core PySpark framework used by generated projects
+- [astro-dag-cookiecutter](ASTRO_DAG_COOKIECUTTER.md) - Complementary template for generating Airflow DAGs
 - [alchemy-airflow-operators](ALCHEMY_AIRFLOW_OPERATORS.md) - Orchestration operators for SkySpark jobs
 - [Deployment Workflows](DEPLOYMENT_WORKFLOWS.md) - Complete deployment patterns
 - [Architecture Overview](SKYSCANNER_DATA_PLATFORM_ARCHITECTURE.md) - Complete system architecture

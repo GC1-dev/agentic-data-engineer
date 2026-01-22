@@ -199,6 +199,7 @@ SkySparkOperator(
 ## Related Components
 
 - [SkySpark Framework](SKYSPARK_FRAMEWORK.md) - Framework executed by this operator
+- [astro-dag-cookiecutter](ASTRO_DAG_COOKIECUTTER.md) - Template for generating DAGs using this operator
 - [skyspark-cookiecutter](SKYSPARK_COOKIECUTTER.md) - Projects that use this operator
 - [astro-dag-deploy](ASTRO_DAG_DEPLOY.md) - Deployment automation for DAGs using this operator
 - [Deployment Workflows](DEPLOYMENT_WORKFLOWS.md) - Complete deployment patterns

@@ -253,6 +253,7 @@ s3://bucket-name/
 
 ## Related Components
 
+- [astro-dag-cookiecutter](ASTRO_DAG_COOKIECUTTER.md) - Template for generating DAGs deployed by this Lambda
 - [alchemy-airflow-operators](ALCHEMY_AIRFLOW_OPERATORS.md) - DAGs deployed by this Lambda use these operators
 - [skyspark-cookiecutter](SKYSPARK_COOKIECUTTER.md) - Generated projects create DAGs deployed by this Lambda
 - [Deployment Workflows](DEPLOYMENT_WORKFLOWS.md) - Complete deployment patterns

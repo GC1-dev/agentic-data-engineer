@@ -7,7 +7,8 @@
 ```mermaid
 graph LR
     A[skyspark-cookiecutter] -->|generates projects that depend on| B[SkySpark]
-    C[alchemy-airflow-operators] -->|contains operator for| B
+    A2[astro-dag-cookiecutter] -->|generates DAGs that use| C[alchemy-airflow-operators]
+    C -->|contains operator for| B
     C -->|submits jobs to| D[Databricks]
     E[astro-dag-deploy] -->|deploys DAGs to| F[Airflow/Astronomer]
     F -->|uses operators from| C
@@ -20,6 +21,8 @@ graph LR
 | Component | Interacts With | Relationship Type | Purpose |
 |-----------|----------------|-------------------|---------|
 | skyspark-cookiecutter | SkySpark | Dependency | Generated projects import SkySpark library |
+| astro-dag-cookiecutter | alchemy-airflow-operators | Dependency | Generated DAGs import operators |
+| astro-dag-cookiecutter | astro-dag-deploy | Deployment | Generated DAGs deploy via Lambda |
 | skyspark-cookiecutter | alchemy-airflow-operators | Indirect | Generated DAGs use SkySparkOperator |
 | SkySpark | Databricks | Runtime | Executes on Databricks Spark clusters |
 | SkySpark | Delta Lake | Data Layer | Writes/reads data to/from Delta tables |

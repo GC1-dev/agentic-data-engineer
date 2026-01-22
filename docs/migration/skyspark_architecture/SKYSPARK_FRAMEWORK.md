@@ -126,5 +126,6 @@ make lint
 ## Related Components
 
 - [skyspark-cookiecutter](SKYSPARK_COOKIECUTTER.md) - Project template that depends on SkySpark
+- [astro-dag-cookiecutter](ASTRO_DAG_COOKIECUTTER.md) - DAG template for orchestrating SkySpark jobs
 - [alchemy-airflow-operators](ALCHEMY_AIRFLOW_OPERATORS.md) - Contains SkySparkOperator for job submission
 - [Architecture Overview](SKYSCANNER_DATA_PLATFORM_ARCHITECTURE.md) - Complete system architecture

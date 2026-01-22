@@ -6,12 +6,13 @@ This document describes the architecture and relationships between the key compo
 
 ## Component Repositories
 
-The platform consists of four main repositories:
+The platform consists of five main repositories:
 
 | Component | Repository | Description |
 |-----------|------------|-------------|
 | **SkySpark** | [github.com/skyscanner/skyspark](https://github.com/skyscanner/skyspark) | Core PySpark framework for Spark applications |
-| **skyspark-cookiecutter** | [github.com/skyscanner/skyspark-cookiecutter](https://github.com/skyscanner/skyspark-cookiecutter) | Project template generator |
+| **skyspark-cookiecutter** | [github.com/skyscanner/skyspark-cookiecutter](https://github.com/skyscanner/skyspark-cookiecutter) | SkySpark project template generator |
+| **astro-dag-cookiecutter** | [github.com/skyscanner/astro-dag-cookiecutter](https://github.com/skyscanner/astro-dag-cookiecutter) | Airflow DAG project template generator |
 | **alchemy-airflow-operators** | [github.com/skyscanner/alchemy-airflow-operators](https://github.com/skyscanner/alchemy-airflow-operators) | Custom Airflow operators for orchestration |
 | **astro-dag-deploy** | [github.com/skyscanner/astro-dag-deploy](https://github.com/skyscanner/astro-dag-deploy) | AWS Lambda for DAG deployment automation |
 
@@ -19,7 +20,8 @@ The platform consists of four main repositories:
 
 ```mermaid
 graph TB
-    COOKIE["<a href='https://github.com/skyscanner/skyspark-cookiecutter'>skyspark-cookiecutter</a><br/>Project Template Generator"]
+    SKYSPARK_COOKIE["<a href='https://github.com/skyscanner/skyspark-cookiecutter'>skyspark-cookiecutter</a><br/>SkySpark Project Generator"]
+    ASTRO_COOKIE["<a href='https://github.com/skyscanner/astro-dag-cookiecutter'>astro-dag-cookiecutter</a><br/>DAG Project Generator"]
     SKYSPARK["<a href='https://github.com/skyscanner/skyspark'>SkySpark</a><br/>PySpark Framework"]
     ALCHEMY["<a href='https://github.com/skyscanner/alchemy-airflow-operators'>alchemy-airflow-operators</a><br/>Airflow Operators"]
     ASTRO["<a href='https://github.com/skyscanner/astro-dag-deploy'>astro-dag-deploy</a><br/>DAG Deployment Lambda"]
@@ -27,11 +29,15 @@ graph TB
     DATABRICKS["Databricks<br/>Compute Platform"]
     AIRFLOW["Apache Airflow<br/>Orchestration"]
     DELTA["Delta Lake<br/>Storage Layer"]
-    PROJECTS["Generated<br/>SkySpark Projects"]
+    SKYSPARK_PROJECTS["Generated<br/>SkySpark Projects"]
+    DAG_PROJECTS["Generated<br/>DAG Projects"]
 
-    COOKIE -->|"generates projects<br/>that depend on"| SKYSPARK
-    COOKIE -->|generates| PROJECTS
-    PROJECTS -->|uses| SKYSPARK
+    SKYSPARK_COOKIE -->|"generates projects<br/>that depend on"| SKYSPARK
+    SKYSPARK_COOKIE -->|generates| SKYSPARK_PROJECTS
+    ASTRO_COOKIE -->|generates| DAG_PROJECTS
+    SKYSPARK_PROJECTS -->|uses| SKYSPARK
+    DAG_PROJECTS -->|uses| ALCHEMY
+    DAG_PROJECTS -->|"deploys via"| ASTRO
     ALCHEMY -->|"contains operators<br/>for submitting"| SKYSPARK
     ALCHEMY -->|"submits jobs to"| DATABRICKS
     ASTRO -->|"deploys DAGs to"| AIRFLOW
@@ -42,12 +48,13 @@ graph TB
     classDef repo fill:#e1f5ff,stroke:#0066cc,stroke-width:2px
     classDef platform fill:#f5f5f5,stroke:#666,stroke-width:1px
 
-    class COOKIE,SKYSPARK,ALCHEMY,ASTRO repo
-    class DATABRICKS,AIRFLOW,DELTA,PROJECTS platform
+    class SKYSPARK_COOKIE,ASTRO_COOKIE,SKYSPARK,ALCHEMY,ASTRO repo
+    class DATABRICKS,AIRFLOW,DELTA,SKYSPARK_PROJECTS,DAG_PROJECTS platform
 ```
 
 **Repository Interactions:**
 - **skyspark-cookiecutter** → **SkySpark**: Generated projects import SkySpark as a dependency
+- **astro-dag-cookiecutter** → **alchemy-airflow-operators**: Generated DAGs use operators from this library
 - **alchemy-airflow-operators** → **SkySpark**: Contains SkySparkOperator for job submission
 - **alchemy-airflow-operators** → **Databricks**: Submits jobs via Databricks API
 - **astro-dag-deploy** → **Airflow**: Automates DAG deployment to Astronomer
@@ -157,7 +164,8 @@ graph TB
 
 ### 1. Development Tools Layer
 - **MShell Cut**: Command-line tool for generating new projects
-- **skyspark-cookiecutter**: Template repository containing opinionated project structure
+- **skyspark-cookiecutter**: Template for generating SkySpark application projects
+- **astro-dag-cookiecutter**: Template for generating Airflow DAG projects
 
 ### 2. Core Framework Layer
 - **SkySpark**: Python library providing PySpark utilities and patterns
@@ -268,10 +276,14 @@ The migration maintains Airflow as the orchestration layer while modernizing the
    https://github.com/Skyscanner/skyspark-cookiecutter
    Cookiecutter template for generating opinionated SkySpark projects with testing and deployment configurations.
 
-3. **alchemy-airflow-operators**
+3. **astro-dag-cookiecutter**
+   https://github.com/Skyscanner/astro-dag-cookiecutter
+   Cookiecutter template for generating Airflow DAG projects that deploy to Astronomer platform.
+
+4. **alchemy-airflow-operators**
    https://github.com/Skyscanner/alchemy-airflow-operators
    Custom Airflow operators library including SkySparkOperator for Databricks job submission.
 
-4. **astro-dag-deploy**
+5. **astro-dag-deploy**
    https://github.com/Skyscanner/astro-dag-deploy
    AWS Lambda function for automated deployment of Airflow DAGs to Astronomer platform.

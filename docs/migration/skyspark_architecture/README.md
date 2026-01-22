@@ -29,7 +29,18 @@ Cookiecutter template for generating opinionated SkySpark projects with testing 
 - Docker and DABs deployment options
 - Built-in testing framework
 
-#### 3. [alchemy-airflow-operators](ALCHEMY_AIRFLOW_OPERATORS.md)
+#### 3. [astro-dag-cookiecutter](ASTRO_DAG_COOKIECUTTER.md)
+Cookiecutter template for generating Airflow DAG projects that deploy to Astronomer platform.
+
+**Repository**: https://github.com/skyscanner/astro-dag-cookiecutter
+
+**Key Features**:
+- Rapid DAG project scaffolding via MShell
+- Environment-based configuration (prod/staging)
+- Local Airflow development with Astro CLI
+- GitHub Actions + Slingshot deployment
+
+#### 4. [alchemy-airflow-operators](ALCHEMY_AIRFLOW_OPERATORS.md)
 Custom Airflow operators library for orchestrating data pipelines, including specialized operators for Databricks/SkySpark job submission.
 
 **Repository**: https://github.com/skyscanner/alchemy-airflow-operators
@@ -39,7 +50,7 @@ Custom Airflow operators library for orchestrating data pipelines, including spe
 - Databricks integration
 - Sensors for data validation
 
-#### 4. [astro-dag-deploy](ASTRO_DAG_DEPLOY.md)
+#### 5. [astro-dag-deploy](ASTRO_DAG_DEPLOY.md)
 AWS Lambda function automating deployment of Airflow DAGs to Astronomer platform.
 
 **Repository**: https://github.com/skyscanner/astro-dag-deploy
@@ -63,9 +74,10 @@ AWS Lambda function automating deployment of Airflow DAGs to Astronomer platform
 
 #### Data Engineers
 Start here:
-1. [skyspark-cookiecutter](SKYSPARK_COOKIECUTTER.md) - Learn how to generate projects
-2. [SkySpark Framework](SKYSPARK_FRAMEWORK.md) - Understand the framework you'll use
-3. [Deployment Workflows](DEPLOYMENT_WORKFLOWS.md) - Learn deployment patterns
+1. [astro-dag-cookiecutter](ASTRO_DAG_COOKIECUTTER.md) - Learn how to generate DAG projects
+2. [skyspark-cookiecutter](SKYSPARK_COOKIECUTTER.md) - Learn how to generate SkySpark projects
+3. [SkySpark Framework](SKYSPARK_FRAMEWORK.md) - Understand the framework you'll use
+4. [Deployment Workflows](DEPLOYMENT_WORKFLOWS.md) - Learn deployment patterns
 
 #### Platform Engineers
 Start here:
@@ -80,6 +92,11 @@ Start here:
 3. [Architecture Overview](SKYSCANNER_DATA_PLATFORM_ARCHITECTURE.md) - System integration points
 
 ### By Task
+
+#### Creating a New Airflow DAG
+1. [astro-dag-cookiecutter](ASTRO_DAG_COOKIECUTTER.md#usage-via-mshell) - Generate DAG project
+2. [alchemy-airflow-operators](ALCHEMY_AIRFLOW_OPERATORS.md#1-skysparkoperator) - Use operators in DAGs
+3. [astro-dag-deploy](ASTRO_DAG_DEPLOY.md#deployment-process) - Deploy DAGs to Astronomer
 
 #### Creating a New Data Pipeline
 1. [skyspark-cookiecutter](SKYSPARK_COOKIECUTTER.md#usage-via-mshell) - Generate project
@@ -99,37 +116,37 @@ Start here:
 ## Component Relationships
 
 ```
-┌─────────────────────────┐
-│  skyspark-cookiecutter  │
-│  (Project Generator)    │
-└───────────┬─────────────┘
-            │ generates
-            ▼
-┌─────────────────────────┐      ┌──────────────────────┐
-│   SkySpark Framework    │◄─────│ Databricks Platform  │
-│   (PySpark Library)     │      │  (Compute Engine)    │
-└───────────┬─────────────┘      └──────────┬───────────┘
-            │                               │
-            │ imported by                   │ executes
-            │                               │
-┌───────────▼─────────────┐      ┌─────────▼────────────┐
-│ alchemy-airflow-ops     │      │   Delta Lake         │
-│ (Orchestration)         │──────│   (Storage)          │
-└───────────┬─────────────┘      └──────────────────────┘
-            │                               ▲
-            │ used by                       │ writes to
-            │                               │
-┌───────────▼─────────────┐                │
-│   Apache Airflow        │                │
-│   (Scheduler)           │────────────────┘
-└───────────▲─────────────┘
-            │
-            │ deploys to
-            │
-┌───────────┴─────────────┐
-│  astro-dag-deploy       │
-│  (Deployment Automation)│
-└─────────────────────────┘
+┌─────────────────────────┐      ┌─────────────────────────┐
+│  skyspark-cookiecutter  │      │ astro-dag-cookiecutter  │
+│  (SkySpark Generator)   │      │  (DAG Generator)        │
+└───────────┬─────────────┘      └───────────┬─────────────┘
+            │ generates                      │ generates
+            ▼                                ▼
+┌─────────────────────────┐      ┌──────────────────────────┐
+│   SkySpark Framework    │◄─────│  Airflow DAG Files       │
+│   (PySpark Library)     │      │  (Orchestration)         │
+└───────────┬─────────────┘      └───────────┬──────────────┘
+            │                                │
+            │ runs on                        │ deploys via
+            │                                │
+┌───────────▼─────────────┐      ┌─────────▼────────────────┐
+│ Databricks Platform     │      │   astro-dag-deploy       │
+│  (Compute Engine)       │      │   (Deployment Lambda)    │
+└───────────┬─────────────┘      └───────────┬──────────────┘
+            │                                │
+            │ writes to                      │ deploys to
+            │                                │
+┌───────────▼─────────────┐      ┌─────────▼────────────────┐
+│   Delta Lake            │      │   Apache Airflow         │
+│   (Storage)             │◄─────│   (Scheduler)            │
+└─────────────────────────┘      └──────────────────────────┘
+                                            │
+                                            │ triggers jobs via
+                                            │
+                                 ┌─────────▼────────────────┐
+                                 │ alchemy-airflow-operators│
+                                 │ (SkySparkOperator)       │
+                                 └──────────────────────────┘
 ```
 
 ## Deployment Patterns Summary

@@ -65,8 +65,9 @@ Create an agent when you need to:
 | `bronze-table-finder-agent` | Recommends source tables for Silver definitions |
 | `silver-data-modeling-agent` | Entity-centric modeling guidance for Silver layer |
 | `unity-catalog-agent` | Unity Catalog navigation and metadata analysis |
-| `transformation-validation-agent` | Validates transformations against standards |
-| `project-structure-agent` | Validates project structure compliance |
+| `decision-documenter-agent` | Documents architectural decisions and technical choices |
+| `data-profiler-agent` | Analyzes data quality and generates profiling reports |
+| `data-contract-agent` | Generates and validates data contracts for tables |
 
 ### Agent File Structure
 
@@ -136,8 +137,6 @@ These skills execute specific operations:
 |-------|------------------|
 | `makefile-formatter-skill` | Standardizes Makefiles to team conventions |
 | `pyproject-formatter-skill` | Formats pyproject.toml files |
-| `project-linter-skill` | Validates code quality with ruff, pytest, YAML linters |
-| `data-transformation-testing-skill` | Generates comprehensive PySpark test suites |
 | `json-formatter-skill` | Formats, validates, and manipulates JSON data |
 
 #### 2. Reference Skills (Provide Documentation)
@@ -230,8 +229,7 @@ Claude will suggest this skill when you:
 | **Interaction** | "What should I do?" | "Do this" or "How do I use X?" |
 | **Location** | `.claude/agents/shared/` | `.claude/skills/` |
 | **Model** | Usually `haiku` for cost efficiency | Inherits from parent |
-
-## Common Mistakes
+---
 
 ### ❌ Wrong: Creating a Skill for Advice
 
@@ -428,8 +426,41 @@ If you discover a skill that should be an agent:
 ✅ skyscanner-data-shared-utils-skill
    → Documents how to use the data-shared-utils library
 
-✅ project-linter-skill
-   → Validates code quality with automated linters
+✅ pyproject-formatter-skill
+   → Formats pyproject.toml files
+
+✅ json-formatter-skill
+   → Formats, validates, and manipulates JSON data
+```
+
+### Misclassified Files (Need Correction)
+
+```markdown
+❌ data-transformation-testing-agent (currently an agent)
+   → Should be: data-transformation-testing-skill
+   → Reason: Generates test code from patterns (action), not advisory
+
+❌ data-transformation-coding-agent (currently an agent)
+   → Should be: data-transformation-coding-skill
+   → Reason: Writes transformation code (action), not advisory
+
+❌ data-contract-formatter-agent (currently an agent)
+   → Should be: data-contract-formatter-skill
+   → Reason: Formats contracts (action, like makefile-formatter)
+
+❌ project-code-linter-agent (currently an agent)
+   → Should be: project-code-linter-skill
+   → Reason: Runs linters and validates code (action), not advisory
+
+❌ transformation-validation-agent (currently an agent)
+   → Needs review: Could be either
+   → If it validates against standards (deterministic) → Skill
+   → If it provides recommendations on improvements → Agent
+
+❌ project-structure-agent (currently an agent)
+   → Needs review: Could be either
+   → If it validates structure (deterministic) → Skill
+   → If it recommends structure changes → Agent
 ```
 
 ## Summary

@@ -433,36 +433,6 @@ If you discover a skill that should be an agent:
    → Formats, validates, and manipulates JSON data
 ```
 
-### Misclassified Files (Need Correction)
-
-```markdown
-❌ data-transformation-testing-agent (currently an agent)
-   → Should be: data-transformation-testing-skill
-   → Reason: Generates test code from patterns (action), not advisory
-
-❌ data-transformation-coding-agent (currently an agent)
-   → Should be: data-transformation-coding-skill
-   → Reason: Writes transformation code (action), not advisory
-
-❌ data-contract-formatter-agent (currently an agent)
-   → Should be: data-contract-formatter-skill
-   → Reason: Formats contracts (action, like makefile-formatter)
-
-❌ project-code-linter-agent (currently an agent)
-   → Should be: project-code-linter-skill
-   → Reason: Runs linters and validates code (action), not advisory
-
-❌ transformation-validation-agent (currently an agent)
-   → Needs review: Could be either
-   → If it validates against standards (deterministic) → Skill
-   → If it provides recommendations on improvements → Agent
-
-❌ project-structure-agent (currently an agent)
-   → Needs review: Could be either
-   → If it validates structure (deterministic) → Skill
-   → If it recommends structure changes → Agent
-```
-
 ## Summary
 
 | When You Need... | Create... | Example |

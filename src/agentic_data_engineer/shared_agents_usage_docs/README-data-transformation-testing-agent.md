@@ -1,4 +1,4 @@
-# Testing Agent
+# Data Transformation Testing Agent
 
 ## Overview
 
@@ -6,7 +6,7 @@ Write comprehensive unit and e2e tests for PySpark transformations following tes
 
 ## Agent Details
 
-- **Name**: `testing-agent`
+- **Name**: `data-transformation-testing-agent`
 - **Model**: Sonnet
 - **Skills**: None
 

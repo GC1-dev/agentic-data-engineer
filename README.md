@@ -8,11 +8,19 @@ All-in-one data engineering platform with Claude AI integration.
 
 `skyscanner-agentic-data-engineer` is an all-in-one Python package that bundles:
 
-- **21 Claude AI Agents** - Specialized agents for data engineering tasks
+- **18 Claude AI Agents** - Specialized consultants for advisory tasks (naming, modeling, architecture)
+- **11 Reusable Skills** - Executable tools for actions and reference documentation
 - **9 Speckit Commands** - AI-powered development workflow
-- **5 Reusable Skills** - JSON, Mermaid diagrams, PDF generation, and more
 - **Schema Definitions** - ODCS/ODPS data contract and product schemas
 - **Shared Scripts** - Databricks authentication, environment setup utilities
+
+### Understanding Agents vs Skills
+
+**Agents** are consultants that Claude invokes for expert guidance and recommendations. They help with decision-making and provide contextual advice.
+
+**Skills** are executable tools that users invoke directly or Claude uses automatically. They perform actions (formatting, linting) or provide reference documentation (library usage guides).
+
+For detailed guidance on when to use agents vs skills, see [docs/how_to_guides/agents_vs_skills.md](docs/how_to_guides/agents_vs_skills.md).
 
 ## Setup Instructions
 
@@ -62,7 +70,7 @@ poetry show skyscanner-agentic-data-engineer
 
 After installation, all assets are automatically available:
 
-✅ **Claude AI Assets** - 21 agents, 9 commands, 5 skills in `.claude/`
+✅ **Claude AI Assets** - 18 agents, 11 skills, 9 commands in `.claude/`
 ✅ **Schema Definitions** - ODCS/ODPS schemas in `shared_schema/`
 ✅ **Utility Scripts** - Databricks auth and environment setup in `shared_scripts/`
 ✅ **Documentation** - Agent usage guides in `shared_agents_usage_docs/`
@@ -81,14 +89,29 @@ from spark_session_utils import SparkSessionManager
 from data_shared_utils.dataframe_utils import DataFrameUtils
 ```
 
-#### 2. Use Claude AI Agents
+#### 2. Use Claude AI Agents & Skills
 
-Agents are automatically available in Claude Code:
-
+**Agents** (Claude invokes them for advice):
 ```bash
-# Example: Use the bronze-table-finder agent
-# In Claude Code, reference the agent
-"Use bronze-table-finder-agent to find source tables for my Silver user_session"
+# Claude automatically uses agents when you ask questions
+"What should I name this Silver table for user sessions?"  # → data-naming-agent
+"Help me design a star schema for bookings"                # → dimensional-modeling-agent
+"Find Bronze tables for my Silver pipeline"                # → bronze-table-finder-agent
+```
+
+**Skills** (You invoke them directly):
+```bash
+# Format files
+/makefile-formatter-skill
+/pyproject-formatter-skill
+
+# Generate code/documentation
+/data-transformation-testing-skill
+/mermaid-diagrams-skill
+
+# Reference documentation
+/skyscanner-data-shared-utils-skill     # Shows how to use data-shared-utils
+/skyscanner-spark-session-utils-skill   # Shows how to use spark-session-utils
 ```
 
 #### 3. Run Speckit Commands
@@ -245,25 +268,36 @@ agentic-data-engineer/
 │   └── agentic_data_engineer/           # Main Python package
 │       ├── __init__.py                  # Package API for accessing resources
 │       ├── .claude/                     # Claude AI assets (actual directory)
-│       │   ├── agents/shared/           # 21 specialized agents
+│       │   ├── agents/shared/           # 18 specialized agents
 │       │   │   ├── bronze-table-finder-agent.md
 │       │   │   ├── data-contract-agent.md
+│       │   │   ├── data-naming-agent.md
 │       │   │   ├── dimensional-modeling-agent.md
 │       │   │   ├── medallion-architecture-agent.md
-│       │   │   ├── pyspark-standards-agent.md
-│       │   │   └── ... (16 more agents)
+│       │   │   ├── project-structure-agent.md
+│       │   │   ├── silver-data-modeling-agent.md
+│       │   │   ├── transformation-validation-agent.md
+│       │   │   ├── unity-catalog-agent.md
+│       │   │   └── ... (9 more agents)
 │       │   ├── commands/                # 9 speckit workflow commands
 │       │   │   ├── speckit.analyze.md
 │       │   │   ├── speckit.plan.md
 │       │   │   ├── speckit.specify.md
 │       │   │   ├── speckit.tasks.md
 │       │   │   └── ... (5 more commands)
-│       │   └── skills/                  # 5 reusable skills
+│       │   └── skills/                  # 11 reusable skills
+│       │       ├── data-transformation-coding-skill/
+│       │       ├── data-transformation-testing-skill/
 │       │       ├── dbdiagram-skill/
 │       │       ├── json-formatter-skill/
+│       │       ├── makefile-formatter-skill/
 │       │       ├── mermaid-diagrams-skill/
 │       │       ├── pdf-creator-skill/
-│       │       └── recommend_silver_data_model-skill/
+│       │       ├── project-linter-skill/
+│       │       ├── pyproject-formatter-skill/
+│       │       ├── pyspark-standards-skill/
+│       │       ├── skyscanner-data-shared-utils-skill/
+│       │       └── skyscanner-spark-session-utils-skill/
 │       ├── .specify/                    # Speckit templates (actual directory)
 │       │   └── templates/
 │       ├── shared_schema/               # Schema definitions (actual directory)
@@ -385,31 +419,56 @@ platform-info:
 	poetry show skyscanner-agentic-data-engineer
 ```
 
-## Included Agents (21 Total)
+## Included Agents (18 Total)
+
+Agents are **consultants** that Claude invokes for expert guidance and recommendations. They analyze context, provide advice, and help with decision-making.
 
 | Agent | Purpose |
 |-------|---------|
-| `bronze-table-finder` | Discover and analyze Bronze layer tables |
-| `claude-agent-template-generator` | Create new agent templates |
-| `coding-agent` | General code implementation |
+| `bronze-table-finder-agent` | Find and recommend Bronze tables for Silver development |
+| `claude-agent-template-generator` | Create new agent templates following standards |
 | `data-contract-agent` | Generate and validate ODCS data contracts |
-| `data-naming-agent` | Naming conventions and consistency |
-| `data-profiler` | Data analysis and statistical profiling |
-| `data-project-generator` | Scaffold new data engineering projects |
-| `decision-documenter` | Document architectural decisions |
-| `dimensional-modeling` | Design fact and dimension tables |
-| `documentation-agent` | Generate technical documentation |
-| `makefile-formatter-agent` | Format and validate Makefiles |
-| `materialized-view-agent` | Design materialized views for Databricks |
-| `medallion-architecture` | Design Bronze/Silver/Gold layers |
-| `project-structure-agent` | Scaffold and organize project structure |
-| `pyproject-formatter-agent` | Format and validate pyproject.toml files |
-| `pyspark-standards-agent` | Enforce PySpark coding standards |
-| `silver-data-modeling` | Entity-Centric Modeling for Silver layer |
-| `streaming-tables-agent` | Design streaming table pipelines |
-| `testing-agent` | Test development and QA |
-| `transformation-validation-agent` | Validate data transformations |
-| `unity-catalog-agent` | Unity Catalog management and operations |
+| `data-naming-agent` | Provide naming recommendations following conventions |
+| `data-profiler-agent` | Generate comprehensive data profiling reports |
+| `decision-documenter-agent` | Document architectural decisions (ADRs) |
+| `dimensional-modeling-agent` | Guide gold layer dimensional modeling design |
+| `documentation-agent` | Create documentation, diagrams, and visual representations |
+| `materialized-view-agent` | Design materialized views for query acceleration |
+| `medallion-architecture-agent` | Provide architectural guidance for medallion layers |
+| `project-structure-agent` | Validate project structure compliance |
+| `silver-data-modeling-agent` | Entity-Centric Modeling guidance for Silver layer |
+| `streaming-tables-agent` | Design streaming tables for real-time data |
+| `transformation-validation-agent` | Validate transformations against standards |
+| `unity-catalog-agent` | Navigate Unity Catalog and analyze metadata |
+| `data-contract-formatter-agent` | Validate and format data contracts (ODCS v3.1.0) |
+| `data-project-generator-agent` | Scaffold new data engineering projects |
+| `claude-code-guide-agent` | Answer questions about Claude Code, SDK, and API |
+
+## Included Skills (11 Total)
+
+Skills are **executable tools** that users invoke directly or Claude uses automatically. They perform actions or provide reference documentation.
+
+### Action Skills (Perform Tasks)
+
+| Skill | Purpose |
+|-------|---------|
+| `data-transformation-coding-skill` | Generate PySpark transformation code |
+| `data-transformation-testing-skill` | Generate comprehensive PySpark test suites |
+| `json-formatter-skill` | Format, validate, and manipulate JSON data |
+| `makefile-formatter-skill` | Standardize Makefiles to team conventions |
+| `project-linter-skill` | Validate code quality with ruff, pytest, YAML linters |
+| `pyproject-formatter-skill` | Format and validate pyproject.toml files |
+| `pyspark-standards-skill` | Enforce PySpark coding standards |
+
+### Reference Skills (Provide Documentation)
+
+| Skill | Purpose |
+|-------|---------|
+| `dbdiagram-skill` | Generate database diagrams using DBML |
+| `mermaid-diagrams-skill` | Create Mermaid diagrams for visualization |
+| `pdf-creator-skill` | Create professional PDF documents |
+| `skyscanner-data-shared-utils-skill` | PySpark data transformation utilities reference |
+| `skyscanner-spark-session-utils-skill` | Spark session management utilities reference |
 
 ## Knowledge Base
 
@@ -561,12 +620,26 @@ After setup, validate your installation:
 # In Claude Code, run:
 /agents
 
-# Expected output: List of 21 available agents
+# Expected output: List of 18 available agents
 # - bronze-table-finder-agent
 # - claude-agent-template-generator
-# - coding-agent
 # - data-contract-agent
-# ... (21 total)
+# - data-naming-agent
+# ... (18 total)
+```
+
+#### Check `/skills` Command
+
+```bash
+# In Claude Code, run:
+/skills
+
+# Expected output: List of 11 available skills
+# - data-transformation-coding-skill
+# - data-transformation-testing-skill
+# - json-formatter-skill
+# - makefile-formatter-skill
+# ... (11 total)
 ```
 
 #### Check `/mcp` Command
@@ -753,9 +826,9 @@ git push
 ```
 agentic-data-engineer/
 ├── .claude/                     # Claude Code assets
-│   ├── agents/shared/           # 21 AI agents
+│   ├── agents/shared/           # 18 AI agents (consultants)
 │   ├── commands/                # 9 Speckit commands
-│   └── skills/                  # 5 reusable skills
+│   └── skills/                  # 11 reusable skills (action + reference)
 ├── .github/
 │   └── workflows/
 │       └── main.yaml            # CI/CD pipeline
@@ -764,13 +837,15 @@ agentic-data-engineer/
 │   ├── scripts/
 │   └── memory/
 ├── docs/                        # Documentation
+│   ├── how_to_guides/
+│   │   └── agents_vs_skills.md  # Guide for agents vs skills
 │   └── PACKAGING.md
 ├── shared_schema/               # Schema definitions
 │   ├── data_contract/           # ODCS v3.1.0
 │   └── data_product/            # ODPS v1.0.0
 ├── scripts/                     # Build scripts
 │   └── verify-packaging.sh
-├── shared_agents_usage_docs/    # Agent documentation (21 READMEs)
+├── shared_agents_usage_docs/    # Agent documentation (18 READMEs)
 ├── shared_scripts/              # Environment utilities (4 scripts)
 ├── specs/                       # Feature specifications
 │   ├── 001-ai-native-data-eng-process/

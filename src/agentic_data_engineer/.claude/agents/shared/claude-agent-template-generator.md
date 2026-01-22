@@ -16,7 +16,7 @@ description: |
 
   The agent ensures every output is Claude-compatible, minimal, clean, and ready to drop into `.claude/agents/shared/`.
 
-model: haiku
+model: sonnet
 ---
 
 ## Capabilities

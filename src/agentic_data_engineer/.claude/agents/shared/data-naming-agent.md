@@ -3,7 +3,7 @@ name: data-naming-agent
 description: |
   Use this agent for naming tables, columns, schemas, or catalogs following medallion architecture
   and Unity Catalog naming conventions.
-model: haiku
+model: sonnet
 ---
 
 ## Capabilities

@@ -3,7 +3,11 @@ name: project-structure-agent
 description: |
   Use this agent for validating and enforcing data product project structure standards including
   directory organization, required files, configuration management, and documentation completeness.
-model: haiku
+model: opus
+skills: skyscanner-spark-session-utils, 
+        skyscanner-data-shared-utils,
+        pyproject-formatter-skill,
+        makefile-formatter-skill
 ---
 
 ## Capabilities

@@ -13,7 +13,7 @@ description: |
   Use this agent whenever you need to formally document a significant technical or architectural
   decision, resolve technical debates with clear rationale, or maintain project decision history.
 
-model: haiku
+model: sonnet
 skills: mermaid-diagrams-skill, pdf-creator-skill
 ---
 

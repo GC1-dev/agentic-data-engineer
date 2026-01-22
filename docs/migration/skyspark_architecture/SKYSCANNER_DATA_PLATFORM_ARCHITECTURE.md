@@ -4,6 +4,55 @@
 
 This document describes the architecture and relationships between the key components of Skyscanner's data platform migration from Alchemy/Airflow to SkySpark/Databricks ecosystem.
 
+## Component Repositories
+
+The platform consists of four main repositories:
+
+| Component | Repository | Description |
+|-----------|------------|-------------|
+| **SkySpark** | [github.com/skyscanner/skyspark](https://github.com/skyscanner/skyspark) | Core PySpark framework for Spark applications |
+| **skyspark-cookiecutter** | [github.com/skyscanner/skyspark-cookiecutter](https://github.com/skyscanner/skyspark-cookiecutter) | Project template generator |
+| **alchemy-airflow-operators** | [github.com/skyscanner/alchemy-airflow-operators](https://github.com/skyscanner/alchemy-airflow-operators) | Custom Airflow operators for orchestration |
+| **astro-dag-deploy** | [github.com/skyscanner/astro-dag-deploy](https://github.com/skyscanner/astro-dag-deploy) | AWS Lambda for DAG deployment automation |
+
+### Component Relationship Graph
+
+```mermaid
+graph TB
+    COOKIE["<a href='https://github.com/skyscanner/skyspark-cookiecutter'>skyspark-cookiecutter</a><br/>Project Template Generator"]
+    SKYSPARK["<a href='https://github.com/skyscanner/skyspark'>SkySpark</a><br/>PySpark Framework"]
+    ALCHEMY["<a href='https://github.com/skyscanner/alchemy-airflow-operators'>alchemy-airflow-operators</a><br/>Airflow Operators"]
+    ASTRO["<a href='https://github.com/skyscanner/astro-dag-deploy'>astro-dag-deploy</a><br/>DAG Deployment Lambda"]
+
+    DATABRICKS["Databricks<br/>Compute Platform"]
+    AIRFLOW["Apache Airflow<br/>Orchestration"]
+    DELTA["Delta Lake<br/>Storage Layer"]
+    PROJECTS["Generated<br/>SkySpark Projects"]
+
+    COOKIE -->|"generates projects<br/>that depend on"| SKYSPARK
+    COOKIE -->|generates| PROJECTS
+    PROJECTS -->|uses| SKYSPARK
+    ALCHEMY -->|"contains operators<br/>for submitting"| SKYSPARK
+    ALCHEMY -->|"submits jobs to"| DATABRICKS
+    ASTRO -->|"deploys DAGs to"| AIRFLOW
+    AIRFLOW -->|uses| ALCHEMY
+    DATABRICKS -->|executes| SKYSPARK
+    SKYSPARK -->|"writes/reads"| DELTA
+
+    classDef repo fill:#e1f5ff,stroke:#0066cc,stroke-width:2px
+    classDef platform fill:#f5f5f5,stroke:#666,stroke-width:1px
+
+    class COOKIE,SKYSPARK,ALCHEMY,ASTRO repo
+    class DATABRICKS,AIRFLOW,DELTA,PROJECTS platform
+```
+
+**Repository Interactions:**
+- **skyspark-cookiecutter** → **SkySpark**: Generated projects import SkySpark as a dependency
+- **alchemy-airflow-operators** → **SkySpark**: Contains SkySparkOperator for job submission
+- **alchemy-airflow-operators** → **Databricks**: Submits jobs via Databricks API
+- **astro-dag-deploy** → **Airflow**: Automates DAG deployment to Astronomer
+- **SkySpark** → **Delta Lake**: Provides APIs for Delta table operations
+
 ## Architecture Diagram
 
 ```mermaid

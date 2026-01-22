@@ -255,3 +255,23 @@ This architecture represents Skyscanner's migration from:
 - **Manual deployment** → **Automated DAG deployment** (via Lambda)
 
 The migration maintains Airflow as the orchestration layer while modernizing the compute and data storage infrastructure.
+
+## References
+
+### Repository Links
+
+1. **SkySpark Framework**
+   https://github.com/Skyscanner/skyspark
+   Core PySpark framework providing Spark session management, Delta Lake operations, and configuration utilities.
+
+2. **skyspark-cookiecutter**
+   https://github.com/Skyscanner/skyspark-cookiecutter
+   Cookiecutter template for generating opinionated SkySpark projects with testing and deployment configurations.
+
+3. **alchemy-airflow-operators**
+   https://github.com/Skyscanner/alchemy-airflow-operators
+   Custom Airflow operators library including SkySparkOperator for Databricks job submission.
+
+4. **astro-dag-deploy**
+   https://github.com/Skyscanner/astro-dag-deploy
+   AWS Lambda function for automated deployment of Airflow DAGs to Astronomer platform.

@@ -2,7 +2,7 @@
 
 [![Main](https://github.com/Skyscanner/agentic-data-engineer/actions/workflows/main.yaml/badge.svg)](https://github.com/Skyscanner/agentic-data-engineer/actions/workflows/main.yaml)
 
-All-in-one data engineering platform with Claude AI integration.
+All-in-one data engineering framework with Claude AI integration.
 
 ## Overview
 

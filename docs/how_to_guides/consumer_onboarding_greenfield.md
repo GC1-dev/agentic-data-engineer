@@ -26,9 +26,9 @@ flowchart TD
 
     TestSetup --> Complete([Setup Complete])
 
-    PullChanges --> UpdateFramework[Step 2: Update Framework<br/>poetry update<br/>skyscanner-agentic-data-engineer]
+    PullChanges --> UpdateFramework[Step 3: Update Framework<br/>poetry update<br/>skyscanner-agentic-data-engineer]
 
-    UpdateFramework --> TestUpdate[Step 3: Test After Updates<br/>make test<br/>/agents<br/>/mcp]
+    UpdateFramework --> TestUpdate[Step 4: Test After Updates<br/>make test<br/>/agents<br/>/mcp]
 
     TestUpdate --> UpdateComplete([Update Complete])
 

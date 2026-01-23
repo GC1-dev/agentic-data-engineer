@@ -191,7 +191,7 @@ This command will:
 - Set up pre-commit hooks
 
 #### Install dependencies
-##### Note: aAlthough this is already called within `make project-init`, the large number of dependencies means some may be skipped. Running this step explicitly ensures that all dependencies are installed.
+##### Note: Although this is already called within `make project-init`, the large number of dependencies means some may be skipped. Running this step explicitly ensures that all dependencies are installed.
 ```bash
 make install-deps
 ```

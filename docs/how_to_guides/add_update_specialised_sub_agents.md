@@ -14,8 +14,8 @@ The following should be sorted before starting.
 | Understanding of context window                            | [https://platform.claude.com/docs/en/build-with-claude/context-windows?utm_source=chatgpt.com](https://platform.claude.com/docs/en/build-with-claude/context-windows?utm_source=chatgpt.com)                          |
 | Discussed with the core group on the purpose of this agent | Skills required by this agent (includes MCP) and models this will use.<br/>[#agentic-data-engineer-maintainers-group](https://skyscanner.slack.com/archives/C0A4ZSD82B1)                                              |
 | Agent structure requirements                               | name, description, tools, model, permission mode, skills                                                                                                                                                              |
-| Agent template                                             | use claude-agent-template-generator.md for creating a sub-agent                                                                                                                                                       |
-| Agent checklist                                            |                                                                                                                                                                                                                       |
+| Agent template                                             | Use [`claude-agent-template-generator`](../../src/agentic_data_engineer/.claude/agents/shared/claude-agent-template-generator.md) agent for creating a sub-agent                                                      |
+| Agent creation checklist                                   | <To be created>                                                                                                                                                                                                       |
 
 ---
 
@@ -46,8 +46,8 @@ Agents should be added to the correct location to ensure they are distributed to
 - **Distribution folder**: `src/agentic_data_engineer/.claude/agents/shared/`
   - This is the folder that gets distributed to consumers
   - All new agents must be created here
-- **Testing symlink**: `agentic-data-engineer/.claude/`
-  - The top-level `.claude` folder has a symlink to the `src` folder
+- **Testing symlink**: Root `.claude/` directory
+  - The repository root has a `.claude` symlink pointing to `src/agentic_data_engineer/.claude/`
   - This symlink allows us to test agents in the development environment
   - Testing is currently done manually (automated evaluation coming in the future)
 

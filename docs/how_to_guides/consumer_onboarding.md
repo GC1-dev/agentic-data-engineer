@@ -56,34 +56,6 @@ pip install copier
 
 ## Consumer Flow Overview
 
-```mermaid
-flowchart TD
-    Start([Start]) --> Prerequisites[Prerequisites<br/>Install copier<br/>pip install copier]
-    Prerequisites --> ProjectType{Project type<br/>Greenfield or<br/>Brownfield?}
-
-    ProjectType -->|Greenfield| FirstTime{Getting the<br/>data-nova-copier<br/>for the first time?}
-    ProjectType -->|Brownfield| TBD[TBD]
-
-    FirstTime -->|Yes| CheckRelease[Check for latest release]
-    FirstTime -->|No| PullChanges[Pull template changes<br/>copier update --trust --vcs-ref v1.0.32]
-
-    CheckRelease --> CopierCopy[copier copy --trust<br/>--vcs-ref v1.0.32<br/>source-url my-pipeline-folder]
-
-    PullChanges --> UpdateFramework[Update agentic-data-engineer<br/>poetry update<br/>skyscanner-agentic-data-engineer]
-
-    CopierCopy --> InitPyenv[Initialize pyenv and Python environment<br/>make project-pyenv-init]
-    InitPyenv --> ActivatePyenv[Activate pyenv in terminal<br/>source shared_scripts/activate-pyenv.sh]
-    ActivatePyenv --> InitProject[Initialize project end-to-end<br/>make project-init]
-    InitProject --> GitCommit[Commit changes to git<br/>git add .<br/>git commit -m 'Initialize project'<br/>git push]
-    GitCommit --> OAuth[Get Databricks OAuth<br/>source shared_scripts/databricks-auth-setup.sh]
-    OAuth --> TestSetup[Test setup<br/>mcpo<br/>agents]
-
-    style CheckRelease fill:#e1f5ff
-    style PullChanges fill:#fff4cc
-    style TBD fill:#f5f5f5
-    style TestSetup fill:#d4edda
-```
-
 ## Path 1: Greenfield Projects (New Projects)
 
 Follow [this](consumer_onboarding_greenfield.md) path when starting a brand new data engineering project.

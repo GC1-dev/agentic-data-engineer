@@ -39,6 +39,19 @@ The following should be sorted before starting.
 - Naming convention: `{purpose}-agent.md` (e.g., `data-naming-agent.md`)
 - Use kebab-case for consistency
 
+**Quick commands for editing**:
+
+```bash
+# Edit agents (consultants that Claude invokes)
+vim .claude/agents/shared/your-agent.md
+
+# Edit skills (executable tools users invoke)
+vim .claude/skills/your-skill/skill.md
+
+# Add agent documentation
+vim shared_agents_usage_docs/README-your-agent.md
+```
+
 ### Step 4: Understand Agent Folder Structure
 
 Agents should be added to the correct location to ensure they are distributed to consumers and testable locally:

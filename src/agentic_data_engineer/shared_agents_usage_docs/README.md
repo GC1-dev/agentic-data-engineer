@@ -59,14 +59,13 @@ Each agent has its own detailed README with:
 |-------|-------|-------------|---------------|
 | **Documentation** | Sonnet | Generate technical documentation with mermaid diagrams | [README](./README-documentation-agent.md) |
 | **Data Project Generator** | Sonnet | Scaffold new data projects with complete structure | [README](./README-data-project-generator-agent.md) |
-| **Claude Agent Template Generator** | Haiku | Create new agent templates following Claude format | [README](./README-claude-agent-template-generator.md) |
 
 ### 🛠️ Configuration & Tooling
 
-| Agent | Model | Description | Documentation |
-|-------|-------|-------------|---------------|
-| **Data Contract Formatter** | Haiku | Format and validate data contracts with ODCS standards | [README](./README-data-contract-formatter-agent.md) |
-| **Project Code Linter** | Haiku | Lint and validate code quality across projects | [README](./README-project-code-linter-agent.md) |
+**Note**: The following components have been converted to skills for better user experience:
+- **Data Contract Formatter** - Use `/data-contract-formatter-skill` to format and validate data contracts
+- **Project Code Linter** - Use `/project-code-linter-skill` to lint and validate code quality across projects
+- **Agent Template Generator** - Use `/claude-agent-template-generator-skill` or `/generate-agent` to create new agent templates
 
 ### 🔄 Databricks Platform
 
@@ -98,14 +97,15 @@ Each agent has its own detailed README with:
 ### Quality & Governance
 1. **[Data Profiler Agent](./README-data-profiler-agent.md)** - Profile data quality
 2. **[Data Contract Agent](./README-data-contract-agent.md)** - Define and enforce contracts
+3. **`/data-contract-formatter-skill`** - Format and validate contract YAML files
 3. **[Data Transformation Testing Agent](./README-data-transformation-testing-agent.md)** - Ensure quality with tests
 
 ### Documentation
 1. **[Documentation Agent](./README-documentation-agent.md)** - Generate technical docs and diagrams
 2. **[Decision Documenter Agent](./README-decision-documenter-agent.md)** - Record key decisions
 
-### Creating New Agents
-1. **[Claude Agent Template Generator](./README-claude-agent-template-generator.md)** - Generate agent templates
+### Creating New Agents & Templates
+Use the `/claude-agent-template-generator-skill` or `/generate-agent` skill to create new agent templates.
 
 ## How to Use These Agents
 
@@ -132,10 +132,13 @@ Simply reference the agent's purpose in your prompt:
 | **Design Models** | Medallion Architecture, Dimensional Modeling, Silver Data Modeling, Materialized View |
 | **Find/Discover** | Bronze Table Finder, Data Profiler |
 | **Validate/Test** | Data Transformation Testing, Transformation Validation, Data Contract |
-| **Format/Standardize** | Data Naming, PySpark Standards, Data Contract Formatter, Project Code Linter |
 | **Document** | Documentation, Decision Documenter |
-| **Generate Templates** | Claude Agent Template Generator, Data Project Generator |
+| **Generate Templates** | Data Project Generator |
 | **Govern** | Unity Catalog, Data Contract |
+
+**Note**: Formatting, linting, and agent template generation are now skills:
+- Format/Standardize: Data Naming (agent), PySpark Standards (agent), `/data-contract-formatter-skill`, `/project-code-linter-skill`
+- Generate Agent Templates: `/claude-agent-template-generator-skill`
 
 ## Model Selection Guide
 
@@ -150,32 +153,34 @@ Complex tasks requiring deep reasoning:
 ### Haiku (Fast Tasks)
 Simple, straightforward tasks:
 - Naming conventions
-- Formatting
-- Template generation
 - Decision documentation
+
+**Note**: Template generation and formatting are now skills, not agents.
 
 ## All Agents Alphabetically
 
 1. [Bronze Table Finder Agent](./README-bronze-table-finder-agent.md) - Find Bronze source tables
-2. [Claude Agent Template Generator](./README-claude-agent-template-generator.md) - Create new agents
-3. [Data Contract Agent](./README-data-contract-agent.md) - Generate/enforce contracts
-4. [Data Contract Formatter Agent](./README-data-contract-formatter-agent.md) - Format data contracts
-5. [Data Naming Agent](./README-data-naming-agent.md) - Apply naming conventions
-6. [Data Profiler Agent](./README-data-profiler-agent.md) - Profile data quality
-7. [Data Transformation Coding Agent](./README-data-transformation-coding-agent.md) - Implement features and code
-8. [Data Transformation Testing Agent](./README-data-transformation-testing-agent.md) - Generate tests
-9. [Decision Documenter Agent](./README-decision-documenter-agent.md) - Document decisions
-10. [Dimensional Modeling Agent](./README-dimensional-modeling-agent.md) - Design star schemas
-11. [Documentation Agent](./README-documentation-agent.md) - Generate documentation
-12. [Materialized View Agent](./README-materialized-view-agent.md) - Design materialized views
-13. [Medallion Architecture Agent](./README-medallion-architecture-agent.md) - Implement medallion patterns
-14. [Project Code Linter Agent](./README-project-code-linter-agent.md) - Lint code quality
-15. [Project Structure Agent](./README-project-structure-agent.md) - Set up project structure
-16. [PySpark Standards Agent](./README-pyspark-standards-agent.md) - Apply PySpark standards
-17. [Silver Data Modeling Agent](./README-silver-data-modeling-agent.md) - Design Silver entities
-18. [Streaming Tables Agent](./README-streaming-tables-agent.md) - Implement streaming
-19. [Transformation Validation Agent](./README-transformation-validation-agent.md) - Validate transformations
-20. [Unity Catalog Agent](./README-unity-catalog-agent.md) - Work with Unity Catalog
+2. [Data Contract Agent](./README-data-contract-agent.md) - Generate/enforce contracts
+3. [Data Naming Agent](./README-data-naming-agent.md) - Apply naming conventions
+4. [Data Profiler Agent](./README-data-profiler-agent.md) - Profile data quality
+5. [Data Transformation Coding Agent](./README-data-transformation-coding-agent.md) - Implement features and code
+6. [Data Transformation Testing Agent](./README-data-transformation-testing-agent.md) - Generate tests
+7. [Decision Documenter Agent](./README-decision-documenter-agent.md) - Document decisions
+8. [Dimensional Modeling Agent](./README-dimensional-modeling-agent.md) - Design star schemas
+9. [Documentation Agent](./README-documentation-agent.md) - Generate documentation
+10. [Materialized View Agent](./README-materialized-view-agent.md) - Design materialized views
+11. [Medallion Architecture Agent](./README-medallion-architecture-agent.md) - Implement medallion patterns
+12. [Project Structure Agent](./README-project-structure-agent.md) - Set up project structure
+13. [PySpark Standards Agent](./README-pyspark-standards-agent.md) - Apply PySpark standards
+14. [Silver Data Modeling Agent](./README-silver-data-modeling-agent.md) - Design Silver entities
+15. [Streaming Tables Agent](./README-streaming-tables-agent.md) - Implement streaming
+16. [Transformation Validation Agent](./README-transformation-validation-agent.md) - Validate transformations
+17. [Unity Catalog Agent](./README-unity-catalog-agent.md) - Work with Unity Catalog
+
+**Converted to Skills** (no longer agents):
+- Data Contract Formatter → `/data-contract-formatter-skill`
+- Project Code Linter → `/project-code-linter-skill`
+- Claude Agent Template Generator → `/claude-agent-template-generator-skill`
 
 ## Example Workflows
 

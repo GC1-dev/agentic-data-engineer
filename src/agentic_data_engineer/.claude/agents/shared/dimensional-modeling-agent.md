@@ -3,7 +3,7 @@ name: dimensional-modeling-agent
 description: |
   Use this agent for designing gold layer data warehouses using Kimball dimensional modeling methodology,
   including star schemas, fact tables, dimension tables, and SCD patterns following Skyscanner's standards.
-model: sonnet
+model: opus
 skills: mermaid-diagrams-skill, pdf-creator-skill
 ---
 

@@ -431,6 +431,9 @@ If you discover a skill that should be an agent:
 
 ✅ json-formatter-skill
    → Formats, validates, and manipulates JSON data
+
+✅ data-contract-formatter-skill
+   → Formats and validates data contracts (ODCS v3.1.0)
 ```
 
 ## Summary

@@ -1,36 +1,101 @@
 ---
-name: project-code-linter-agent
+skill_name: project-code-linter-skill
 description: |
-  Use this agent for enforcing code quality standards across data engineering projects using Ruff, pytest,
+  Enforce code quality standards across data engineering projects using Ruff, pytest,
   YAML, and JSON linters. Validates Python code formatting, test structure, configuration files, and ensures
   compliance with project linting rules.
-model: sonnet
+version: 1.0.0
+author: Skyscanner Data Engineering
+tags:
+  - linting
+  - code-quality
+  - ruff
+  - pytest
+  - yaml
+  - json
+  - formatting
 ---
 
-You are a code quality specialist with deep expertise in Python linting (Ruff), test validation (pytest), configuration file validation (YAML, JSON), and package structure enforcement. Your mission is to ensure all project code meets organizational quality standards through comprehensive linting and validation across multiple file types.
+# Project Code Linter Skill
 
-# Project Code Linter Agent
+## What This Skill Does
 
-Specialist for enforcing code quality standards using automated linters and validators for Python, YAML, JSON, and test structure.
+This skill enforces code quality standards using automated linters and validators for Python (Ruff), YAML (yamllint), JSON (jsonlint), and test structure (pytest). It helps maintain consistent, high-quality code across data engineering projects through comprehensive linting and validation.
 
-## Overview
+## When to Use This Skill
 
-This agent provides comprehensive code quality enforcement using:
-- **Ruff**: Python linting and formatting (replaces flake8, isort, black)
-- **pytest**: Test structure and naming validation
-- **yamllint**: YAML file validation
-- **jsonlint**: JSON file validation
-- **Package Structure**: Python package validation (__init__.py files)
+Use this skill when you need to:
 
-## When to Use This Agent
+- ✅ Lint Python code for style and quality issues
+- ✅ Fix linting issues automatically
+- ✅ Validate YAML and JSON configuration files
+- ✅ Check test structure and naming conventions
+- ✅ Validate Python package structure (__init__.py files)
+- ✅ Run pre-commit checks
+- ✅ Format code to match team standards
+- ✅ Ensure import order and code organization
 
-Trigger when users request:
-- **Linting**: "lint the code", "check code quality", "run linter", "validate formatting"
-- **Fixing**: "fix linting issues", "auto-fix code style", "format code"
-- **Validation**: "validate tests", "check import order", "validate package structure"
-- **Pre-commit**: "run pre-commit checks", "validate before commit"
-- **Package Structure**: "check __init__.py files", "validate Python packages"
-- Any code quality or linting task
+## Capabilities
+
+- Check Python code with Ruff (replaces flake8, isort, black)
+- Auto-fix Python linting issues
+- Format Python code with proper indentation and style
+- Validate YAML files with yamllint
+- Validate JSON files with jsonlint
+- Check pytest test structure and naming
+- Validate Python package structure (__init__.py presence)
+- Generate comprehensive linting reports
+- Provide actionable fix suggestions
+
+## How to Invoke
+
+You can invoke this skill directly or Claude will automatically suggest it when working with code quality tasks.
+
+### Direct Invocation
+
+```
+/project-code-linter-skill
+```
+
+### Automatic Detection
+
+Claude will suggest this skill when you:
+- Create or modify Python code that needs linting
+- Ask to check code quality or fix formatting
+- Request validation of configuration files
+- Need to run pre-commit checks
+
+## Examples
+
+### Example 1: Lint Entire Project
+
+**User**: "Check my code for linting issues"
+
+**Assistant**: "I'll use the project-code-linter-skill to check your code."
+
+**Result**: Comprehensive linting report showing all Python, YAML, and JSON issues with locations and fixes.
+
+---
+
+### Example 2: Auto-Fix Issues
+
+**User**: "Fix all linting issues in my code"
+
+**Assistant**: "I'll use the project-code-linter-skill to auto-fix the issues."
+
+**Result**: Auto-fixable issues resolved, manual fixes identified with instructions.
+
+---
+
+### Example 3: Validate Package Structure
+
+**User**: "Check if my Python packages have all required __init__.py files"
+
+**Assistant**: "I'll use the project-code-linter-skill to validate package structure."
+
+**Result**: Report showing missing __init__.py files with commands to create them.
+
+---
 
 ## Linting Standards
 
@@ -105,19 +170,6 @@ tests/
     ├── __init__.py                # Integration tests package
     └── test_integration.py
 ```
-
-**What to Check:**
-- `src/` contains `__init__.py` at root
-- Every subdirectory in `src/` with `.py` files has `__init__.py`
-- `tests/` contains `__init__.py` at root
-- Every subdirectory in `tests/` with `.py` files has `__init__.py`
-- Package names follow Python conventions (lowercase, underscores)
-
-**Common Issues:**
-- Missing `__init__.py` causes `ModuleNotFoundError`
-- Empty directories don't need `__init__.py`
-- `__pycache__` and `.pyc` files are ignored
-- Virtual environments (`.venv`, `venv`) are excluded
 
 ### YAML (yamllint)
 
@@ -353,12 +405,6 @@ tests/
     └── test_utils.py           # Missing __init__.py in tests/ and unit/
 ```
 
-**Impact**: Causes `ModuleNotFoundError` when importing
-```python
-# This will fail:
-from my_package.utils.helper import clean_data  # ModuleNotFoundError
-```
-
 **Fix**: Add __init__.py to all directories
 ```
 # ✅ Good - Proper package structure
@@ -391,186 +437,9 @@ touch tests/__init__.py
 touch tests/unit/__init__.py
 ```
 
-### 7. Invalid Package Name
+## Usage Workflow
 
-```
-# ❌ Bad - CamelCase or spaces in directory names
-src/
-├── MyPackage/              # Should be lowercase
-├── data Utils/             # Spaces not allowed
-└── Transform-Data/         # Hyphens not recommended
-```
-
-**Fix**: Use lowercase with underscores
-```
-# ✅ Good - PEP 8 compliant names
-src/
-├── my_package/
-├── data_utils/
-└── transform_data/
-```
-
-## Usage Examples
-
-### Example 1: Lint Entire Project
-
-```bash
-# Check Python code
-ruff check .
-
-# Check formatting
-ruff format --check .
-
-# Check YAML files
-yamllint .
-
-# Check JSON files
-jsonlint config.json
-```
-
-**Expected Output**:
-```
-PYTHON LINTING REPORT
-=====================
-src/module.py:15:1: F401 'os' imported but unused
-src/module.py:42:80: E501 Line too long (125 > 120)
-tests/test_utils.py:10:1: D103 Missing docstring in public function
-
-YAML LINTING REPORT
-===================
-.github/workflows/main.yaml:45: [warning] line too long (125 > 120)
-
-JSON LINTING REPORT
-===================
-config.json: Valid
-
-SUMMARY
-=======
-Python: 3 issues found
-YAML: 1 warning
-JSON: 0 issues
-
-Run `ruff check --fix .` to auto-fix Python issues
-```
-
-### Example 2: Auto-Fix Issues
-
-```bash
-# Auto-fix Python issues
-ruff check --fix .
-
-# Format Python code
-ruff format .
-```
-
-**Expected Output**:
-```
-FIXED ISSUES
-============
-- Removed unused imports (3 files)
-- Sorted imports (5 files)
-- Fixed line length (2 files)
-- Applied formatting (8 files)
-
-REMAINING ISSUES
-================
-src/module.py:10:1: D103 Missing docstring (manual fix required)
-```
-
-### Example 3: Validate Package Structure
-
-```bash
-# Check for missing __init__.py files
-find src tests -type d -not -path "*/\.*" -not -path "*/__pycache__" -not -path "*/venv" -exec test -f {}/__init__.py \; -or -print
-```
-
-**Expected Output**:
-```
-PYTHON PACKAGE STRUCTURE VALIDATION
-====================================
-
-Checking src/
--------------
-✅ src/__init__.py - Present
-✅ src/my_package/__init__.py - Present
-❌ src/my_package/utils/ - Missing __init__.py
-   Contains: helper.py, validators.py
-   Fix: Create src/my_package/utils/__init__.py
-
-Checking tests/
----------------
-❌ tests/ - Missing __init__.py at root
-   Fix: Create tests/__init__.py
-
-✅ tests/unit/__init__.py - Present
-❌ tests/integration/ - Missing __init__.py
-   Contains: test_e2e.py
-   Fix: Create tests/integration/__init__.py
-
-SUMMARY
-=======
-Total directories scanned: 8
-Valid packages: 5
-Missing __init__.py: 3
-
-FIX COMMANDS
-============
-touch src/my_package/utils/__init__.py
-touch tests/__init__.py
-touch tests/integration/__init__.py
-```
-
-### Example 4: Pre-Commit Validation
-
-```bash
-# Run all checks
-ruff check .
-ruff format --check .
-yamllint .
-pytest --collect-only
-```
-
-## Best Practices
-
-### ✅ DO
-
-- **Run linter before commits**: Use pre-commit hooks or manual checks
-- **Fix in batches**: Address one category at a time
-- **Review auto-fixes**: Always review changes before committing
-- **Lint new files immediately**: Catch issues early
-- **Create __init__.py files**: Always add to new directories in src/ and tests/
-- **Validate package structure**: Check imports work before committing
-- **Use lowercase package names**: Follow PEP 8 conventions
-
-### ❌ DON'T
-
-- **Don't skip linting**: Never commit without running linters
-- **Don't ignore warnings**: Address or explicitly suppress with reason
-- **Don't auto-fix blindly**: Always review changes
-- **Don't commit formatting with logic changes**: Separate commits
-- **Don't forget __init__.py**: Missing files cause import errors
-- **Don't use CamelCase for packages**: Use snake_case
-
-## Operating Principles
-
-1. **Non-destructive by default**: Always check before auto-fixing
-2. **Comprehensive reporting**: Provide file locations, line numbers, violations
-3. **Actionable suggestions**: Include fix commands
-4. **Respect configuration**: Use project-specific configs
-5. **Incremental fixes**: Fix one category at a time for large codebases
-6. **Context-aware**: Understand patterns (e.g., PySpark `import functions as F`)
-
-## Configuration Files
-
-This agent uses these configuration files from project root:
-
-1. **ruff.toml**: Primary Ruff configuration
-2. **pyproject.toml**: `[tool.ruff]` and `[tool.pytest.ini_options]`
-3. **.yamllint**: YAML linting rules
-4. **.jsonlintrc**: JSON linting rules
-5. **pytest.ini**: pytest configuration
-
-## Complete Workflow Example
+### Complete Linting Workflow
 
 ```bash
 # 1. Check current state
@@ -595,18 +464,36 @@ git add .
 git commit -m "Add new feature with clean linting"
 ```
 
-## Troubleshooting
+## Best Practices
 
-| Problem | Solution |
-|---------|----------|
-| Ruff not found | `poetry install --with dev` or `pip install ruff` |
-| Config file not found | Run from project root |
-| Too many violations | Fix incrementally: `ruff check --select F .` |
-| Auto-fix breaks code | Review first: `ruff check --fix --diff .` |
-| YAML linter not found | `pip install yamllint` |
-| JSON linter not found | `npm install -g jsonlint` |
-| Tests not discovered | Check `pythonpath = src` in pytest.ini |
-| ModuleNotFoundError | Check __init__.py files in all packages |
+### ✅ DO
+
+- **Run linter before commits**: Use pre-commit hooks or manual checks
+- **Fix in batches**: Address one category at a time
+- **Review auto-fixes**: Always review changes before committing
+- **Lint new files immediately**: Catch issues early
+- **Create __init__.py files**: Always add to new directories in src/ and tests/
+- **Validate package structure**: Check imports work before committing
+- **Use lowercase package names**: Follow PEP 8 conventions
+
+### ❌ DON'T
+
+- **Don't skip linting**: Never commit without running linters
+- **Don't ignore warnings**: Address or explicitly suppress with reason
+- **Don't auto-fix blindly**: Always review changes
+- **Don't commit formatting with logic changes**: Separate commits
+- **Don't forget __init__.py**: Missing files cause import errors
+- **Don't use CamelCase for packages**: Use snake_case
+
+## Configuration Files
+
+This skill uses these configuration files from project root:
+
+1. **ruff.toml**: Primary Ruff configuration
+2. **pyproject.toml**: `[tool.ruff]` and `[tool.pytest.ini_options]`
+3. **.yamllint**: YAML linting rules
+4. **.jsonlintrc**: JSON linting rules
+5. **pytest.ini**: pytest configuration
 
 ## Quick Reference
 
@@ -633,13 +520,29 @@ git commit -m "Add new feature with clean linting"
 | N | Naming | N806 (non-lowercase variable) |
 | D | Docstrings | D103 (missing docstring) |
 
-## Remember
+## Troubleshooting
 
-**Your goal is to maintain consistent, high-quality code across the project. Run linters frequently, fix issues incrementally, and always validate package structure before committing.**
+| Problem | Solution |
+|---------|----------|
+| Ruff not found | `poetry install --with dev` or `pip install ruff` |
+| Config file not found | Run from project root |
+| Too many violations | Fix incrementally: `ruff check --select F .` |
+| Auto-fix breaks code | Review first: `ruff check --fix --diff .` |
+| YAML linter not found | `pip install yamllint` |
+| JSON linter not found | `npm install -g jsonlint` |
+| Tests not discovered | Check `pythonpath = src` in pytest.ini |
+| ModuleNotFoundError | Check __init__.py files in all packages |
 
-- Use `ruff check` before every commit
-- Review auto-fixes with `--diff` before applying
-- Create __init__.py files for all Python packages
-- Follow PEP 8 naming conventions
-- Fix linting issues in separate commits from logic changes
-- Validate test structure with pytest
+## Success Criteria
+
+A successful linting operation:
+1. **All checks pass** - No linting errors or warnings
+2. **Proper formatting** - Code follows team style guidelines
+3. **Valid imports** - No unused imports, proper order
+4. **Package structure** - All __init__.py files present
+5. **Test validity** - Tests follow naming conventions
+6. **Clean configs** - YAML and JSON files are valid
+
+---
+
+**Remember**: Consistent code quality through automated linting ensures maintainable, readable code across the team. Run linters frequently, fix issues incrementally, and validate before committing.

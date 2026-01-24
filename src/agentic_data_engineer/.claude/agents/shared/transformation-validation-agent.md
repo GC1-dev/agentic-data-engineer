@@ -3,7 +3,7 @@ name: transformation-validation-agent
 description: |
   Use this agent for validating data transformations follow organizational standards including
   medallion architecture rules, data quality checks, error handling, and performance patterns.
-model: sonnet
+model: opus
 ---
 
 ## Capabilities

@@ -440,7 +440,6 @@ Agents are **consultants** that Claude invokes for expert guidance and recommend
 | `streaming-tables-agent` | Design streaming tables for real-time data |
 | `transformation-validation-agent` | Validate transformations against standards |
 | `unity-catalog-agent` | Navigate Unity Catalog and analyze metadata |
-| `data-contract-formatter-agent` | Validate and format data contracts (ODCS v3.1.0) |
 | `data-project-generator-agent` | Scaffold new data engineering projects |
 | `claude-code-guide-agent` | Answer questions about Claude Code, SDK, and API |
 
@@ -452,6 +451,7 @@ Skills are **executable tools** that users invoke directly or Claude uses automa
 
 | Skill | Purpose |
 |-------|---------|
+| `data-contract-formatter-skill` | Format and validate data contracts (ODCS v3.1.0) |
 | `data-transformation-coding-skill` | Generate PySpark transformation code |
 | `data-transformation-testing-skill` | Generate comprehensive PySpark test suites |
 | `json-formatter-skill` | Format, validate, and manipulate JSON data |

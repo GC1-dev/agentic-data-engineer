@@ -290,10 +290,10 @@ This project includes 20+ specialized Claude agents for AI-assisted development.
 - **Use For**: Import organization, configuration patterns, performance review
 - **Model**: Claude 3.5 Sonnet
 
-#### project-code-linter-agent
+#### project-code-linter-skill
 - **Purpose**: Enforce code quality with Ruff, pytest, YAML/JSON linters
 - **Use For**: Code formatting, test structure, configuration validation
-- **Model**: Claude 3.5 Sonnet
+- **Type**: Skill (invoked via `/project-code-linter-skill`)
 
 #### project-structure-agent
 - **Purpose**: Validate project structure standards

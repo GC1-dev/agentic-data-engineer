@@ -151,6 +151,7 @@ source shared_scripts/databricks-auth-setup-zsh.sh
 ```
 
 #### If using bash
+```
 source shared_scripts/databricks-auth-setup.sh
 ```
 

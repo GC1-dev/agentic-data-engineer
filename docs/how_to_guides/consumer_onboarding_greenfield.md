@@ -32,6 +32,8 @@ flowchart TD
 
     TestUpdate --> UpdateComplete([Update Complete])
 
+    click CheckRelease "https://github.com/Skyscanner/data-nova-copier/releases" "Visit latest releases"
+
     style CheckRelease fill:#e1f5ff
     style CopierCopy fill:#e1f5ff
     style InitPyenv fill:#e1f5ff
@@ -142,12 +144,14 @@ git push -u origin main
 
 Set up authentication with Databricks:
 
+#### If using zsh
 ```bash
-# If using OAuth
-source shared_scripts/databricks-auth-setup.sh
+# If using zsh
+source shared_scripts/databricks-auth-setup-zsh.sh
+```
 
-# If using bash
-bash: source shared_scripts/databricks-auth-setup.sh
+#### If using bash
+source shared_scripts/databricks-auth-setup.sh
 ```
 
 This script will guide you through:
